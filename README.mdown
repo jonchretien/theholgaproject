@@ -2,6 +2,8 @@
 
 A simple experiment with HTML5 canvas that lets a user drag a photo into the browser window and apply a Holga-like filter (only black &amp; white for now).
 
+[**theholgaproject.com**](http://theholgaproject.com)
+
 ## To Do
 
 - Add progress bar for file uploads.
