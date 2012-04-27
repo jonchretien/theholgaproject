@@ -1,0 +1,19 @@
+#  The Holga Project
+
+A simple experiment with HTML5 canvas that lets a user drag a photo into the browser window and apply a Holga-like filter (only black &amp; white for now).
+
+## To Do
+
+- Add progress bar for file uploads.
+- Add offline support.
+- Color filter option.
+
+## Resources
+
+- Robert Fleischmann's vignette filter from [vintageJS](https://github.com/rendro/vintageJS/blob/master/src/vintage.js)
+- Matt Riggott's [Gaussian Blur experiments](http://www.flother.com/blog/2010/image-blur-html5-canvas/)
+- [Canvas2Image](https://github.com/hongru/canvas2image)
+- [Mozilla Developer Network](https://developer.mozilla.org/en/HTML/Canvas)
+- [HTML5 Demos](http://html5demos.com/)
+- [Stack Overflow](http://stackoverflow.com/)
+- [HTML5 Canvas Tutorials](http://www.html5canvastutorials.com/)
