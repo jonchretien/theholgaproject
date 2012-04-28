@@ -37,30 +37,43 @@ THP.App = (function() {
     var btn = document.createElement('a');
     btn.setAttribute('id', 'js-btn-filter');
     btn.setAttribute('class', 'btn-filter disabled');
-    btn.setAttribute('target', '_blank');
+    btn.setAttribute('href', '#');
     btn.appendChild(document.createTextNode('Holgafy!'));
 
     // insert into DOM
     shell.insertBefore(cnvs, footer);
     shell.insertBefore(btn, footer);
 
+    // store reference to new elements
+    button = document.getElementById('js-btn-filter');
+    canvas = shell.querySelector('canvas');
+    context = canvas.getContext('2d');
+
     setEventHandlers();
   }
 
   function setEventHandlers() {
-    button = document.getElementById('js-btn-filter');
-    canvas = shell.querySelector('canvas');
-    context = canvas.getContext('2d');
-    canvas.addEventListener('dragover', function(event) {
-      event.preventDefault();
-      this.classList.add('hover');
-    }, false );
-    canvas.addEventListener('dragend', function(event) {
-      event.preventDefault();
-      this.classList.remove('hover');
-    }, false );
+    canvas.addEventListener('dragover', addHoverClass, false );
+    canvas.addEventListener('dragend', removeHoverClass, false );
     document.documentElement.addEventListener('drop', dropElement, true );
     button.addEventListener('click', applyFilter, false);
+  }
+
+  function addHoverClass(event) {
+    event.preventDefault();
+    this.classList.add('hover');
+  }
+
+  function removeHoverClass(event) {
+    event.preventDefault();
+    this.classList.remove('hover');
+  }
+
+  function removeEventHandlers() {
+    canvas.removeEventListener('dragover', addHoverClass, false );
+    canvas.removeEventListener('dragend', removeHoverClass, false );
+    document.documentElement.removeEventListener('drop', dropElement, true );
+    button.removeEventListener('click', applyFilter, false);
   }
 
   function dropElement(event) {
@@ -103,7 +116,9 @@ THP.App = (function() {
     shell.querySelector('header').insertAdjacentHTML('afterend', '<p class="error">It looks like there was an issue with the file. You can either retry or select another one to upload.</p>');
   }
 
-  function applyFilter() {
+  function applyFilter(event) {
+    event.preventDefault();
+    
     var brightness,
         imageData = context.getImageData(0, 0, canvas.width, canvas.height), // retrieve image data
         data = imageData.data, // retrieve color components of each pixel image (CanvasPixelArray - rgba)
@@ -153,8 +168,9 @@ THP.App = (function() {
     context.fillStyle = gradient;
     context.fillRect(0, 0, canvas.width, canvas.height);
 
+    removeEventHandlers();
+    
     // swap button
-    button.removeEventListener('click', applyFilter);
     button.innerHTML = 'Save Image';
     button.addEventListener('click', saveAsPNG, true);
   }
