@@ -65,12 +65,12 @@
 
     function addHoverClass(event) {
       event.preventDefault();
-      this.classList.add('hover');
+      event.target.classList.add('hover');
     }
 
     function removeHoverClass(event) {
       event.preventDefault();
-      this.classList.remove('hover');
+      event.target.classList.remove('hover');
     }
 
     function removeEventHandlers() {
@@ -140,12 +140,11 @@
       // overwrite original image
       context.putImageData(imageData, 0, 0);
 
-      var j;
+      // apply blur effect
       context.globalAlpha = 0.5;
 
-      // loop for each blur pass.
-      for (j = -1; j < 2; j += 1) {
-        context.drawImage(canvas, j, 0);
+      for (var y = -1; y < 2; y += 1) {
+        context.drawImage(canvas, y, 0);
       }
 
       // reset alpha
