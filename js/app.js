@@ -1,6 +1,6 @@
 /*
 * @author Jon Chretien
-* @version 0.1.0
+* @version 1.0.0
 * @requires Support for canvas, drag and drop api, file reader api, and file list api.
 * @overview Applies psuedo Holga filter to photos dropped in browser.
 * @copyright (c)2012 Jon Chretien
