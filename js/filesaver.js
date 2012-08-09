@@ -22,6 +22,6 @@
       document.location.href = strData;
     }
     
-  }
+  };
 
 })( window, document, window.THP );
