@@ -1,14 +1,10 @@
-# OS generated files #
-######################
 .DS_Store
 Icon
 Thumbs.db
-
-# Images #
-######################
 *.ico
-img/
-
-# Misc. #
-######################
 .htaccess
+robots.txt
+img/
+_publish/
+js/scripts.min*.js
+css/css.min*.js
