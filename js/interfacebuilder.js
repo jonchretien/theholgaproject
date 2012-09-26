@@ -52,7 +52,7 @@
     setEventHandlers: function() {
       this.canvas.addEventListener('dragover', this.addHoverClass, false );
       this.canvas.addEventListener('dragend', this.removeHoverClass, false );
-      document.documentElement.addEventListener('drop', this.dropElement, true );
+      document.documentElement.addEventListener('drop', this.dropElement.bind(this), true );
       this.button.addEventListener('click', THP.FilterHandler.applyFilter, false);
     },
 
@@ -75,39 +75,42 @@
 
     dropElement: function(event) {
       event.preventDefault();
-      THP.InterfaceBuilder.canvas.classList.remove('hover');
+      this.canvas.classList.remove('hover');
 
       // check for error message and remove if it exists
-      if ( THP.InterfaceBuilder.shell.querySelector('.error') ) {
-        THP.InterfaceBuilder.shell.removeChild( THP.InterfaceBuilder.shell.querySelector('.error') );
+      if ( this.shell.querySelector('.error') ) {
+        this.shell.removeChild( this.shell.querySelector('.error') );
       }
 
       var file = event.dataTransfer.files[0], // filelist (an array-like sequence of file objects)
           imageObject,
           reader = new FileReader(); // instantiate a FileReader object to read its contents into memory
 
+      // save reference to 'this'
+      var self = this;
+
       // capture the file information.
       reader.onload = function (event) {
         imageObject = new Image();
 
         // clear canvas in case another image exists
-        THP.InterfaceBuilder.context.clearRect ( 0 , 0, THP.InterfaceBuilder.canvas.width, THP.InterfaceBuilder.canvas.height );
+        self.context.clearRect ( 0 , 0, self.canvas.width, self.canvas.height );
 
         // load image from data url
         imageObject.onload = function() {
-          THP.InterfaceBuilder.context.drawImage(imageObject, 0, 0, 620, 620);
+          self.context.drawImage(imageObject, 0, 0, 620, 620);
         };
 
         imageObject.src = event.target.result;
 
       };
 
-      reader.onerror = THP.InterfaceBuilder.errorHandler;
+      reader.onerror = this.errorHandler;
 
       // read in the image file as a data URL.
       reader.readAsDataURL(file);
 
-      THP.InterfaceBuilder.button.classList.remove('disabled');
+      this.button.classList.remove('disabled');
     }
 
   };
