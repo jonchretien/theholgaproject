@@ -1,9 +1,9 @@
-/*
-* @author Jon Chretien
-* @version 2.0.0
-* @overview detects canvas, drag and drop api, file reader api, and file list api support
-* @copyright (c)2012 Jon Chretien
-*/
+/**
+ * @author Jon Chretien
+ * @version 2.0.1
+ * @overview detects canvas, drag and drop api, file reader api, and file list api support
+ * @copyright (c)2013 Jon Chretien
+ */
 
 (function( window, document, THP, undefined ) {
   
@@ -13,6 +13,10 @@
 
     init: function() {
       this.isCompatible();
+    },
+
+    detectTouchDevices: function() {
+      return !!('ontouchstart' in window) || !!('onmsgesturechange' in window);
     },
 
     detectCanvasSupport: function() {
@@ -30,10 +34,12 @@
     },
 
     isCompatible: function() {
-      if ( this.detectCanvasSupport() && this.detectDragAndDropSupport() && this.detectFileReaderSupport() ) {
+      if ( this.detectCanvasSupport() && this.detectDragAndDropSupport() && this.detectFileReaderSupport() && !this.detectTouchDevices() ) {
         THP.InterfaceBuilder.init();
+      } else if ( this.detectTouchDevices() ) {
+        document.getElementById('js-instructions').innerHTML = 'It looks like you\'re on a touch device. The site currently runs on desktop browsers only.';
       } else {
-        document.getElementsByTagName('h2')[0].innerHTML = 'It looks like your browser doesn\'t support the features this site needs to work. Download the latest versions of <a href="https://www.google.com/chrome" target="_blank">Google Chrome</a> or <a href="http://www.mozilla.org/firefox/" target="_blank">Mozilla Firefox</a> in order to view it.';
+        document.getElementById('js-instructions').innerHTML = 'It looks like your browser doesn\'t support the features this site needs to work. Download the latest versions of <a href="https://www.google.com/chrome" target="_blank">Google Chrome</a> or <a href="http://www.mozilla.org/firefox/" target="_blank">Mozilla Firefox</a> in order to view it.';
       }
     }
 

@@ -1,9 +1,9 @@
-/*
-* @author Jon Chretien
-* @version 2.0.0
-* @overview saves file to computer
-* @copyright (c)2012 Jon Chretien
-*/
+/**
+ * @author Jon Chretien
+ * @version 2.0.1
+ * @overview saves file to computer
+ * @copyright (c)2013 Jon Chretien
+ */
 
 (function( window, document, THP, undefined ) {
 

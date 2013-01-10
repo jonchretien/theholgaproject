@@ -74,7 +74,6 @@ module.exports = function(grunt) {
 
     scriptFiles.forEach( function( fileSrc, i ) {
       var file = grunt.file.read( fileSrc );
-      output  += '// ---- ' + fileSrc + ' ---- //\n\n';
       if ( arg1 === 'full' || fileSrc.indexOf('.min.js') !== -1 ) {
         // concat full file
         output += file;
@@ -82,7 +81,6 @@ module.exports = function(grunt) {
         // concat minified file
         output += grunt.helper( 'uglify', file );
       }
-      output += '\n\n';
       grunt.file.write( dest, output );
     });
   });

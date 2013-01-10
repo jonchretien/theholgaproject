@@ -1,16 +1,16 @@
-/*
-* @author Jon Chretien
-* @version 2.0.0
-* @overview build application interface
-* @copyright (c)2012 Jon Chretien
-*/
+/**
+ * @author Jon Chretien
+ * @version 2.0.1
+ * @overview build application interface
+ * @copyright (c)2013 Jon Chretien
+ */
 
 (function( window, document, THP, undefined ) {
-  
+
   'use strict';
-  
+
   THP.InterfaceBuilder = {
-    
+
     button: null,
     canvas: null,
     context: null,
@@ -22,8 +22,8 @@
 
     buildInterface: function() {
       var footer = this.shell.querySelector('footer');
-      
-      this.shell.querySelector('h2').innerHTML = 'Drag a photo from your desktop into the box below';
+
+      document.getElementById('js-instructions').innerHTML = 'Drag a photo from your desktop into the box below';
 
       // create canvas element
       var cnvs = document.createElement('canvas');
@@ -114,5 +114,5 @@
     }
 
   };
-  
+
 })( window, document, window.THP );
