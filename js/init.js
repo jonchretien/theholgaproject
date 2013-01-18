@@ -40,7 +40,7 @@
       if ( this.detectCanvasSupport() && this.detectDragAndDropSupport() && this.detectFileReaderSupport() && !this.detectTouchDevices() ) {
         THP.InterfaceBuilder.init();
       } else if ( this.detectTouchDevices() ) {
-        this.heading.innerHTML = 'It looks like you\'re on a touch device. The site currently runs on desktop browsers only.';
+        this.heading.innerHTML = 'It looks like you\'re on a touch device. This site currently works on desktop browsers only.';
       } else {
         this.heading.innerHTML = 'It looks like your browser doesn\'t support the features this site needs to work. Download the latest versions of <a href="https://www.google.com/chrome" target="_blank">Google Chrome</a> or <a href="http://www.mozilla.org/firefox/" target="_blank">Mozilla Firefox</a> in order to view it.';
       }
