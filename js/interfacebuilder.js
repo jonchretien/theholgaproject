@@ -5,7 +5,7 @@
  * @copyright (c)2013 Jon Chretien
  */
 
-(function( window, document, THP, undefined ) {
+(function( window, document, undefined ) {
 
   'use strict';
 
@@ -115,4 +115,4 @@
 
   };
 
-})( window, document, window.THP );
+})( window, document );

@@ -5,14 +5,14 @@
  * @copyright (c)2013 Jon Chretien
  */
 
-(function( window, document, THP, undefined ) {
-  
+(function( window, document, undefined ) {
+
   'use strict';
-  
+
   THP.FilterHandler = {
-    
+
     applyFilter: function(event) {
-      
+
       event.preventDefault();
 
       var brightness,
@@ -72,5 +72,5 @@
     }
 
   };
-  
-})( window, document, window.THP );
+
+})( window, document );
