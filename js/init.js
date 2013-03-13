@@ -1,6 +1,6 @@
 /**
  * @author Jon Chretien
- * @version 2.0.1
+ * @version 2.0.2
  * @overview detects canvas, drag and drop api, file reader api, and file list api support
  * @copyright (c)2013 Jon Chretien
  */
@@ -11,31 +11,57 @@
 
   THP.Initializer = {
 
-    heading: 'js-instructions',
+    /**
+     * Contains defaults for DOM ids.
+     */
+    defaults: {
+      heading: 'js-instructions'
+    },
 
+    /**
+     * Sets up Initializer.
+     */
     init: function() {
-      this.heading = document.getElementById(this.heading);
+      // cache DOM elements
+      this.heading = document.getElementById(this.defaults.heading);
+
       this.isCompatible();
     },
 
+    /**
+     * Detects touch device support.
+     */
     detectTouchDevices: function() {
       return !!('ontouchstart' in window) || !!('onmsgesturechange' in window);
     },
 
+    /**
+     * Detects canvas support.
+     */
     detectCanvasSupport: function() {
       var elem = document.createElement('canvas');
       return !!(elem.getContext && elem.getContext('2d'));
     },
 
+    /**
+     * Detects drag and drop support.
+     */
     detectDragAndDropSupport: function() {
       var div = document.createElement('div');
       return ('draggable' in div) || ('ondragstart' in div && 'ondrop' in div);
     },
 
+    /**
+     * Detects file reader support.
+     */
     detectFileReaderSupport: function() {
       return !!(window.File && window.FileReader);
     },
 
+    /**
+     * Runs support tests to determine if app will work with the user's browser.
+     * Displays alerts if browser doesn't meet requirements.
+     */
     isCompatible: function() {
       if ( this.detectCanvasSupport() && this.detectDragAndDropSupport() && this.detectFileReaderSupport() && !this.detectTouchDevices() ) {
         THP.InterfaceBuilder.init();

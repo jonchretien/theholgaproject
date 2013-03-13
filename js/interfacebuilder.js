@@ -1,6 +1,6 @@
 /**
  * @author Jon Chretien
- * @version 2.0.1
+ * @version 2.0.2
  * @overview build application interface
  * @copyright (c)2013 Jon Chretien
  */
@@ -11,19 +11,55 @@
 
   THP.InterfaceBuilder = {
 
+    /**
+     * Button that activates filter.
+     */
     button: null,
-    canvas: null,
-    context: null,
-    shell: document.getElementById('js-shell'),
 
-    init: function() {
-      this.buildInterface();
+    /**
+     * Canvas element.
+     */
+    canvas: null,
+
+    /**
+     * Canvas 2d context.
+     */
+    context: null,
+
+    /**
+     * Contains defaults for DOM ids.
+     */
+    defaults: {
+      footer: 'js-siteFooter',
+      instructions: 'js-instructions',
+      shell: 'js-shell'
     },
 
-    buildInterface: function() {
-      var footer = this.shell.querySelector('footer');
+    /**
+     * Caches DOM elements and calls run() method.
+     */
+    init: function() {
+      // cache DOM elements
+      this.footer = document.getElementById(this.defaults.footer);
+      this.instructions = document.getElementById(this.defaults.instructions);
+      this.shell = document.getElementById(this.defaults.shell);
 
-      document.getElementById('js-instructions').innerHTML = 'Drag a photo from your desktop into the box below';
+      this.run();
+    },
+
+    /**
+     * Runs application.
+     */
+    run: function() {
+      this.buildInterface();
+      this.bindEventHandlers();
+    },
+
+    /**
+     * Builds application interface.
+     */
+    buildInterface: function() {
+      this.instructions.innerHTML = 'Drag a photo from your desktop into the box below';
 
       // create canvas element
       var cnvs = document.createElement('canvas');
@@ -38,34 +74,28 @@
       btn.appendChild(document.createTextNode('Holgafy!'));
 
       // insert into DOM
-      this.shell.insertBefore(cnvs, footer);
-      this.shell.insertBefore(btn, footer);
+      this.shell.insertBefore(cnvs, this.footer);
+      this.shell.insertBefore(btn, this.footer);
 
       // store reference to new elements
       this.button = document.getElementById('js-btn-filter');
       this.canvas = this.shell.querySelector('canvas');
       this.context = this.canvas.getContext('2d');
-
-      this.setEventHandlers();
     },
 
-    setEventHandlers: function() {
+    /**
+     * Binds event handlers.
+     */
+    bindEventHandlers: function() {
       this.canvas.addEventListener('dragover', this.addHoverClass, false );
       this.canvas.addEventListener('dragend', this.removeHoverClass, false );
       document.documentElement.addEventListener('drop', this.dropElement.bind(this), true );
       this.button.addEventListener('click', THP.FilterHandler.applyFilter, false);
     },
 
-    addHoverClass: function(event) {
-      event.preventDefault();
-      event.target.classList.add('hover');
-    },
-
-    removeHoverClass: function(event) {
-      event.preventDefault();
-      event.target.classList.remove('hover');
-    },
-
+    /**
+     * Removes event handlers.
+     */
     removeEventHandlers: function() {
       this.canvas.removeEventListener('dragover', this.addHoverClass, false );
       this.canvas.removeEventListener('dragend', this.removeHoverClass, false );
@@ -73,6 +103,31 @@
       this.button.removeEventListener('click', THP.FilterHandler.applyFilter, false);
     },
 
+    /**
+     * Adds hover class to canvas.
+     *
+     * @param {Object} event - The event triggered.
+     */
+    addHoverClass: function(event) {
+      event.preventDefault();
+      event.target.classList.add('hover');
+    },
+
+    /**
+     * Removes hover class from canvas.
+     *
+     * @param {Object} event - The event triggered.
+     */
+    removeHoverClass: function(event) {
+      event.preventDefault();
+      event.target.classList.remove('hover');
+    },
+
+    /**
+     * Drops image onto canvas.
+     *
+     * @param {Object} event - The event triggered.
+     */
     dropElement: function(event) {
       event.preventDefault();
       this.canvas.classList.remove('hover');

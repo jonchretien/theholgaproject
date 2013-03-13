@@ -1,6 +1,6 @@
 /**
  * @author Jon Chretien
- * @version 2.0.1
+ * @version 2.0.2
  * @overview handles photo filter logic
  * @copyright (c)2013 Jon Chretien
  */
@@ -11,6 +11,11 @@
 
   THP.FilterHandler = {
 
+    /**
+     * Applies black and white filter.
+     *
+     * @param {Object} event - The event triggered.
+     */
     applyFilter: function(event) {
 
       event.preventDefault();
@@ -21,7 +26,7 @@
           len = data.length;
 
       // convert image to grayscale
-      for (var i = 0; i < len; i += 4) {
+      for ( var i = 0; i < len; i += 4 ) {
         // calculate the brightness of each pixel and set the rgb components equal to the brightness
         brightness = 0.38 * data[i] + 0.5 * data[i + 1] + 0.18 * data[i + 2];
         data[i] = brightness;     // red
@@ -35,7 +40,7 @@
       // apply blur effect
       THP.InterfaceBuilder.context.globalAlpha = 0.5;
 
-      for (var y = -1; y < 2; y += 1) {
+      for ( var y = -1; y < 2; y += 1 ) {
         THP.InterfaceBuilder.context.drawImage(THP.InterfaceBuilder.canvas, y, 0);
       }
 
@@ -46,8 +51,11 @@
       return false;
     },
 
+    /**
+     * Applies vignette effect.
+     * Credit to Robert Fleischmann's vintageJS - https://github.com/rendro/vintageJS/blob/master/src/vintage.js
+     */
     applyVignette: function() {
-      // from vintageJS, by Robert Fleischmann - https://github.com/rendro/vintageJS/blob/master/src/vintage.js
       var gradient, outerRadius = Math.sqrt( Math.pow(THP.InterfaceBuilder.canvas.width/2, 2) + Math.pow(THP.InterfaceBuilder.canvas.height/2, 2) );
 
       gradient = THP.InterfaceBuilder.context.createRadialGradient(THP.InterfaceBuilder.canvas.width/2, THP.InterfaceBuilder.canvas.height/2, 0, THP.InterfaceBuilder.canvas.width/2, THP.InterfaceBuilder.canvas.height/2, outerRadius);

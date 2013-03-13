@@ -1,6 +1,6 @@
 /**
  * @author Jon Chretien
- * @version 2.0.1
+ * @version 2.0.2
  * @overview saves file to computer
  * @copyright (c)2013 Jon Chretien
  */
@@ -11,13 +11,23 @@
 
   THP.FileSaver = {
 
+    /**
+     * Saves canvas image as data URL.
+     * Encodes as base64 encoded PNG file.
+     * from Canvas2Image, by Hongru Chenhr - https://github.com/hongru/canvas2image
+     *
+     * @param {Object} event - The event triggered.
+     */
     saveAsPNG: function(event) {
       event.preventDefault();
-      // from Canvas2Image, by Hongru Chenhr - https://github.com/hongru/canvas2image
-      // save canvas image as data url (encodes as base64 encoded PNG file)
       THP.FileSaver.saveFile( THP.InterfaceBuilder.canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream') );
     },
 
+    /**
+     * Saves the file to the user's download folder.
+     *
+     * @param {String} strData - base64 encoded PNG file.
+     */
     saveFile: function(strData) {
       document.location.href = strData;
     }
