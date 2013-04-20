@@ -148,12 +148,12 @@ body {
   text-align: center;
 }
 
-header {
+.site-header {
   margin: 0 auto 17px auto;
   width: 475px;
 }
 
-h1 {
+.project-heading {
   color: #343434;
   font-family: Didot, "Didot LT STD", "Times New Roman", serif;
   font-size: 3.6em;
@@ -161,7 +161,7 @@ h1 {
   letter-spacing: -0.05em;
 }
 
-h2 {
+.instructions-heading {
   color: #999;
   font-size: 1.9em;
   text-transform: lowercase;
@@ -225,13 +225,13 @@ a:hover {
 }
 
 
-footer {
+.site-footer {
   border-top: 1px solid #e2e2e2;
   padding-top: 11px;
   text-align: center;
 }
 
-footer p {
+.site-footer p {
   font-size: 1.1em;
   line-height: 1.7em;
 }
