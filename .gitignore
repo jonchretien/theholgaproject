@@ -6,5 +6,6 @@ Thumbs.db
 robots.txt
 img/
 _publish/
+node_modules/
 js/scripts.min*.js
 css/css.min*.js
