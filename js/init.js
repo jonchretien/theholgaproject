@@ -1,15 +1,14 @@
 /**
  * @author Jon Chretien
- * @version 2.0.8
  * @overview detects canvas, drag and drop api, file reader api, and file list api support
  * @copyright (c)2013 Jon Chretien
  */
 
-(function( window, document, undefined ) {
+define(['interfacebuilder'], function(InterfaceBuilder) {
 
   'use strict';
 
-  THP.Initializer = {
+  var Initializer = {
 
     /**
      * Contains defaults for DOM ids.
@@ -64,7 +63,7 @@
      */
     isCompatible: function() {
       if ( this.detectCanvasSupport() && this.detectDragAndDropSupport() && this.detectFileReaderSupport() && !this.detectTouchDevices() ) {
-        THP.InterfaceBuilder.init();
+        InterfaceBuilder.init();
       } else if ( this.detectTouchDevices() ) {
         this.heading.innerHTML = 'It looks like you&rsquo;re on a touch device. This site currently works on desktop browsers only.';
       } else {
@@ -74,6 +73,7 @@
 
   };
 
-  THP.Initializer.init();
 
-})( window, document );
+  return Initializer;
+
+});

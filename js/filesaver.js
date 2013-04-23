@@ -1,15 +1,14 @@
 /**
  * @author Jon Chretien
- * @version 2.0.8
  * @overview saves file to computer
  * @copyright (c)2013 Jon Chretien
  */
 
-(function( window, document, undefined ) {
+define(function() {
 
   'use strict';
 
-  THP.FileSaver = {
+  var FileSaver = {
 
     /**
      * Saves canvas image as data URL.
@@ -20,7 +19,7 @@
      */
     saveAsPNG: function(event) {
       event.preventDefault();
-      THP.FileSaver.saveFile( THP.InterfaceBuilder.canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream') );
+      FileSaver.saveFile( document.querySelector('canvas').toDataURL('image/png').replace('image/png', 'image/octet-stream') );
     },
 
     /**
@@ -34,4 +33,6 @@
 
   };
 
-})( window, document );
+  return FileSaver;
+
+});
