@@ -1,29 +1,16 @@
-/**
- * @author Jon Chretien
- * @overview detects canvas, drag and drop api, file reader api, and file list api support
- * @copyright (c)2013 Jon Chretien
- */
-
-define(['interfacebuilder'], function(InterfaceBuilder) {
+define(['heading', 'buttons', 'canvas'], function(Heading, Buttons, Canvas) {
 
   'use strict';
 
-  var Initializer = {
-
-    /**
-     * Contains defaults for DOM ids.
-     */
-    defaults: {
-      heading: 'js-instructions'
-    },
+  /**
+   * Detects canvas, drag and drop api, file reader api, and file list api support.
+   */
+  var App = {
 
     /**
      * Sets up Initializer.
      */
     init: function() {
-      // cache DOM elements
-      this.heading = document.getElementById(this.defaults.heading);
-
       this.isCompatible();
     },
 
@@ -63,17 +50,22 @@ define(['interfacebuilder'], function(InterfaceBuilder) {
      */
     isCompatible: function() {
       if ( this.detectCanvasSupport() && this.detectDragAndDropSupport() && this.detectFileReaderSupport() && !this.detectTouchDevices() ) {
-        InterfaceBuilder.init();
+        // cache DOM elements
+        var footer = document.getElementById('js-siteFooter');
+        var shell = document.getElementById('js-shell');
+
+        // trigger app logic
+        Canvas.init(footer, shell);
+        Buttons.init(footer, shell);
       } else if ( this.detectTouchDevices() ) {
-        this.heading.innerHTML = 'It looks like you&rsquo;re on a touch device. This site currently works on desktop browsers only.';
+        Heading.render('touch');
       } else {
-        this.heading.innerHTML = 'It looks like your browser doesn&rsquo;t support the features this site needs to work. Download the latest versions of <a href="https://www.google.com/chrome" target="_blank">Google Chrome</a> or <a href="http://www.mozilla.org/firefox/" target="_blank">Mozilla Firefox</a> in order to view it.';
+        Heading.render('support');
       }
     }
 
   };
 
-
-  return Initializer;
+  return App;
 
 });
