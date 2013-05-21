@@ -13,12 +13,13 @@ module.exports = function(grunt) {
       uglified: ['js/main.min.*.js']
     },
     jshint: {
-      files: ['Gruntfile.js', 'js/app/*.js'],
+      files: ['Gruntfile.js', 'js/main.js', 'js/app.js', 'js/ui/*.js'],
       options: {
         globals: {
           asi: true,
           browser: true,
           curly: true,
+          define: true,
           eqeqeq: true,
           forin: false,
           immed: false,
