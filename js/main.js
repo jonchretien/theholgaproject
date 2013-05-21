@@ -1,3 +1,10 @@
+/**
+ * @author Jon Chretien
+ * @overview Drag & drop an image into your browser and apply a Holga-like filter.
+ * @repository https://github.com/jonchretien/theholgaproject
+ * @copyright (c)2013 Jon Chretien
+ */
+
 requirejs.config({
 
   paths: {
