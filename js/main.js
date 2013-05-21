@@ -2,20 +2,20 @@ requirejs.config({
 
   paths: {
     // app
-    'filesaver':          'app/filesaver',
-    'init':               'app/init',
-    'interfacebuilder':   'app/interfacebuilder',
+    'app':        'app',
+
+    // ui
+    'buttons':    'ui/buttons',
+    'canvas':     'ui/canvas',
+    'heading':    'ui/heading',
 
     // vendor
-    'requirejs':          'lib/require'
+    'requirejs':  'lib/require'
   }
 
 });
 
 // start the main app logic.
-require([
-  'requirejs',
-  'init'
-  ], function(requirejs, Initializer) {
-  Initializer.init();
+require(['requirejs', 'app'], function(requirejs, App) {
+  App.init();
 });
