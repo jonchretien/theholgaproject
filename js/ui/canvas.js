@@ -140,7 +140,7 @@ define(['heading', 'buttons'], function(Heading, Buttons) {
       reader.readAsDataURL(file);
 
       // trigger button logic
-      Buttons.button.classList.remove('disabled');
+      Buttons.button.removeAttribute('disabled', 'disabled');
       Buttons.bindEventHandlers();
     }
 

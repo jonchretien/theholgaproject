@@ -214,12 +214,12 @@ a:hover {
 }
 
 .btn-filter:hover {
-  background: #333;
+  background: #666;
   color: #fff;
 }
 
-.disabled,
-.disabled:hover {
+ button[disabled='disabled'],
+button[disabled='disabled']:hover {
   background: #ededed;
   color: #aaa;
 }

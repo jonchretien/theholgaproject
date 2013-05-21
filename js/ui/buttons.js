@@ -37,10 +37,10 @@ define(function() {
      */
     buildInterface: function() {
       // create button element
-      var btn = document.createElement('a');
+      var btn = document.createElement('button');
       btn.setAttribute('id', 'js-btn-filter');
-      btn.setAttribute('class', 'btn-filter disabled');
-      btn.setAttribute('href', '#');
+      btn.setAttribute('class', 'btn-filter');
+      btn.setAttribute('disabled', 'disabled');
       btn.appendChild(document.createTextNode('Holgafy!'));
 
       // insert into DOM
