@@ -137,7 +137,7 @@ define(function() {
      * Updates button functionality.
      */
     insertSaveButton: function() {
-      this.button.innerHTML = 'Save Image';
+      this.button.textContent = 'Save Image';
       this.button.addEventListener('click', this.saveAsPNG.bind(this), false);
     },
 
