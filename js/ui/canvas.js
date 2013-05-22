@@ -8,9 +8,14 @@ define(['heading', 'buttons'], function(Heading, Buttons) {
   var Canvas = {
 
     /**
-     * Canvas element.
+     * Canvas.
      */
     canvas: null,
+
+    /**
+     * Created canvas element.
+     */
+    el: null,
 
     /**
      * Canvas 2d context.
@@ -32,23 +37,26 @@ define(['heading', 'buttons'], function(Heading, Buttons) {
      * Runs application.
      */
     run: function() {
-      this.buildInterface();
+      Heading.render('instructions');
+      this.createCanvasElement();
+      this.insertCanvasElement();
       this.bindEventHandlers();
     },
 
     /**
-     * Builds application interface.
+     * Creates canvas element.
      */
-    buildInterface: function() {
-      Heading.render('instructions');
+    createCanvasElement: function() {
+      this.el = document.createElement('canvas');
+      this.el.setAttribute('width', 620);
+      this.el.setAttribute('height', 620);
+    },
 
-      // create canvas element
-      var cnvs = document.createElement('canvas');
-      cnvs.setAttribute('width', 620);
-      cnvs.setAttribute('height', 620);
-
-      // insert into DOM
-      this.shell.insertBefore(cnvs, this.footer);
+    /**
+     * Inserts canvas element into DOM.
+     */
+    insertCanvasElement: function() {
+      this.shell.insertBefore(this.el, this.footer);
 
       // store reference to new elements
       this.canvas = this.shell.querySelector('canvas');
@@ -102,10 +110,7 @@ define(['heading', 'buttons'], function(Heading, Buttons) {
       event.preventDefault();
       this.canvas.classList.remove('hover');
 
-      // check for error message and remove if it exists
-      if ( this.shell.querySelector('.error') ) {
-        this.shell.removeChild( this.shell.querySelector('.error') );
-      }
+      this.getErrorMessage();
 
       // filelist (an array-like sequence of file objects)
       var file = event.dataTransfer.files[0];
@@ -139,11 +144,29 @@ define(['heading', 'buttons'], function(Heading, Buttons) {
       // read in the image file as a data URL.
       reader.readAsDataURL(file);
 
-      // trigger button logic
+      this.activateButtons();
+    },
+
+    /**
+     * Activates filter button.
+     */
+    activateButtons: function() {
       Buttons.button.removeAttribute('disabled', 'disabled');
       Buttons.bindEventHandlers();
     },
 
+    /**
+     * Checks for error message and removes if it exists.
+     */
+    getErrorMessage: function() {
+      if ( this.shell.querySelector('.error') ) {
+        this.shell.removeChild( this.shell.querySelector('.error') );
+      }
+    },
+
+    /**
+     * Inserts error message into DOM.
+     */
     setErrorMessage: function() {
       document.getElementById('js-instructions').insertAdjacentHTML('afterend', '<p class="error">It looks like there was an issue with the file. You can either retry or select another one to upload.</p>');
     }
