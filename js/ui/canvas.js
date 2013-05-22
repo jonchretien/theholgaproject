@@ -134,7 +134,7 @@ define(['heading', 'buttons'], function(Heading, Buttons) {
 
       };
 
-      reader.onerror = this.errorHandler;
+      reader.onerror = this.setErrorMessage;
 
       // read in the image file as a data URL.
       reader.readAsDataURL(file);
@@ -142,6 +142,10 @@ define(['heading', 'buttons'], function(Heading, Buttons) {
       // trigger button logic
       Buttons.button.removeAttribute('disabled', 'disabled');
       Buttons.bindEventHandlers();
+    },
+
+    setErrorMessage: function() {
+      document.getElementById('js-instructions').insertAdjacentHTML('afterend', '<p class="error">It looks like there was an issue with the file. You can either retry or select another one to upload.</p>');
     }
 
   };
