@@ -13,6 +13,11 @@ define(function() {
     button: null,
 
     /**
+     * Created button element.
+     */
+    el: null,
+
+    /**
      * Caches DOM elements and calls run() method.
      */
     init: function(footer, shell) {
@@ -29,22 +34,26 @@ define(function() {
      * Runs application.
      */
     run: function() {
-      this.buildInterface();
+      this.createButtons();
+      this.insertButtonElement();
     },
 
     /**
-     * Builds application interface.
+     * Creates button element.
      */
-    buildInterface: function() {
-      // create button element
-      var btn = document.createElement('button');
-      btn.setAttribute('id', 'js-btn-filter');
-      btn.setAttribute('class', 'btn-filter');
-      btn.setAttribute('disabled', 'disabled');
-      btn.appendChild(document.createTextNode('Holgafy!'));
+    createButtons: function() {
+      this.el = document.createElement('button');
+      this.el.setAttribute('id', 'js-btn-filter');
+      this.el.setAttribute('class', 'btn-filter');
+      this.el.setAttribute('disabled', 'disabled');
+      this.el.appendChild(document.createTextNode('Holgafy!'));
+    },
 
-      // insert into DOM
-      this.shell.insertBefore(btn, this.footer);
+    /**
+     * Inserts button elements into DOM.
+     */
+    insertButtonElement: function() {
+      this.shell.insertBefore(this.el, this.footer);
 
       // store reference to new elements
       this.button = document.getElementById('js-btn-filter');
@@ -54,24 +63,35 @@ define(function() {
      * Binds event handlers.
      */
     bindEventHandlers: function() {
-      this.button.addEventListener('click', this.applyFilter.bind(this), false);
+      this.button.addEventListener('click', this.applyEffects.bind(this), false);
     },
 
     /**
      * Removes event handlers.
      */
     removeEventHandlers: function() {
-      this.button.removeEventListener('click', this.applyFilter, false);
+      this.button.removeEventListener('click', this.applyEffects, false);
+    },
+
+    /**
+     * Applies all of the photo effects.
+     *
+     * @param {Object} event - The event triggered.
+     */
+    applyEffects: function(event) {
+      event.preventDefault();
+      this.removeEventHandlers();
+      this.applyGrayscaleFilter();
+      this.applyBlur();
+      this.applyVignette();
+      this.insertSaveButton();
     },
 
     /**
      * Applies black and white filter.
-     *
-     * @param {Object} event - The event triggered.
      */
-    applyFilter: function(event) {
-      event.preventDefault();
-
+    applyGrayscaleFilter: function() {
+      console.log('gray')
       var brightness;
 
       // retrieve image data
@@ -93,18 +113,23 @@ define(function() {
       // overwrite original image
       this.context.putImageData(imageData, 0, 0);
 
-      // apply blur effect
+      return false;
+    },
+
+    /**
+     * Applies blur effect.
+     */
+    applyBlur: function() {
+      // lower alpha
       this.context.globalAlpha = 0.5;
 
+      // shift canvas
       for ( var y = -1; y < 2; y += 1 ) {
         this.context.drawImage(this.canvas, y, 0);
       }
 
       // reset alpha
       this.context.globalAlpha = 1.0;
-
-      this.applyVignette();
-      return false;
     },
 
     /**
@@ -128,9 +153,6 @@ define(function() {
       gradient.addColorStop(1, 'rgba(0,0,0,0)');
       this.context.fillStyle = gradient;
       this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
-
-      this.removeEventHandlers();
-      this.insertSaveButton();
     },
 
     /**
