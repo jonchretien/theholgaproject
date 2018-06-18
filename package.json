@@ -4,9 +4,10 @@
   "description": "Drag & drop an image into your browser and apply a Holga-like filter.",
   "main": "",
   "scripts": {
-		"copy": "./bin/copy-files.sh",
-		"prebuild": "npm run copy -- build",
-    "build": "webpack"
+    "copy": "./bin/copy-files.sh",
+    "prebuild": "npm run copy -- build",
+    "build": "webpack",
+    "start": "webpack-dev-server"
   },
   "repository": "https://github.com/jonchretien/theholgaproject",
   "author": "Jon Chretien",
