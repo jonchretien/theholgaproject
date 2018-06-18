@@ -1,1 +1,3 @@
-console.log('📷');
+import { greeting } from './modules/greeting';
+
+greeting('📷');

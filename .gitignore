@@ -17,8 +17,9 @@ node_modules/
 # Misc. #
 ######################
 
-source/favicon.ico
-source/.htaccess
-source/robots.txt
+src/favicon.ico
+src/.htaccess
+src/robots.txt
+yarn-error.log
 *.ico
 .rsync
