@@ -1,4 +1,5 @@
 import messages from './strings/messages';
+import renderCanvas from './components/canvas';
 import {
   hasCanvasSupport,
   hasDragAndDropSupport,
@@ -15,6 +16,7 @@ function checkBrowserSupport() {
 
   if (hasCanvasSupport() && hasDragAndDropSupport() && hasFileReaderSupport()) {
     console.log('cuts the mustard');
+    renderCanvas();
     return;
   }
 
