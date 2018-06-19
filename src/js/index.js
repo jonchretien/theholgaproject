@@ -1,3 +1,4 @@
+import messages from './strings/messages';
 import {
   hasCanvasSupport,
   hasDragAndDropSupport,
@@ -10,6 +11,8 @@ import {
  * Displays alerts if browser doesn't meet requirements.
  */
 function checkBrowserSupport() {
+  const heading = document.getElementById('instructions');
+
   if (hasCanvasSupport() && hasDragAndDropSupport() && hasFileReaderSupport()) {
     console.log('cuts the mustard');
     return;
@@ -17,9 +20,11 @@ function checkBrowserSupport() {
 
   if (isTouchDevice()) {
     console.log('is touch device');
+    heading.innerHTML = messages.touchDevice;
     return;
   }
 
+  heading.innerHTML = messages.upgradeBrowser;
   console.log('no support');
 }
 

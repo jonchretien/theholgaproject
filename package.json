@@ -6,7 +6,7 @@
   "scripts": {
     "copy": "./bin/copy-files.sh",
     "dev:js": "webpack",
-    "watch": "nodemon -e css,js -x \"npm run dev:js\"",
+    "watch": "nodemon -e css,js,html -x \"npm run dev:js\"",
     "serve": "http-server -p 9090 build/ -c-1",
     "prestart": "npm run copy -- build && npm run dev:js",
     "start": "npm run watch & npm run serve"
