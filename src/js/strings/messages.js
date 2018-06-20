@@ -1,5 +1,5 @@
 /*
- * String Messages
+ * Message Strings
  *
  */
 
@@ -9,4 +9,7 @@ const messages = {
   upgradeBrowser: 'It looks like your browser doesn&rsquo;t support the features this site needs to work. Please consider upgrading to the latest version of <a href="https://www.google.com/chrome" target="_blank" rel="noopener noreferrer">Google Chrome</a>, <a href="http://www.mozilla.org/firefox/" target="_blank" rel="noopener noreferrer">Mozilla Firefox</a>, or <a href="https://www.microsoft.com/en-us/windows/microsoft-edge" target="_blank" rel="noopener noreferrer">Microsoft Edge</a> in order to view it.',
 };
 
-export default messages;
+export const getMessage = msg =>
+  (Object.hasOwnProperty.call(messages, msg) ? messages[msg] : msg);
+
+export default getMessage;

@@ -1,5 +1,6 @@
-import messages from './strings/messages';
-import renderCanvas from './components/canvas';
+import getMessage from './strings/messages';
+import heading from './components/heading';
+import App from './App';
 import {
   hasCanvasSupport,
   hasDragAndDropSupport,
@@ -12,21 +13,19 @@ import {
  * Displays alerts if browser doesn't meet requirements.
  */
 function checkBrowserSupport() {
-  const heading = document.getElementById('instructions');
-
   if (hasCanvasSupport() && hasDragAndDropSupport() && hasFileReaderSupport()) {
     console.log('cuts the mustard');
-    renderCanvas();
+    App();
     return;
   }
 
   if (isTouchDevice()) {
     console.log('is touch device');
-    heading.innerHTML = messages.touchDevice;
+    heading.update(getMessage(touchDevice));
     return;
   }
 
-  heading.innerHTML = messages.upgradeBrowser;
+  heading.update(getMessage(upgradeBrowser));
   console.log('no support');
 }
 
