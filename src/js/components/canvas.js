@@ -5,6 +5,7 @@ const shell = document.getElementById('shell');
 const canvasContainer = document.getElementById('canvas-container');
 const btn = document.getElementById('btn-holgafy');
 
+const CANVAS_SIZE = 620;
 const HOVER_CLASS = 'hover';
 const ERROR_CLASS = 'error';
 
@@ -12,7 +13,7 @@ let canvasEl = null;
 let cnvs = null;
 let context = null;
 
-function init() {
+function initCanvas() {
   updateHeadingText('instructions');
   createCanvasElement();
   bindEventHandlers();
@@ -20,6 +21,8 @@ function init() {
 
 function createCanvasElement() {
   cnvs = document.createElement('canvas');
+  cnvs.setAttribute('width', CANVAS_SIZE);
+  cnvs.setAttribute('height', CANVAS_SIZE);
   canvasContainer.appendChild(cnvs);
   canvasEl = document.querySelector('canvas');
   context = canvasEl.getContext('2d');
@@ -31,31 +34,25 @@ function bindEventHandlers() {
   document.documentElement.addEventListener('drop', dropElement, true);
 }
 
-// function removeEventHandlers() {
-//   canvasEl.removeEventListener('dragover', addHoverClass, false);
-//   canvasEl.removeEventListener('dragend', removeHoverClass, false);
-//   document.documentElement.removeEventListener('drop', dropElement, true);
-// }
-
 /**
-   * @param {Object} event - The event triggered.
-   */
+  * @param {Object} event - The event triggered.
+*/
 function addHoverClass(event) {
   event.preventDefault();
   event.target.classList.add(HOVER_CLASS);
 }
 
 /**
-   * @param {Object} event - The event triggered.
-   */
+  * @param {Object} event - The event triggered.
+*/
 function removeHoverClass(event) {
   event.preventDefault();
   event.target.classList.remove(HOVER_CLASS);
 }
 
 /**
-   * @param {Object} event - The event triggered.
-   */
+  * @param {Object} event - The event triggered.
+*/
 function dropElement(event) {
   event.preventDefault();
   canvasEl.classList.remove(HOVER_CLASS);
@@ -68,21 +65,16 @@ function dropElement(event) {
   // instantiate a FileReader object to read its contents into memory
   const reader = new FileReader();
 
-  // save reference to 'this'
-  // const self = this;
-
-  // let imageObject = null;
-
   // capture the file information.
   reader.onload = event => {
     const imageObject = new Image();
 
     // clear canvas in case another image exists
-    context.clearRect(0, 0, canvasEl.width, canvasEl.height);
+    context.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
 
     // load image from data url
     imageObject.onload = () => {
-      context.drawImage(imageObject, 0, 0, 620, 620);
+      context.drawImage(imageObject, 0, 0, CANVAS_SIZE, CANVAS_SIZE);
     };
 
     imageObject.src = event.target.result;
@@ -112,8 +104,4 @@ function setErrorMessage() {
   heading.update(getMessage(error));
 }
 
-const canvas = {
-  init,
-};
-
-export default canvas;
+export default initCanvas;

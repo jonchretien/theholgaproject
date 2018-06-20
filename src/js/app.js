@@ -1,7 +1,7 @@
-import canvas from './components/canvas';
+import initCanvas from './components/canvas';
 
 function App() {
-  canvas.init();
+  initCanvas();
 }
 
 export default App;

@@ -179,9 +179,7 @@ body {
 canvas {
   background-color: #ededed;
   display: block;
-  height: 620px;
   margin-bottom: 26px;
-  width: 620px;
 }
 
 a:link,
