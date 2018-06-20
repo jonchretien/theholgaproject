@@ -1,5 +1,4 @@
-import getMessage from './strings/messages';
-import heading from './components/heading';
+import updateHeadingText from './components/heading';
 import App from './App';
 import {
   hasCanvasSupport,
@@ -14,19 +13,16 @@ import {
  */
 function checkBrowserSupport() {
   if (hasCanvasSupport() && hasDragAndDropSupport() && hasFileReaderSupport()) {
-    console.log('cuts the mustard');
     App();
     return;
   }
 
   if (isTouchDevice()) {
-    console.log('is touch device');
-    heading.update(getMessage(touchDevice));
+    updateHeadingText('touchDevice');
     return;
   }
 
-  heading.update(getMessage(upgradeBrowser));
-  console.log('no support');
+  updateHeadingText('upgradeBrowser');
 }
 
 checkBrowserSupport();

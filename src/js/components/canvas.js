@@ -1,28 +1,25 @@
 import getMessage from '../strings/messages';
+import updateHeadingText from './heading';
 
-// const instructions = document.getElementById('instructions');
 const shell = document.getElementById('shell');
 const canvasContainer = document.getElementById('canvas-container');
 const btn = document.getElementById('btn-holgafy');
+
 const HOVER_CLASS = 'hover';
+const ERROR_CLASS = 'error';
 
 let canvasEl = null;
 let cnvs = null;
 let context = null;
 
 function init() {
-  // instructions.textContent = getMessage(instructions);
+  updateHeadingText('instructions');
   createCanvasElement();
-  insertCanvasElement();
-  // bindEventHandlers();
+  bindEventHandlers();
 }
 
 function createCanvasElement() {
   cnvs = document.createElement('canvas');
-  cnvs.setAttribute('class', 'canvas');
-}
-
-function insertCanvasElement() {
   canvasContainer.appendChild(cnvs);
   canvasEl = document.querySelector('canvas');
   context = canvasEl.getContext('2d');
@@ -31,22 +28,16 @@ function insertCanvasElement() {
 function bindEventHandlers() {
   canvasEl.addEventListener('dragover', addHoverClass, false);
   canvasEl.addEventListener('dragend', removeHoverClass, false);
-  document.documentElement.addEventListener(
-    'drop',
-    dropElement.bind(this),
-    true
-  );
+  document.documentElement.addEventListener('drop', dropElement, true);
 }
 
-function removeEventHandlers() {
-  canvasEl.removeEventListener('dragover', addHoverClass, false);
-  canvasEl.removeEventListener('dragend', removeHoverClass, false);
-  document.documentElement.removeEventListener('drop', dropElement, true);
-}
+// function removeEventHandlers() {
+//   canvasEl.removeEventListener('dragover', addHoverClass, false);
+//   canvasEl.removeEventListener('dragend', removeHoverClass, false);
+//   document.documentElement.removeEventListener('drop', dropElement, true);
+// }
 
 /**
-   * Adds hover class to canvas.
-   *
    * @param {Object} event - The event triggered.
    */
 function addHoverClass(event) {
@@ -55,8 +46,6 @@ function addHoverClass(event) {
 }
 
 /**
-   * Removes hover class from canvas.
-   *
    * @param {Object} event - The event triggered.
    */
 function removeHoverClass(event) {
@@ -65,29 +54,28 @@ function removeHoverClass(event) {
 }
 
 /**
-   * Drops image onto canvas.
-   *
    * @param {Object} event - The event triggered.
    */
 function dropElement(event) {
   event.preventDefault();
-  canvasEl.classList.remove('hover');
+  canvasEl.classList.remove(HOVER_CLASS);
 
-  // check for error message and remove if it exists
-  if (shell.querySelector('.error')) {
-    shell.removeChild(shell.querySelector('.error'));
-  }
+  getErrorMessage();
 
-  var file = event.dataTransfer.files[0], // filelist (an array-like sequence of file objects)
-    imageObject,
-    reader = new FileReader(); // instantiate a FileReader object to read its contents into memory
+  // filelist (an array-like sequence of file objects)
+  const file = event.dataTransfer.files[0];
+
+  // instantiate a FileReader object to read its contents into memory
+  const reader = new FileReader();
 
   // save reference to 'this'
-  // var self = this;
+  // const self = this;
+
+  // let imageObject = null;
 
   // capture the file information.
   reader.onload = event => {
-    imageObject = new Image();
+    const imageObject = new Image();
 
     // clear canvas in case another image exists
     context.clearRect(0, 0, canvasEl.width, canvasEl.height);
@@ -100,12 +88,28 @@ function dropElement(event) {
     imageObject.src = event.target.result;
   };
 
-  reader.onerror = errorHandler;
+  reader.onerror = setErrorMessage;
 
   // read in the image file as a data URL.
   reader.readAsDataURL(file);
 
-  // this.button.classList.remove('disabled');
+  // activateButtons();
+}
+
+/**
+ * Checks for error message and removes if it exists.
+ */
+function getErrorMessage() {
+  if (shell.querySelector(`.${ERROR_CLASS}`)) {
+    shell.removeChild(shell.querySelector(`.${ERROR_CLASS}`));
+  }
+}
+
+/**
+ * Inserts error message into DOM.
+ */
+function setErrorMessage() {
+  heading.update(getMessage(error));
 }
 
 const canvas = {
