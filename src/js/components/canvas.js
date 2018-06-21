@@ -1,15 +1,14 @@
 import getMessage from '../strings/messages';
 import updateHeadingText from './heading';
 
-const shell = document.getElementById('shell');
+const shellElement = document.getElementById('shell');
 const canvasContainer = document.getElementById('canvas-container');
 
 const CANVAS_SIZE = 620;
 const HOVER_CLASS = 'hover';
 const ERROR_CLASS = 'error';
 
-let canvasEl = null;
-let cnvs = null;
+let canvasElement = null;
 let context = null;
 
 function renderCanvas() {
@@ -19,17 +18,17 @@ function renderCanvas() {
 }
 
 function createCanvasElement() {
-  cnvs = document.createElement('canvas');
+  const cnvs = document.createElement('canvas');
   cnvs.setAttribute('width', CANVAS_SIZE);
   cnvs.setAttribute('height', CANVAS_SIZE);
   canvasContainer.appendChild(cnvs);
-  canvasEl = document.querySelector('canvas');
-  context = canvasEl.getContext('2d');
+  canvasElement = document.querySelector('canvas');
+  context = canvasElement.getContext('2d');
 }
 
 function bindEventHandlers() {
-  canvasEl.addEventListener('dragover', addHoverClass, false);
-  canvasEl.addEventListener('dragend', removeHoverClass, false);
+  canvasElement.addEventListener('dragover', addHoverClass, false);
+  canvasElement.addEventListener('dragend', removeHoverClass, false);
   document.documentElement.addEventListener('drop', dropElement, true);
 }
 
@@ -54,7 +53,7 @@ function removeHoverClass(event) {
 */
 function dropElement(event) {
   event.preventDefault();
-  canvasEl.classList.remove(HOVER_CLASS);
+  canvasElement.classList.remove(HOVER_CLASS);
 
   getErrorMessage();
 
@@ -92,8 +91,8 @@ function dropElement(event) {
  * Checks for error message and removes if it exists.
  */
 function getErrorMessage() {
-  if (shell.querySelector(`.${ERROR_CLASS}`)) {
-    shell.removeChild(shell.querySelector(`.${ERROR_CLASS}`));
+  if (shellElement.querySelector(`.${ERROR_CLASS}`)) {
+    shellElement.removeChild(shellElement.querySelector(`.${ERROR_CLASS}`));
   }
 }
 

@@ -47,7 +47,9 @@ function applyEffects(event) {
 function saveAsPNG(event) {
   event.preventDefault();
   saveFile(
-    canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream')
+    canvasElement
+      .toDataURL('image/png')
+      .replace('image/png', 'image/octet-stream')
   );
 }
 
