@@ -1,10 +1,17 @@
 import FX from '../lib/effects';
 
-const filterBtn = document.getElementById('btn-filter-bw');
-const saveBtn = document.getElementById('btn-save');
+const filterBtnElement = document.getElementById('btn-filter-bw');
+const saveBtnElement = document.getElementById('btn-save');
 
-function init() {
-  [filterBtn, saveBtn].forEach(el => el.removeAttribute('disabled'));
+let canvasElement;
+let contextObject;
+
+function init(elements) {
+  canvasElement = elements.canvasElement;
+  contextObject = elements.contextObject;
+  [filterBtnElement, saveBtnElement].forEach(el =>
+    el.removeAttribute('disabled')
+  );
   bindEventHandlers();
 }
 
@@ -12,16 +19,16 @@ function init() {
  * Adds event handlers.
  */
 function bindEventHandlers() {
-  filterBtn.addEventListener('click', applyEffects, false);
-  saveBtn.addEventListener('click', saveAsPNG, false);
+  filterBtnElement.addEventListener('click', applyEffects, false);
+  saveBtnElement.addEventListener('click', saveAsPNG, false);
 }
 
 /**
  * Removes event handlers.
  */
 function removeEventHandlers() {
-  filterBtn.removeEventListener('click', applyEffects, false);
-  // saveBtn.removeEventListener('click', saveAsPNG, false);
+  filterBtnElement.removeEventListener('click', applyEffects, false);
+  // saveBtnElement.removeEventListener('click', saveAsPNG, false);
 }
 
 /**
@@ -32,9 +39,9 @@ function removeEventHandlers() {
 function applyEffects(event) {
   event.preventDefault();
   removeEventHandlers();
-  FX.applyGrayscaleFilter();
-  FX.applyBlur();
-  FX.applyVignette();
+  FX.applyGrayscaleFilter(canvasElement, contextObject);
+  FX.applyBlur(canvasElement, contextObject);
+  FX.applyVignette(canvasElement, contextObject);
 }
 
 /**

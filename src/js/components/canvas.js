@@ -1,16 +1,16 @@
 import updateHeadingText from './heading';
 
 const shellElement = document.getElementById('shell');
-const canvasContainer = document.getElementById('canvas-container');
+const canvasContainerElement = document.getElementById('canvas-container');
 
 const CANVAS_SIZE = 620;
 const HOVER_CLASS = 'hover';
 const ERROR_CLASS = 'error';
 
 let canvasElement = null;
-let context = null;
+let contextObject = null;
 
-function renderCanvas() {
+function init() {
   createCanvasElement();
   bindEventHandlers();
 }
@@ -19,9 +19,9 @@ function createCanvasElement() {
   const cnvs = document.createElement('canvas');
   cnvs.setAttribute('width', CANVAS_SIZE);
   cnvs.setAttribute('height', CANVAS_SIZE);
-  canvasContainer.appendChild(cnvs);
+  canvasContainerElement.appendChild(cnvs);
   canvasElement = document.querySelector('canvas');
-  context = canvasElement.getContext('2d');
+  contextObject = canvasElement.getContext('2d');
 }
 
 function bindEventHandlers() {
@@ -66,11 +66,11 @@ function dropElement(event) {
     const imageObject = new Image();
 
     // clear canvas in case another image exists
-    context.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+    contextObject.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
 
     // load image from data url
     imageObject.onload = () => {
-      context.drawImage(imageObject, 0, 0, CANVAS_SIZE, CANVAS_SIZE);
+      contextObject.drawImage(imageObject, 0, 0, CANVAS_SIZE, CANVAS_SIZE);
     };
 
     imageObject.src = event.target.result;
@@ -101,4 +101,14 @@ function setErrorMessage() {
   updateHeadingText('error');
 }
 
-export default renderCanvas;
+const Canvas = {
+  init,
+  getElements() {
+    return {
+      canvasElement,
+      contextObject,
+    };
+  },
+};
+
+export default Canvas;
