@@ -1,4 +1,3 @@
-import getMessage from '../strings/messages';
 import updateHeadingText from './heading';
 
 const shellElement = document.getElementById('shell');
@@ -12,7 +11,6 @@ let canvasElement = null;
 let context = null;
 
 function renderCanvas() {
-  updateHeadingText('instructions');
   createCanvasElement();
   bindEventHandlers();
 }

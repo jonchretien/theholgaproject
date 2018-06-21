@@ -21,7 +21,7 @@ function bindEventHandlers() {
  */
 function removeEventHandlers() {
   filterBtn.removeEventListener('click', applyEffects, false);
-  saveBtn.removeEventListener('click', saveAsPNG, false);
+  // saveBtn.removeEventListener('click', saveAsPNG, false);
 }
 
 /**
