@@ -1,7 +1,9 @@
-import initCanvas from './components/canvas';
+import renderCanvas from './components/canvas';
+import Buttons from './components/buttons';
 
 function App() {
-  initCanvas();
+  renderCanvas();
+  Buttons.init();
 }
 
 export default App;

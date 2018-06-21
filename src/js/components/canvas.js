@@ -3,7 +3,6 @@ import updateHeadingText from './heading';
 
 const shell = document.getElementById('shell');
 const canvasContainer = document.getElementById('canvas-container');
-const btn = document.getElementById('btn-holgafy');
 
 const CANVAS_SIZE = 620;
 const HOVER_CLASS = 'hover';
@@ -13,7 +12,7 @@ let canvasEl = null;
 let cnvs = null;
 let context = null;
 
-function initCanvas() {
+function renderCanvas() {
   updateHeadingText('instructions');
   createCanvasElement();
   bindEventHandlers();
@@ -85,6 +84,7 @@ function dropElement(event) {
   // read in the image file as a data URL.
   reader.readAsDataURL(file);
 
+  // @todo add active state
   // activateButtons();
 }
 
@@ -101,7 +101,7 @@ function getErrorMessage() {
  * Inserts error message into DOM.
  */
 function setErrorMessage() {
-  heading.update(getMessage(error));
+  updateHeadingText('error');
 }
 
-export default initCanvas;
+export default renderCanvas;
