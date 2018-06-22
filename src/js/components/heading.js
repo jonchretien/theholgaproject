@@ -2,8 +2,12 @@ import getMessage from '../strings/messages';
 
 const headingElement = document.getElementById('instructions');
 
-function updateHeadingText(message) {
-  headingElement.innerHTML = getMessage(message);
-}
+const Heading = () => {
+  return {
+    update(message) {
+      headingElement.innerHTML = getMessage(message);
+    },
+  };
+};
 
-export default updateHeadingText;
+export default Heading;

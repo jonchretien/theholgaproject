@@ -1,5 +1,3 @@
-import updateHeadingText from './heading';
-
 const shellElement = document.getElementById('shell');
 const canvasContainerElement = document.getElementById('canvas-container');
 
@@ -9,8 +7,10 @@ const ERROR_CLASS = 'error';
 
 let canvasElement = null;
 let contextObject = null;
+let heading = null;
 
-function init() {
+function init(heading) {
+  heading = heading;
   createCanvasElement();
   bindEventHandlers();
 }
@@ -98,7 +98,7 @@ function getErrorMessage() {
  * Inserts error message into DOM.
  */
 function setErrorMessage() {
-  updateHeadingText('error');
+  heading.update('error');
 }
 
 const Canvas = {

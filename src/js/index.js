@@ -1,4 +1,4 @@
-import updateHeadingText from './components/heading';
+import Heading from './components/heading';
 import App from './App';
 import {
   hasCanvasSupport,
@@ -7,18 +7,20 @@ import {
   isTouchDevice,
 } from './lib/support';
 
+const heading = Heading();
+
 function checkBrowserSupport() {
   if (hasCanvasSupport() && hasDragAndDropSupport() && hasFileReaderSupport()) {
-    App();
+    App(heading);
     return;
   }
 
   if (isTouchDevice()) {
-    updateHeadingText('touchDevice');
+    heading.update('touchDevice');
     return;
   }
 
-  updateHeadingText('upgradeBrowser');
+  heading.update('upgradeBrowser');
 }
 
 checkBrowserSupport();
