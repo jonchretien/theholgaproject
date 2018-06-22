@@ -2,11 +2,12 @@ import Canvas from './components/canvas';
 import Buttons from './components/buttons';
 
 const canvas = Canvas();
+const buttons = Buttons();
 
 function App(heading) {
   heading.update('instructions');
   canvas.init(heading);
-  Buttons.init(canvas.elements);
+  buttons.init(canvas.elements);
 }
 
 export default App;
