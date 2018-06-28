@@ -3,6 +3,7 @@ import FX from '../lib/effects';
 const Buttons = () => {
   const filterBtnElement = document.getElementById('btn-filter-bw');
   const saveBtnElement = document.getElementById('btn-save');
+  const clearBtnElement = document.getElementById('btn-clear');
 
   let canvasElement;
   let contextObject;
@@ -22,6 +23,7 @@ const Buttons = () => {
   function bindEventHandlers() {
     filterBtnElement.addEventListener('click', applyEffects, false);
     saveBtnElement.addEventListener('click', saveAsPNG, false);
+    // clearBtnElement.addEventListener('click', clearCanvas, false);
   }
 
   /**

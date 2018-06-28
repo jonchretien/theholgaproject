@@ -1,3 +1,10 @@
+import storeManager from '../state/transition';
+import {
+  IMAGE_UPLOAD,
+  IMAGE_UPLOAD_SUCCESS,
+  IMAGE_UPLOAD_FAILURE,
+} from '../state/actions';
+
 const Canvas = () => {
   const shellElement = document.getElementById('shell');
   const canvasContainerElement = document.getElementById('canvas-container');
@@ -8,12 +15,19 @@ const Canvas = () => {
 
   let canvasElement = null;
   let contextObject = null;
+  let currentState = null;
   let heading = null;
 
   function init(heading) {
     heading = heading;
+    currentState = storeManager.state;
     createCanvasElement();
     bindEventHandlers();
+  }
+
+  function update(state, action) {
+    storeManager.setState(state, action);
+    currentState = storeManager.state;
   }
 
   function createCanvasElement() {
@@ -52,6 +66,7 @@ const Canvas = () => {
   */
   function dropElement(event) {
     event.preventDefault();
+    update(currentState, IMAGE_UPLOAD);
     canvasElement.classList.remove(HOVER_CLASS);
 
     getErrorMessage();
@@ -82,8 +97,7 @@ const Canvas = () => {
     // read in the image file as a data URL.
     reader.readAsDataURL(file);
 
-    // @todo add active state
-    // activateButtons();
+    update(currentState, IMAGE_UPLOAD_SUCCESS);
   }
 
   /**
@@ -100,6 +114,7 @@ const Canvas = () => {
    */
   function setErrorMessage() {
     heading.update('error');
+    update(currentState, IMAGE_UPLOAD_FAILURE);
   }
 
   return {
