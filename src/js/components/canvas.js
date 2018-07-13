@@ -101,8 +101,7 @@ const Canvas = components => {
     reader.readAsDataURL(file);
 
     update(currentState, IMAGE_UPLOAD_SUCCESS);
-    buttons.enableButtons();
-    buttons.bindEventHandlers();
+    buttons.addEvents();
   }
 
   /**

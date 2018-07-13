@@ -1,54 +1,67 @@
 import storeManager from '../state/transition';
-import { $ } from '../utils';
+import { $$ } from '../utils';
+import { APPLY_BW_FILTER, CLEAR_PHOTO, SAVE_PHOTO } from '../state/actions';
 import FX from '../lib/effects';
 
 const Buttons = () => {
-  const filterBtnElement = $('#btn-filter-bw');
-  const saveBtnElement = $('#btn-save');
-  const clearBtnElement = $('#btn-clear');
-
-  let canvasElement;
-  let contextObject;
-
-  function init(elements) {
-    canvasElement = elements.canvasElement;
-    contextObject = elements.contextObject;
-  }
-
-  function enableButtons() {
-    [filterBtnElement, saveBtnElement, clearBtnElement].forEach(el =>
-      el.removeAttribute('disabled')
-    );
-  }
+  const buttons = $$('button');
 
   /**
-   * Adds event handlers.
+   * Adds event listeners.
    */
-  function bindEventHandlers() {
-    filterBtnElement.addEventListener('click', applyEffects, false);
-    saveBtnElement.addEventListener('click', saveAsPNG, false);
-    clearBtnElement.addEventListener('click', clearCanvas, false);
+  function addEvents() {
+    buttons.forEach(button => {
+      button.addEventListener('click', onClick);
+      button.removeAttribute('disabled');
+    });
   }
 
   /**
    * Removes event handlers.
    */
-  function removeEventHandlers() {
-    filterBtnElement.removeEventListener('click', applyEffects, false);
-    // saveBtnElement.removeEventListener('click', saveAsPNG, false);
+  function removeEvents() {
+    buttons.forEach(button => {
+      button.removeEventListener('click', onClick);
+      button.setAttribute('disabled');
+    });
   }
 
   /**
-   * Applies all of the photo effects.
+   * Handle click events.
+   */
+  function onClick({ currentTarget }) {
+    switch (currentTarget.getAttribute('data-action')) {
+      case APPLY_BW_FILTER: {
+        console.log('filter');
+        applyBlackWhiteFX();
+        break;
+      }
+      case CLEAR_PHOTO: {
+        console.log('clear');
+        clearCanvas();
+        break;
+      }
+      case SAVE_PHOTO: {
+        console.log('save');
+        saveAsPNG();
+        break;
+      }
+      default: {
+        break;
+      }
+    }
+  }
+
+  /**
+   * Applies the black and white photo effects.
    *
    * @param {Object} event - The event triggered.
    */
-  function applyEffects(event) {
+  function applyBlackWhiteFX(event) {
     event.preventDefault();
-    removeEventHandlers();
-    FX.applyGrayscaleFilter(canvasElement, contextObject);
-    FX.applyBlur(canvasElement, contextObject);
-    FX.applyVignette(canvasElement, contextObject);
+    FX.applyGrayscaleFilter();
+    FX.applyBlur();
+    FX.applyVignette();
   }
 
   /**
@@ -82,9 +95,8 @@ const Buttons = () => {
   }
 
   return {
-    init,
-    enableButtons,
-    bindEventHandlers,
+    addEvents,
+    removeEvents,
   };
 };
 
