@@ -1,10 +1,11 @@
 import storeManager from '../state/transition';
+import { $ } from '../utils';
 import FX from '../lib/effects';
 
 const Buttons = () => {
-  const filterBtnElement = document.getElementById('btn-filter-bw');
-  const saveBtnElement = document.getElementById('btn-save');
-  const clearBtnElement = document.getElementById('btn-clear');
+  const filterBtnElement = $('#btn-filter-bw');
+  const saveBtnElement = $('#btn-save');
+  const clearBtnElement = $('#btn-clear');
 
   let canvasElement;
   let contextObject;

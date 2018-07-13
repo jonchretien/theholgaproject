@@ -1,6 +1,5 @@
 /*
  * Message Strings
- *
  */
 
 const messages = {

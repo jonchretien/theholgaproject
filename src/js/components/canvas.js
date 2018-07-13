@@ -1,3 +1,4 @@
+import { $ } from '../utils';
 import storeManager from '../state/transition';
 import {
   IMAGE_UPLOAD,
@@ -7,8 +8,8 @@ import {
 
 const Canvas = components => {
   const { heading, buttons } = components;
-  const shellElement = document.getElementById('shell');
-  const canvasContainerElement = document.getElementById('canvas-container');
+  const shellElement = $('#shell');
+  const canvasContainerElement = $('#canvas-container');
 
   console.log(heading, buttons);
 
@@ -37,7 +38,7 @@ const Canvas = components => {
     cnvs.setAttribute('width', CANVAS_SIZE);
     cnvs.setAttribute('height', CANVAS_SIZE);
     canvasContainerElement.appendChild(cnvs);
-    canvasElement = document.querySelector('canvas');
+    canvasElement = $('canvas');
     contextObject = canvasElement.getContext('2d');
   }
 

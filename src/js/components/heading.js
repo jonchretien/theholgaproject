@@ -1,6 +1,7 @@
+import { $ } from '../utils';
 import getMessage from '../strings/messages';
 
-const headingElement = document.getElementById('instructions');
+const headingElement = $('#instructions');
 
 const Heading = () => {
   return {
