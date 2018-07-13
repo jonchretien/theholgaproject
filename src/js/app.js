@@ -4,11 +4,11 @@ import Buttons from './components/buttons';
 const App = () => {
   return {
     render(heading) {
-      const canvas = Canvas();
       const buttons = Buttons();
+      const canvas = Canvas({ heading, buttons });
       heading.update('instructions');
-      canvas.init(heading);
-      buttons.init(canvas.elements);
+      canvas.init();
+      // buttons.init(canvas.elements);
     },
   };
 };

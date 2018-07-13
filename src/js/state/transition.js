@@ -18,7 +18,7 @@ const StoreManager = () => {
       return _state;
     },
 
-    get state() {
+    getState() {
       console.log('getter', _state);
       return _state;
     },

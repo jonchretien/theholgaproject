@@ -1,3 +1,4 @@
+import storeManager from '../state/transition';
 import FX from '../lib/effects';
 
 const Buttons = () => {
@@ -11,10 +12,12 @@ const Buttons = () => {
   function init(elements) {
     canvasElement = elements.canvasElement;
     contextObject = elements.contextObject;
-    [filterBtnElement, saveBtnElement].forEach(el =>
+  }
+
+  function enableButtons() {
+    [filterBtnElement, saveBtnElement, clearBtnElement].forEach(el =>
       el.removeAttribute('disabled')
     );
-    bindEventHandlers();
   }
 
   /**
@@ -23,7 +26,7 @@ const Buttons = () => {
   function bindEventHandlers() {
     filterBtnElement.addEventListener('click', applyEffects, false);
     saveBtnElement.addEventListener('click', saveAsPNG, false);
-    // clearBtnElement.addEventListener('click', clearCanvas, false);
+    clearBtnElement.addEventListener('click', clearCanvas, false);
   }
 
   /**
@@ -63,6 +66,11 @@ const Buttons = () => {
     );
   }
 
+  function clearCanvas(event) {
+    event.preventDefault();
+    console.log('clear canvas');
+  }
+
   /**
    * Saves the file to the user's download folder.
    *
@@ -74,6 +82,8 @@ const Buttons = () => {
 
   return {
     init,
+    enableButtons,
+    bindEventHandlers,
   };
 };
 

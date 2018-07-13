@@ -5,9 +5,12 @@ import {
   IMAGE_UPLOAD_FAILURE,
 } from '../state/actions';
 
-const Canvas = () => {
+const Canvas = components => {
+  const { heading, buttons } = components;
   const shellElement = document.getElementById('shell');
   const canvasContainerElement = document.getElementById('canvas-container');
+
+  console.log(heading, buttons);
 
   const CANVAS_SIZE = 620;
   const HOVER_CLASS = 'hover';
@@ -16,18 +19,17 @@ const Canvas = () => {
   let canvasElement = null;
   let contextObject = null;
   let currentState = null;
-  let heading = null;
+  // let heading = null;
 
-  function init(heading) {
-    heading = heading;
-    currentState = storeManager.state;
+  function init() {
+    currentState = storeManager.getState();
     createCanvasElement();
     bindEventHandlers();
   }
 
   function update(state, action) {
     storeManager.setState(state, action);
-    currentState = storeManager.state;
+    currentState = storeManager.getState();
   }
 
   function createCanvasElement() {
@@ -98,6 +100,8 @@ const Canvas = () => {
     reader.readAsDataURL(file);
 
     update(currentState, IMAGE_UPLOAD_SUCCESS);
+    buttons.enableButtons();
+    buttons.bindEventHandlers();
   }
 
   /**
