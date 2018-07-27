@@ -152,7 +152,7 @@ const Canvas = components => {
   }
 
   function clearCanvas() {
-    console.log('clear canvas');
+    contextObject.clearRect(0, 0, canvasElement.width, canvasElement.height);
   }
 
   return {
