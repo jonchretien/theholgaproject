@@ -1,17 +1,20 @@
 import { $ } from '../utils';
 import storeManager from '../state/transition';
+import PubSub from '../state/pubsub';
 import {
+  APPLY_BW_FILTER,
+  CLEAR_PHOTO,
   IMAGE_UPLOAD,
   IMAGE_UPLOAD_SUCCESS,
   IMAGE_UPLOAD_FAILURE,
+  SAVE_PHOTO,
 } from '../state/actions';
+import FX from '../lib/effects';
 
 const Canvas = components => {
   const { heading, buttons } = components;
   const shellElement = $('#shell');
   const canvasContainerElement = $('#canvas-container');
-
-  console.log(heading, buttons);
 
   const CANVAS_SIZE = 620;
   const HOVER_CLASS = 'hover';
@@ -20,12 +23,14 @@ const Canvas = components => {
   let canvasElement = null;
   let contextObject = null;
   let currentState = null;
-  // let heading = null;
 
   function init() {
     currentState = storeManager.getState();
     createCanvasElement();
     bindEventHandlers();
+    PubSub.subscribe(APPLY_BW_FILTER, applyBlackWhiteFX);
+    PubSub.subscribe(CLEAR_PHOTO, clearCanvas);
+    PubSub.subscribe(SAVE_PHOTO, saveImage);
   }
 
   function update(state, action) {
@@ -122,14 +127,36 @@ const Canvas = components => {
     update(currentState, IMAGE_UPLOAD_FAILURE);
   }
 
+  /**
+   * Applies the black and white photo effects.
+   */
+  function applyBlackWhiteFX() {
+    FX.applyGrayscaleFilter(canvasElement, contextObject);
+    FX.applyBlur(canvasElement, contextObject);
+    FX.applyVignette(canvasElement, contextObject);
+  }
+
+  /**
+   * Saves canvas image as data URL.
+   * Encodes as base64 encoded PNG file.
+   * from Canvas2Image, by Hongru Chenhr - https://github.com/hongru/canvas2image
+   */
+  function saveImage() {
+    // base64 encoded PNG file.
+    const imageData = canvasElement
+      .toDataURL('image/png')
+      .replace('image/png', 'image/octet-stream');
+
+    // saves the file to the user's download folder.
+    document.location.href = imageData;
+  }
+
+  function clearCanvas() {
+    console.log('clear canvas');
+  }
+
   return {
     init,
-    get elements() {
-      return {
-        canvasElement,
-        contextObject,
-      };
-    },
   };
 };
 

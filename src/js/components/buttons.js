@@ -1,6 +1,6 @@
 import { $$ } from '../utils';
 import { APPLY_BW_FILTER, CLEAR_PHOTO, SAVE_PHOTO } from '../state/actions';
-import FX from '../lib/effects';
+import PubSub from '../state/pubsub';
 
 const Buttons = () => {
   const buttons = $$('button');
@@ -36,58 +36,23 @@ const Buttons = () => {
     switch (getAction) {
       case APPLY_BW_FILTER: {
         console.log('filter');
-        applyBlackWhiteFX();
+        PubSub.publish(APPLY_BW_FILTER);
         break;
       }
       case CLEAR_PHOTO: {
         console.log('clear');
-        clearCanvas();
+        PubSub.publish(CLEAR_PHOTO);
         break;
       }
       case SAVE_PHOTO: {
         console.log('save');
-        saveAsPNG();
+        PubSub.publish(SAVE_PHOTO);
         break;
       }
       default: {
         break;
       }
     }
-  }
-
-  /**
-   * Applies the black and white photo effects.
-   */
-  function applyBlackWhiteFX() {
-    FX.applyGrayscaleFilter();
-    FX.applyBlur();
-    FX.applyVignette();
-  }
-
-  /**
-   * Saves canvas image as data URL.
-   * Encodes as base64 encoded PNG file.
-   * from Canvas2Image, by Hongru Chenhr - https://github.com/hongru/canvas2image
-   */
-  function saveAsPNG() {
-    saveFile(
-      canvasElement
-        .toDataURL('image/png')
-        .replace('image/png', 'image/octet-stream')
-    );
-  }
-
-  function clearCanvas() {
-    console.log('clear canvas');
-  }
-
-  /**
-   * Saves the file to the user's download folder.
-   *
-   * @param {String} strData - base64 encoded PNG file.
-   */
-  function saveFile(strData) {
-    document.location.href = strData;
   }
 
   return {
