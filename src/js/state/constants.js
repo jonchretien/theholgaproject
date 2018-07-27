@@ -1,5 +1,5 @@
 /**
- * Actions
+ * Constants
  */
 
 // browser support
@@ -15,6 +15,6 @@ export const IMAGE_UPLOAD_FAILURE = 'IMAGE_UPLOAD_FAILURE';
 export const APPLY_BW_FILTER = 'APPLY_BW_FILTER';
 
 // misc.
-export const CLEAR_PHOTO = 'CLEAR_PHOTO';
-export const DOWNLOAD_PHOTO = 'DOWNLOAD_PHOTO';
-export const SAVE_PHOTO = 'SAVE_PHOTO';
+export const CLEAR_CANVAS = 'CLEAR_CANVAS';
+export const DOWNLOAD_IMAGE = 'DOWNLOAD_IMAGE';
+export const SAVE_IMAGE = 'SAVE_IMAGE';

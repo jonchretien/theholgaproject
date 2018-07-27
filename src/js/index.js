@@ -3,7 +3,7 @@ import storeManager from './state/transition';
 import {
   BROWSER_SUPPORT_SUCCESS,
   BROWSER_SUPPORT_FAILURE,
-} from './state/actions';
+} from './state/constants';
 import {
   hasCanvasSupport,
   hasDragAndDropSupport,

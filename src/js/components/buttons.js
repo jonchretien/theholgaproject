@@ -1,5 +1,5 @@
 import { $$ } from '../utils';
-import { APPLY_BW_FILTER, CLEAR_PHOTO, SAVE_PHOTO } from '../state/actions';
+import { APPLY_BW_FILTER, CLEAR_CANVAS, SAVE_IMAGE } from '../state/constants';
 import PubSub from '../state/pubsub';
 
 const Buttons = () => {
@@ -39,14 +39,14 @@ const Buttons = () => {
         PubSub.publish(APPLY_BW_FILTER);
         break;
       }
-      case CLEAR_PHOTO: {
+      case CLEAR_CANVAS: {
         console.log('clear');
-        PubSub.publish(CLEAR_PHOTO);
+        PubSub.publish(CLEAR_CANVAS);
         break;
       }
-      case SAVE_PHOTO: {
+      case SAVE_IMAGE: {
         console.log('save');
-        PubSub.publish(SAVE_PHOTO);
+        PubSub.publish(SAVE_IMAGE);
         break;
       }
       default: {

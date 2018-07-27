@@ -3,12 +3,12 @@ import storeManager from '../state/transition';
 import PubSub from '../state/pubsub';
 import {
   APPLY_BW_FILTER,
-  CLEAR_PHOTO,
+  CLEAR_CANVAS,
   IMAGE_UPLOAD,
   IMAGE_UPLOAD_SUCCESS,
   IMAGE_UPLOAD_FAILURE,
-  SAVE_PHOTO,
-} from '../state/actions';
+  SAVE_IMAGE,
+} from '../state/constants';
 import FX from '../lib/effects';
 
 const Canvas = components => {
@@ -29,8 +29,8 @@ const Canvas = components => {
     createCanvasElement();
     bindEventHandlers();
     PubSub.subscribe(APPLY_BW_FILTER, applyBlackWhiteFX);
-    PubSub.subscribe(CLEAR_PHOTO, clearCanvas);
-    PubSub.subscribe(SAVE_PHOTO, saveImage);
+    PubSub.subscribe(CLEAR_CANVAS, clearCanvas);
+    PubSub.subscribe(SAVE_IMAGE, saveImage);
   }
 
   function update(state, action) {
