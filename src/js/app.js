@@ -8,7 +8,6 @@ const App = () => {
       const canvas = Canvas({ heading, buttons });
       heading.update('instructions');
       canvas.init();
-      // buttons.init(canvas.elements);
     },
   };
 };

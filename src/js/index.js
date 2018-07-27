@@ -10,27 +10,32 @@ import {
   hasFileReaderSupport,
   isTouchDevice,
 } from './lib/support';
+import Canvas from './components/canvas';
+import Buttons from './components/buttons';
 import Heading from './components/heading';
-import App from './App';
 
 function checkBrowserSupport() {
-  const app = App();
   const heading = Heading();
 
-  if (hasCanvasSupport() && hasDragAndDropSupport() && hasFileReaderSupport()) {
-    storeManager.setState(initialState, BROWSER_SUPPORT_SUCCESS);
-    app.render(heading);
+  if (
+    !hasCanvasSupport() || !hasDragAndDropSupport() || !hasFileReaderSupport()
+  ) {
+    storeManager.setState(initialState, BROWSER_SUPPORT_FAILURE);
+    heading.update('upgradeBrowser');
     return;
   }
 
-  storeManager.setState(initialState, BROWSER_SUPPORT_FAILURE);
-
   if (isTouchDevice()) {
+    storeManager.setState(initialState, BROWSER_SUPPORT_FAILURE);
     heading.update('touchDevice');
     return;
   }
 
-  heading.update('upgradeBrowser');
+  storeManager.setState(initialState, BROWSER_SUPPORT_SUCCESS);
+  heading.update('instructions');
+  const buttons = Buttons();
+  const canvas = Canvas({ heading, buttons });
+  canvas.init();
 }
 
 checkBrowserSupport();

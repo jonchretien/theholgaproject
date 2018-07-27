@@ -1,4 +1,3 @@
-import storeManager from '../state/transition';
 import { $$ } from '../utils';
 import { APPLY_BW_FILTER, CLEAR_PHOTO, SAVE_PHOTO } from '../state/actions';
 import FX from '../lib/effects';
@@ -28,9 +27,13 @@ const Buttons = () => {
 
   /**
    * Handle click events.
+   *
+   * @param {Object} event - The event triggered.
    */
-  function onClick({ currentTarget }) {
-    switch (currentTarget.getAttribute('data-action')) {
+  function onClick(event) {
+    event.preventDefault();
+    const getAction = event.currentTarget.getAttribute('data-action');
+    switch (getAction) {
       case APPLY_BW_FILTER: {
         console.log('filter');
         applyBlackWhiteFX();
@@ -54,11 +57,8 @@ const Buttons = () => {
 
   /**
    * Applies the black and white photo effects.
-   *
-   * @param {Object} event - The event triggered.
    */
-  function applyBlackWhiteFX(event) {
-    event.preventDefault();
+  function applyBlackWhiteFX() {
     FX.applyGrayscaleFilter();
     FX.applyBlur();
     FX.applyVignette();
@@ -68,11 +68,8 @@ const Buttons = () => {
    * Saves canvas image as data URL.
    * Encodes as base64 encoded PNG file.
    * from Canvas2Image, by Hongru Chenhr - https://github.com/hongru/canvas2image
-   *
-   * @param {Object} event - The event triggered.
    */
-  function saveAsPNG(event) {
-    event.preventDefault();
+  function saveAsPNG() {
     saveFile(
       canvasElement
         .toDataURL('image/png')
@@ -80,8 +77,7 @@ const Buttons = () => {
     );
   }
 
-  function clearCanvas(event) {
-    event.preventDefault();
+  function clearCanvas() {
     console.log('clear canvas');
   }
 
