@@ -115,8 +115,7 @@ const Canvas = components => {
    * Checks for error message and removes if it exists.
    */
   function getErrorMessage() {
-    // check state value rather then DOM
-    if (shellElement.querySelector(`.${ERROR_CLASS}`)) {
+    if (currentState === 'error') {
       shellElement.removeChild(shellElement.querySelector(`.${ERROR_CLASS}`));
     }
   }
