@@ -26,20 +26,31 @@ const Canvas = components => {
   let contextObject = null;
   let currentState = null;
 
+  /**
+   * Initialize canvas elements and logic.
+   */
   function init() {
     currentState = storeManager.getState();
     createCanvasElement();
-    bindEventHandlers();
+    addEvents();
     PubSub.subscribe(APPLY_BW_FILTER, applyBlackWhiteFX);
     PubSub.subscribe(CLEAR_CANVAS, clearCanvas);
     PubSub.subscribe(SAVE_IMAGE, saveImage);
   }
 
+  /**
+   * Util function for updating application state.
+   * @param {String} state - The desired state.
+   * @param {String} action - The current application action.
+  */
   function update(state, action) {
     storeManager.setState(state, action);
     currentState = storeManager.getState();
   }
 
+  /**
+   * Builds canvas.
+   */
   function createCanvasElement() {
     const cnvs = document.createElement('canvas');
     cnvs.setAttribute('width', CANVAS_SIZE);
@@ -49,7 +60,10 @@ const Canvas = components => {
     contextObject = canvasElement.getContext('2d');
   }
 
-  function bindEventHandlers() {
+  /**
+   * Adds event listeners.
+   */
+  function addEvents() {
     canvasElement.addEventListener('dragover', addHoverClass, false);
     canvasElement.addEventListener('dragend', removeHoverClass, false);
     document.documentElement.addEventListener('drop', dropElement, true);
@@ -152,6 +166,9 @@ const Canvas = components => {
     document.location.href = imageData;
   }
 
+  /**
+   * Clears image from canvas.
+   */
   function clearCanvas() {
     contextObject.clearRect(0, 0, canvasElement.width, canvasElement.height);
     PubSub.publish(REMOVE_BUTTON_EVENTS);

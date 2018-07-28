@@ -13,13 +13,11 @@ const StoreManager = () => {
      */
     setState(state = initialState, action) {
       const nextState = machine[state][action];
-      console.log('setState', state, nextState);
       _state = nextState;
       return _state;
     },
 
     getState() {
-      console.log('getter', _state);
       return _state;
     },
   };

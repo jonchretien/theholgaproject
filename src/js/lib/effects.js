@@ -44,7 +44,8 @@ function applyBlur(canvas, context) {
 
 /**
  * Applies vignette effect.
- * Credit to Robert Fleischmann's vintageJS - https://github.com/rendro/vintageJS/blob/master/src/vintage.js
+ * Credit to Robert Fleischmann's vintageJS
+ * https://github.com/rendro/vintageJS/blob/master/src/vintage.js
  */
 function applyVignette(canvas, context) {
   const outerRadius = Math.sqrt(

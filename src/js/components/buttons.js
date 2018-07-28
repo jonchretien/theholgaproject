@@ -25,7 +25,7 @@ const Buttons = () => {
   }
 
   /**
-   * Removes event handlers.
+   * Removes event listeners.
    */
   function removeEvents() {
     buttons.forEach(button => {
