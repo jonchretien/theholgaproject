@@ -2,11 +2,13 @@ import { $ } from '../utils';
 import storeManager from '../state/transition';
 import PubSub from '../state/pubsub';
 import {
+  ADD_BUTTON_EVENTS,
   APPLY_BW_FILTER,
   CLEAR_CANVAS,
   IMAGE_UPLOAD,
   IMAGE_UPLOAD_SUCCESS,
   IMAGE_UPLOAD_FAILURE,
+  REMOVE_BUTTON_EVENTS,
   SAVE_IMAGE,
 } from '../state/constants';
 import FX from '../lib/effects';
@@ -106,7 +108,7 @@ const Canvas = components => {
     reader.readAsDataURL(file);
 
     update(currentState, IMAGE_UPLOAD_SUCCESS);
-    buttons.addEvents();
+    PubSub.publish(ADD_BUTTON_EVENTS);
   }
 
   /**
@@ -153,6 +155,7 @@ const Canvas = components => {
 
   function clearCanvas() {
     contextObject.clearRect(0, 0, canvasElement.width, canvasElement.height);
+    PubSub.publish(REMOVE_BUTTON_EVENTS);
   }
 
   return {
