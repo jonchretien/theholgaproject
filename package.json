@@ -1,6 +1,6 @@
 {
   "name": "theholgaproject",
-  "version": "2.0.0",
+  "version": "4.0.0",
   "description": "Drag & drop an image into your browser and apply a Holga-like filter.",
   "main": "src/js/index.js",
   "scripts": {

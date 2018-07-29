@@ -15,12 +15,12 @@ import FX from '../lib/effects';
 
 const Canvas = components => {
   const { heading } = components;
-  const shellElement = $('#shell');
   const canvasContainerElement = $('#canvas-container');
+  const containerElement = $('#container');
 
-  const CANVAS_SIZE = 620;
-  const HOVER_CLASS = 'hover';
-  const ERROR_CLASS = 'error';
+  const CANVAS_SIZE = 820;
+  const HOVER_CLASS = 'canvas--hover';
+  const ERROR_CLASS = 'banner--error';
 
   let canvasElement = null;
   let contextObject = null;
@@ -130,7 +130,9 @@ const Canvas = components => {
    */
   function getErrorMessage() {
     if (currentState === 'error') {
-      shellElement.removeChild(shellElement.querySelector(`.${ERROR_CLASS}`));
+      containerElement.removeChild(
+        containerElement.querySelector(`.${ERROR_CLASS}`)
+      );
     }
   }
 
