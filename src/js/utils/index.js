@@ -1,0 +1,3 @@
+import { $, $$ } from './dom';
+
+export { $, $$ };

@@ -1,0 +1,203 @@
+/*
+ * === RESET ===
+ * adapted from Meyer Web and CSS Wizardy
+ * http://meyerweb.com/eric/tools/css/reset/
+ * http://csswizardry.com/2011/10/reset-restarted
+*/
+
+/*
+ * — Unversal box sizing —
+*/
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/*
+ * — Element spacing —
+*/
+
+html,
+body,
+div,
+span,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+img,
+ul,
+li,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+section {
+  margin: 0;
+  padding: 0;
+}
+
+/* HTML5 display-role reset for older browsers */
+
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+section {
+  display: block;
+}
+
+/*
+ * — Type —
+*/
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 100%;
+}
+
+/*
+ * — Remove underlines from potentially troublesome elements —
+*/
+
+a {
+  text-decoration: none;
+}
+
+/*
+ * — So that `alt` text is visually offset if images don’t load —
+*/
+
+img {
+  border: none;
+  font-style: italic;
+}
+
+
+/*
+ * === APP ===
+*/
+
+/*
+ * — Scaffolding —
+*/
+
+html {
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background: #fff;
+  color: #6b6b6b;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
+  font-size: 20px;
+  line-height: 1.5;
+  padding: 48px 0;
+  text-align: center;
+}
+
+a:link,
+a:visited {
+  color: #a4a4a4;
+  text-decoration: none;
+}
+
+a:hover {
+  color: #666;
+}
+
+.container {
+  margin: 0 auto;
+  width: 820px;
+}
+
+/*
+ * — Banner —
+*/
+
+.banner {
+  margin: 0 auto 24px auto;
+}
+
+.banner__title {
+  color: #343434;
+  font-size: 57px;
+  font-weight: bold;
+  letter-spacing: -0.025em;
+}
+
+.banner__instructions {
+  color: #999;
+  font-size: 24px;
+  text-transform: lowercase;
+}
+
+.banner--error {
+  color: #a81817;
+}
+
+
+/*
+ * — Canvas —
+*/
+
+canvas {
+  background-color: #ededed;
+  display: block;
+  margin-bottom: 24px;
+}
+
+.canvas--hover {
+  border: 6px dashed #333;
+}
+
+/*
+ * — Buttons —
+*/
+
+.btn {
+  background: #000;
+  border: 0;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0 0 30px 0;
+  padding: 10px 14px;
+  transition: background .2s ease;
+}
+
+.btn:hover {
+  background: #333;
+  color: #fff;
+}
+
+.btn[disabled],
+.btn[disabled]:hover {
+  background: #ededed;
+  color: #aaa;
+}
+
+/*
+ * — Footer —
+*/
+
+.footer {
+  border-top: 1px solid #e2e2e2;
+  font-size: 16px;
+  line-height: 1.8;
+  padding-top: 16px;
+}

@@ -1,10 +1,25 @@
+# OS generated files #
+######################
+
 .DS_Store
 Icon
 Thumbs.db
-*.ico
-.htaccess
-robots.txt
-_publish/
+
+
+# Folders #
+######################
+
+build/
+dist/
 node_modules/
-js/*.min*.js
-css/*.min*.css
+
+
+# Misc. #
+######################
+
+src/favicon.ico
+src/.htaccess
+src/robots.txt
+yarn-error.log
+*.ico
+.rsync

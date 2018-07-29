@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>The Holga Project</title>
+  <meta name="author" content="Jon Chretien">
+  <meta name="description" content="The Holga Project will apply a Holga-like filter to photos that you drag and drop from your computer.">
+  <meta name="keywords" content="holga, the holga project">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:title" property="og:title" content="Welcome to The Holga Project – theholgaproject.com">
+  <meta name="twitter:description" property="og:description" content="The Holga Project will apply a Holga-like filter to photos that you drag and drop from your computer.">
+  <meta name="twitter:image" property="og:image" content="http://jonchretien.com/img/avatar.jpg">
+  <meta property="og:url" content="http://theholgaproject.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="The Holga Project">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:creator" content="@jonchretien">
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/css/screen.css" media="all">
+  <link rel="author" href="/humans.txt" type="text/plain">
+</head>
+
+<body>
+
+  <div id="container" class="container">
+
+    <header class="banner">
+      <h1 class="banner__title">The Holga Project</h1>
+      <h2 id="instructions" class="banner__instructions"></h2>
+    </header>
+
+    <div id="canvas-container"></div>
+
+    <button class="btn" data-action="APPLY_BW_FILTER" disabled>Holgafy!</button>
+    <button class="btn" data-action="SAVE_IMAGE" disabled>Save Image</button>
+    <button class="btn" data-action="CLEAR_CANVAS" disabled>Clear Canvas</button>
+
+    <footer class="footer">
+      <p>Made with canvas, drag &amp; drop api, file reader api, and file list api, Checkout the source on <a href="https://github.com/jonchretien/theholgaproject/" target="_blank" rel="noopener noreferrer">Github</a>.<br>
+      Copyright &copy; <span id="copyright"></span><script>(function(){document.getElementById("copyright").textContent=(new Date).getFullYear()})();</script> <a href="http://jonchretien.com" target="_blank" rel="noopener noreferrer">Jon Chretien</a>. All rights reserved.</p>
+    </footer>
+  </div>
+
+  <script src="js/bundle.js"></script>
+
+</body>
+</html>
