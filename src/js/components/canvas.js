@@ -14,7 +14,7 @@ import {
 import FX from '../lib/effects';
 
 const Canvas = components => {
-  const { heading, buttons } = components;
+  const { heading } = components;
   const shellElement = $('#shell');
   const canvasContainerElement = $('#canvas-container');
 

@@ -34,7 +34,7 @@ function checkBrowserSupport() {
   storeManager.setState(initialState, BROWSER_SUPPORT_SUCCESS);
   heading.update('instructions');
   const buttons = Buttons();
-  const canvas = Canvas({ heading, buttons });
+  const canvas = Canvas({ heading });
   canvas.init();
 }
 
