@@ -2,7 +2,7 @@
 
 # declare variables
 dir=$1
-items='index.html css/'
+items='index.html .htaccess favicon.ico robots.txt humans.txt'
 
 # remove directory contents
 rm -rf $dir
