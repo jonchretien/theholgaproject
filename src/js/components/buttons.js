@@ -2,6 +2,7 @@ import { $$ } from '../utils';
 import {
   ADD_BUTTON_EVENTS,
   APPLY_BW_FILTER,
+  APPLY_COLOR_FILTER,
   CLEAR_CANVAS,
   REMOVE_BUTTON_EVENTS,
   SAVE_IMAGE,
@@ -45,6 +46,10 @@ const Buttons = () => {
     switch (getAction) {
       case APPLY_BW_FILTER: {
         PubSub.publish(APPLY_BW_FILTER);
+        break;
+      }
+      case APPLY_COLOR_FILTER: {
+        PubSub.publish(APPLY_COLOR_FILTER);
         break;
       }
       case CLEAR_CANVAS: {

@@ -1,8 +1,8 @@
 /**
- * Applies black and white filter.
+ * Applies color filter.
  */
-function applyGrayscaleFilter(canvas, context) {
-  let brightness;
+function applyColorFilter(canvas, context) {
+  const brightness = 1.35;
 
   // retrieve image data
   const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
@@ -10,20 +10,55 @@ function applyGrayscaleFilter(canvas, context) {
   // retrieve color components of each pixel image (CanvasPixelArray - rgba)
   const data = imageData.data;
 
-  // convert image to grayscale
+  // brightened values need to be between 0 and 255
+  const constrainColorVal = val => Math.max(0, Math.min(255, val));
+
+  /**
+   * Calculate the brightness of each pixel
+   * and set the rgb components equal to the brightness
+   */
   const len = data.length;
   for (let i = 0; i < len; i += 4) {
-    // calculate the brightness of each pixel and set the rgb components equal to the brightness
-    brightness = 0.38 * data[i] + 0.5 * data[i + 1] + 0.18 * data[i + 2];
-    data[i] = brightness; // red
-    data[i + 1] = brightness; // green
-    data[i + 2] = brightness; // blue
+    const r = data[i];
+    const g = data[i + 1];
+    const b = data[i + 2];
+    const brightenedRed = constrainColorVal(brightness * r);
+    const brightenedGreen = constrainColorVal(brightness * g);
+    const brightenedBlue = constrainColorVal(brightness * b);
+    data[i] = brightenedRed;
+    data[i + 1] = brightenedGreen;
+    data[i + 2] = brightenedBlue;
   }
 
   // overwrite original image
   context.putImageData(imageData, 0, 0);
+}
 
-  return false;
+/**
+ * Applies black and white filter.
+ */
+function applyGrayscaleFilter(canvas, context) {
+  // retrieve image data
+  const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+
+  // retrieve color components of each pixel image (CanvasPixelArray - rgba)
+  const data = imageData.data;
+
+  /**
+   * Calculate the brightness of each pixel
+   * and set the rgb components equal to the brightness
+   */
+  const len = data.length;
+  for (let i = 0; i < len; i += 4) {
+    const r = data[i];
+    const g = data[i + 1];
+    const b = data[i + 2];
+    const brightness = 0.38 * r + 0.5 * g + 0.18 * b;
+    data[i] = data[i + 1] = data[i + 2] = brightness;
+  }
+
+  // overwrite original image
+  context.putImageData(imageData, 0, 0);
 }
 
 /**
@@ -83,6 +118,7 @@ function applyVignette(canvas, context) {
 
 const FX = {
   applyBlur,
+  applyColorFilter,
   applyGrayscaleFilter,
   applyVignette,
 };

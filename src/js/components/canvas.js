@@ -4,6 +4,7 @@ import PubSub from '../state/pubsub';
 import {
   ADD_BUTTON_EVENTS,
   APPLY_BW_FILTER,
+  APPLY_COLOR_FILTER,
   CLEAR_CANVAS,
   IMAGE_UPLOAD,
   IMAGE_UPLOAD_SUCCESS,
@@ -34,6 +35,7 @@ const Canvas = components => {
     createCanvasElement();
     addEvents();
     PubSub.subscribe(APPLY_BW_FILTER, applyBlackWhiteFX);
+    PubSub.subscribe(APPLY_COLOR_FILTER, applyColorFX);
     PubSub.subscribe(CLEAR_CANVAS, clearCanvas);
     PubSub.subscribe(SAVE_IMAGE, saveImage);
   }
@@ -149,6 +151,15 @@ const Canvas = components => {
    */
   function applyBlackWhiteFX() {
     FX.applyGrayscaleFilter(canvasElement, contextObject);
+    FX.applyBlur(canvasElement, contextObject);
+    FX.applyVignette(canvasElement, contextObject);
+  }
+
+  /**
+   * Applies the color photo effects.
+   */
+  function applyColorFX() {
+    FX.applyColorFilter(canvasElement, contextObject);
     FX.applyBlur(canvasElement, contextObject);
     FX.applyVignette(canvasElement, contextObject);
   }

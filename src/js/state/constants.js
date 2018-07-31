@@ -13,6 +13,7 @@ export const IMAGE_UPLOAD_FAILURE = 'IMAGE_UPLOAD_FAILURE';
 
 // filter effects
 export const APPLY_BW_FILTER = 'APPLY_BW_FILTER';
+export const APPLY_COLOR_FILTER = 'APPLY_COLOR_FILTER';
 
 // canvas and image effects
 export const CLEAR_CANVAS = 'CLEAR_CANVAS';
