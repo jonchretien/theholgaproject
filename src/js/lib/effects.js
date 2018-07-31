@@ -13,6 +13,10 @@ function applyColorFilter(canvas, context) {
   // brightened values need to be between 0 and 255
   const constrainColorVal = val => Math.max(0, Math.min(255, val));
 
+  // https://stackoverflow.com/questions/10521978/html5-canvas-image-contrast
+  const contrast = 1.25; // range: [0..2]
+  const intercept = 128 * (1 - contrast);
+
   /**
    * Calculate the brightness of each pixel
    * and set the rgb components equal to the brightness
@@ -25,9 +29,9 @@ function applyColorFilter(canvas, context) {
     const brightenedRed = constrainColorVal(brightness * r);
     const brightenedGreen = constrainColorVal(brightness * g);
     const brightenedBlue = constrainColorVal(brightness * b);
-    data[i] = brightenedRed;
-    data[i + 1] = brightenedGreen;
-    data[i + 2] = brightenedBlue;
+    data[i] = brightenedRed * contrast + intercept;
+    data[i + 1] = brightenedGreen * contrast + intercept;
+    data[i + 2] = brightenedBlue * contrast + intercept;
   }
 
   // overwrite original image
