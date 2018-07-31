@@ -1,3 +1,3 @@
 #!/bin/bash
 
-rsync -avz -e ssh dist/ ${THP}
+rsync -avz -e ssh dist/ ${SITE_THP}
