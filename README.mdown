@@ -1,4 +1,4 @@
-#  The Holga Project
+#  📷 The Holga Project
 
 A simple experiment with HTML5 canvas that lets a user drag a photo into the browser window and apply a Holga-like filter (only black &amp; white for now).
 
