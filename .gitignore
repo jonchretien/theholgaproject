@@ -8,6 +8,7 @@ Thumbs.db
 # Folders #
 ######################
 
+dist/
 node_modules/
 
 # Misc. #
