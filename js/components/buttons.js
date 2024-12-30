@@ -11,8 +11,13 @@ import {
 export default function Buttons(pubsub) {
   const buttons = $$('button');
 
-  pubsub.subscribe(ADD_BUTTON_EVENTS, addEvents);
-  pubsub.subscribe(REMOVE_BUTTON_EVENTS, removeEvents);
+  /**
+   * Initializes the button event subscriptions.
+   */
+  function init() {
+    pubsub.subscribe(ADD_BUTTON_EVENTS, addEvents);
+    pubsub.subscribe(REMOVE_BUTTON_EVENTS, removeEvents);
+  }
 
   /**
    * Adds event listeners.
@@ -66,7 +71,6 @@ export default function Buttons(pubsub) {
   }
 
   return {
-    addEvents,
-    removeEvents,
+    init,
   };
 };

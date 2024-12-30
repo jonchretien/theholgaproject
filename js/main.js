@@ -16,7 +16,6 @@ import Heading from './components/heading';
 import PhotoCanvas from './components/canvas';
 
 function initialize() {
-  const pubsub = new PubSub();
   const heading = Heading();
 
   // check for browser support
@@ -34,11 +33,15 @@ function initialize() {
     return;
   }
 
-  // intialize application
+  // set the state to indicate browser support is successful and update heading with instructions
   storeManager.setState(initialState, BROWSER_SUPPORT_SUCCESS);
   heading.update('instructions');
+
+  // initialize buttons and photo canvas components
+  const pubsub = new PubSub();
   const buttons = Buttons(pubsub);
   const canvas = PhotoCanvas(pubsub, heading);
+  buttons.init();
   canvas.init();
 }
 
