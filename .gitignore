@@ -5,15 +5,10 @@
 Icon
 Thumbs.db
 
-
 # Folders #
 ######################
 
-build/
-local/
-dist/
 node_modules/
-
 
 # Misc. #
 ######################
@@ -21,6 +16,5 @@ node_modules/
 favicon.ico
 .htaccess
 robots.txt
-yarn-error.log
 *.ico
 .rsync
