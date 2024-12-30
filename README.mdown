@@ -6,17 +6,9 @@ A simple experiment with HTML5 canvas that lets a user drag a photo into the bro
 
 ## First-Time Setup
 
-After cloning the repository you will need a couple of dependencies before you start working in your local environment.
+### nvm + node
 
-### node
-
-This project requires [node.js](https://nodejs.org/en/). [nvm](https://github.com/creationix/nvm) is an easy way to install `node`.
-
-```bash
-# Install nvm and then node
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash
-nvm install stable
-```
+This project requires [node.js](https://nodejs.org/en/). [nvm](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating) is an easy way to install `node`.
 
 ```bash
 # Install all package dependencies
@@ -27,6 +19,12 @@ npm install
 
 ```bash
 npx vite
+```
+
+## Build for Production
+
+```bash
+npx vite build
 ```
 
 ## Misc.
