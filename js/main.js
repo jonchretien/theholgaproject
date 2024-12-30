@@ -11,9 +11,9 @@ import {
   hasFileReaderSupport,
   isTouchDevice,
 } from './lib/support';
-import Canvas from './components/canvas';
 import Buttons from './components/buttons';
 import Heading from './components/heading';
+import PhotoCanvas from './components/canvas';
 
 function initialize() {
   const pubsub = new PubSub();
@@ -38,7 +38,7 @@ function initialize() {
   storeManager.setState(initialState, BROWSER_SUPPORT_SUCCESS);
   heading.update('instructions');
   const buttons = Buttons(pubsub);
-  const canvas = Canvas(pubsub, heading);
+  const canvas = PhotoCanvas(pubsub, heading);
   canvas.init();
 }
 

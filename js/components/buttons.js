@@ -8,7 +8,7 @@ import {
   SAVE_IMAGE,
 } from '../state/constants';
 
-const Buttons = (pubsub) => {
+export default function Buttons(pubsub) {
   const buttons = $$('button');
 
   pubsub.subscribe(ADD_BUTTON_EVENTS, addEvents);
@@ -70,5 +70,3 @@ const Buttons = (pubsub) => {
     removeEvents,
   };
 };
-
-export default Buttons;

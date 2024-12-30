@@ -13,7 +13,7 @@ import {
 } from '../state/constants';
 import FX from '../lib/effects';
 
-const Canvas = (pubsub, heading) => {
+export default function PhotoCanvas(pubsub, heading) {
   const canvasContainerElement = $('#canvas-container');
   const containerElement = $('#container');
 
@@ -189,5 +189,3 @@ const Canvas = (pubsub, heading) => {
     init,
   };
 };
-
-export default Canvas;
