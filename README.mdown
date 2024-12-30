@@ -4,32 +4,23 @@ A simple experiment with HTML5 canvas that lets a user drag a photo into the bro
 
 [**theholgaproject**](https://projects.jonchretien.com/theholgaproject/)
 
-## First-Time Setup
+## Development
 
-### nvm + node
+### First-Time Setup
 
-This project requires [node.js](https://nodejs.org/en/). [nvm](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating) is an easy way to install `node`.
+Install [node.js](https://nodejs.org/en/) through [nvm](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating), and then `npm install` all dependencies.
 
-```bash
-# Install all package dependencies
-npm install
-```
-
-## Starting the Dev Server
+### Starting the Dev Server
 
 ```bash
 npx vite
 ```
 
-## Build for Production
+### Build for Production
 
 ```bash
 npx vite build
 ```
-
-## Misc.
-
-- `chmod +x ./bin/foo.sh` to make script in `bin` executable.
 
 ## To Do
 
