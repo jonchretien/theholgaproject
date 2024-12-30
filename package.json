@@ -2,10 +2,7 @@
   "name": "theholgaproject",
   "version": "4.0.0",
   "description": "Drag & drop an image into your browser and apply a Holga-like filter.",
-  "main": "js/index.js",
-  "config": {
-    "dir": "local"
-  },
+  "main": "js/main.js",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -16,8 +13,6 @@
   "author": "Jon Chretien",
   "license": "",
   "devDependencies": {
-    "cssnano": "^4.0.4",
-    "postcss-cli": "^6.0.0",
     "vite": "^6.0.6"
   }
 }
