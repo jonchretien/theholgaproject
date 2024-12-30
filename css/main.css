@@ -119,8 +119,8 @@ a:hover {
 }
 
 .container {
-  margin: 0 auto;
-  max-width: 820px;
+  margin-inline: auto;
+  max-inline-size: 820px;
 }
 
 /*
@@ -128,7 +128,8 @@ a:hover {
 */
 
 .banner {
-  margin: 0 auto 24px auto;
+  margin-block-end: 24px;
+  margin-inline: auto;
 }
 
 .banner__title {
@@ -153,10 +154,15 @@ a:hover {
  * — Canvas —
 */
 
-canvas {
+.canvas-container {
   background-color: #ededed;
+  block-size: 820px;
+  inline-size: 820px;
+  margin-block-end: 24px;
+}
+
+canvas {
   display: block;
-  margin-bottom: 24px;
 }
 
 .canvas--hover {
@@ -170,7 +176,7 @@ canvas {
 .btn-container {
   display: flex;
   justify-content: center;
-  margin-bottom: 32px;
+  margin-block-end: 32px;
 }
 
 .btn {
@@ -180,8 +186,9 @@ canvas {
   cursor: pointer;
   font-size: 24px;
   font-weight: bold;
-  margin: 0 8px;
-  padding: 10px 14px;
+  margin-inline: 8px;
+  padding-block: 10px;
+  padding-inline: 14px;
   transition: background .2s ease;
 }
 
@@ -201,8 +208,8 @@ canvas {
 */
 
 .footer {
-  border-top: 1px solid #e2e2e2;
+  border-block-start: 1px solid #e2e2e2;
   font-size: 16px;
   line-height: 1.8;
-  padding-top: 16px;
+  padding-block-start: 16px;
 }
