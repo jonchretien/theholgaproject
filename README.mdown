@@ -1,4 +1,4 @@
-#  📷 The Holga Project
+# 📷 The Holga Project
 
 A simple experiment with HTML5 canvas that lets a user drag a photo into the browser window and apply a Holga-like filter (only black &amp; white for now).
 
@@ -9,6 +9,7 @@ A simple experiment with HTML5 canvas that lets a user drag a photo into the bro
 After cloning the repository you will need a couple of dependencies before you start working in your local environment.
 
 ### node
+
 This project requires [node.js](https://nodejs.org/en/). [nvm](https://github.com/creationix/nvm) is an easy way to install `node`.
 
 ```bash
@@ -17,45 +18,20 @@ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | b
 nvm install stable
 ```
 
-### yarn
-For package management we use [yarn](https://yarnpkg.com/).
-
-```bash
-# Install yarn package manager
-curl -o- -L https://yarnpkg.com/install.sh | bash
-```
-
 ```bash
 # Install all package dependencies
-yarn install
-```
-
-To see available script options:
-
-```bash
-yarn run
+npm install
 ```
 
 ## Starting the Dev Server
 
 ```bash
-yarn run start
-```
-
-## Upgrade Dependencies
-
-```bash
-yarn upgrade-interactive
-```
-
-## Build and deploy to production
-
-```bash
-yarn run build && yarn run deploy
+npx vite
 ```
 
 ## Misc.
-+ `chmod +x ./bin/foo.sh` to make script in `bin` executable.
+
+- `chmod +x ./bin/foo.sh` to make script in `bin` executable.
 
 ## To Do
 
