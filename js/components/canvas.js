@@ -163,18 +163,17 @@ export default function PhotoCanvas(pubsub, heading) {
   }
 
   /**
-   * Saves canvas image as data URL.
-   * Encodes as base64 encoded PNG file.
-   * from Canvas2Image, by Hongru Chenhr - https://github.com/hongru/canvas2image
+   * Converts canvas image to PNG and triggers download.
+   * Inspired by Canvas2Image, by Hongru Chenhr - https://github.com/hongru/canvas2image
    */
   function saveImage() {
-    // base64 encoded PNG file.
-    const imageData = canvasElement
-      .toDataURL('image/png')
-      .replace('image/png', 'image/octet-stream');
-
-    // saves the file to the user's download folder.
-    document.location.href = imageData;
+    const imageData = canvasElement.toDataURL('image/png');
+    const link = document.createElement('a');
+    link.href = imageData;
+    link.download = 'holga_image.png';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
 
   /**
