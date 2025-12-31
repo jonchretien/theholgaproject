@@ -38,6 +38,12 @@ export const ADD_BUTTON_EVENTS = 'ADD_BUTTON_EVENTS' as const;
 export const REMOVE_BUTTON_EVENTS = 'REMOVE_BUTTON_EVENTS' as const;
 
 /**
+ * Error recovery actions
+ */
+export const RETRY_UPLOAD = 'RETRY_UPLOAD' as const;
+export const RESET_APP = 'RESET_APP' as const;
+
+/**
  * Union type of all action constants
  * Useful for type checking and ensuring exhaustive switch statements
  */
@@ -53,7 +59,9 @@ export type Action =
   | typeof DOWNLOAD_IMAGE
   | typeof SAVE_IMAGE
   | typeof ADD_BUTTON_EVENTS
-  | typeof REMOVE_BUTTON_EVENTS;
+  | typeof REMOVE_BUTTON_EVENTS
+  | typeof RETRY_UPLOAD
+  | typeof RESET_APP;
 
 /**
  * Object containing all actions for convenient iteration/validation
@@ -71,4 +79,6 @@ export const ACTIONS = {
   SAVE_IMAGE,
   ADD_BUTTON_EVENTS,
   REMOVE_BUTTON_EVENTS,
+  RETRY_UPLOAD,
+  RESET_APP,
 } as const;

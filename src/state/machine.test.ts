@@ -119,9 +119,19 @@ describe('State Machine', () => {
     });
 
     describe('from error state', () => {
-      it('should have no valid transitions (terminal state)', () => {
-        const transitions = machine.error;
-        expect(transitions).toEqual({});
+      it('should allow recovery via RETRY_UPLOAD', () => {
+        const nextState = machine.error?.[constant.RETRY_UPLOAD];
+        expect(nextState).toBe('idle');
+      });
+
+      it('should allow full reset via RESET_APP', () => {
+        const nextState = machine.error?.[constant.RESET_APP];
+        expect(nextState).toBe('start');
+      });
+
+      it('should not allow invalid actions from error state', () => {
+        const nextState = machine.error?.[constant.IMAGE_UPLOAD];
+        expect(nextState).toBeUndefined();
       });
     });
   });
@@ -140,7 +150,12 @@ describe('State Machine', () => {
       expect(getNextState('start', constant.IMAGE_UPLOAD)).toBeUndefined();
     });
 
-    it('should handle terminal error state', () => {
+    it('should handle error recovery', () => {
+      expect(getNextState('error', constant.RETRY_UPLOAD)).toBe('idle');
+      expect(getNextState('error', constant.RESET_APP)).toBe('start');
+    });
+
+    it('should reject invalid actions from error state', () => {
       expect(getNextState('error', constant.IMAGE_UPLOAD)).toBeUndefined();
       expect(
         getNextState('error', constant.BROWSER_SUPPORT_SUCCESS)
@@ -178,9 +193,11 @@ describe('State Machine', () => {
       expect(filteredActions).toHaveLength(2);
     });
 
-    it('should return empty array for error state (terminal)', () => {
+    it('should return recovery actions for error state', () => {
       const errorActions = getValidActions('error');
-      expect(errorActions).toEqual([]);
+      expect(errorActions).toContain(constant.RETRY_UPLOAD);
+      expect(errorActions).toContain(constant.RESET_APP);
+      expect(errorActions).toHaveLength(2);
     });
 
     it('should return both filter options for photo state', () => {
@@ -224,25 +241,37 @@ describe('State Machine', () => {
       expect(state).toBe('idle');
     });
 
-    it('should handle upload failure', () => {
+    it('should handle upload failure with recovery', () => {
       let state: State = 'upload';
 
       state = getNextState(state, constant.IMAGE_UPLOAD_FAILURE)!;
       expect(state).toBe('error');
 
-      // Should not be able to transition from error state
-      const nextState = getNextState(state, constant.IMAGE_UPLOAD);
-      expect(nextState).toBeUndefined();
+      // Can't directly upload from error
+      expect(getNextState(state, constant.IMAGE_UPLOAD)).toBeUndefined();
+
+      // But can retry to go back to idle
+      state = getNextState(state, constant.RETRY_UPLOAD)!;
+      expect(state).toBe('idle');
+
+      // Now can upload again
+      state = getNextState(state, constant.IMAGE_UPLOAD)!;
+      expect(state).toBe('upload');
     });
 
-    it('should handle browser support failure', () => {
+    it('should handle browser support failure with recovery', () => {
       let state: State = 'start';
 
       state = getNextState(state, constant.BROWSER_SUPPORT_FAILURE)!;
       expect(state).toBe('error');
 
-      // Terminal state
-      expect(getValidActions(state)).toHaveLength(0);
+      // Can recover from error
+      expect(getValidActions(state)).toContain(constant.RETRY_UPLOAD);
+      expect(getValidActions(state)).toContain(constant.RESET_APP);
+
+      // Recovery to idle
+      state = getNextState(state, constant.RETRY_UPLOAD)!;
+      expect(state).toBe('idle');
     });
 
     it('should allow saving multiple times', () => {

@@ -119,12 +119,15 @@ describe('StateStore', () => {
       expect(actions).toContain(constant.BROWSER_SUPPORT_FAILURE);
     });
 
-    it('should return empty array for terminal state', () => {
+    it('should return recovery actions for error state', () => {
       const errorStore = new StateStore({
         stateMachine: machine,
         initialState: 'error',
       });
-      expect(errorStore.getValidActions()).toEqual([]);
+      const actions = errorStore.getValidActions();
+      expect(actions).toContain(constant.RETRY_UPLOAD);
+      expect(actions).toContain(constant.RESET_APP);
+      expect(actions).toHaveLength(2);
     });
 
     it('should update after state transition', () => {

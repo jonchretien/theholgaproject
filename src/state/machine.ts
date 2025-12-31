@@ -30,11 +30,15 @@ export type StateMachine = {
  * Flow diagram:
  * ```
  * start → idle → upload → photo → filtered → saved
- *   ↓                       ↓                    ↓
- * error                  cleared ←───────────────┘
+ *   ↓      ↑        ↓        ↓                    ↓
+ * error ←──┴────────┘     cleared ←───────────────┘
  *   ↓
- * (requires page reload)
+ * idle (via RETRY_UPLOAD or RESET_APP)
  * ```
+ *
+ * Error recovery:
+ * - From error state, user can RETRY_UPLOAD to return to idle
+ * - From error state, user can RESET_APP to return to start
  *
  * @example
  * ```typescript
@@ -84,8 +88,11 @@ export const machine: StateMachine = {
     [constant.IMAGE_UPLOAD]: 'idle',
   },
 
-  // Error state - terminal (requires page reload)
-  error: {},
+  // Error state - now has recovery options!
+  error: {
+    [constant.RETRY_UPLOAD]: 'idle', // Try uploading a different image
+    [constant.RESET_APP]: 'start',   // Full reset (browser support recheck)
+  },
 };
 
 /**
