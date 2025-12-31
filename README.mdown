@@ -1,32 +1,92 @@
 # 📷 The Holga Project
 
-A simple experiment with HTML5 canvas that lets a user drag a photo into the browser window and apply a Holga-like filter (only black &amp; white for now).
+A browser-based photo editor that applies Holga camera-style filters to images using HTML5 Canvas API. Drag and drop a photo from your desktop to apply vintage black & white effects with vignetting, blur, and overexposure.
 
 [**theholgaproject**](https://projects.jonchretien.com/theholgaproject/)
+
+## Tech Stack
+
+- **TypeScript** 5.9+ with strict mode enabled
+- **Vite** for development and production builds
+- **Vitest** testing framework with 181 tests
+- **HTML5 APIs**: Canvas, Drag & Drop, FileReader
+- **Architecture**: Finite State Machine, Pub/Sub pattern, Dependency Injection
 
 ## Development
 
 ### First-Time Setup
 
-Install [node.js](https://nodejs.org/en/) through [nvm](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating), and then `npm install` all dependencies.
-
-### Starting the Dev Server
+Install [node.js](https://nodejs.org/en/) through [nvm](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating), and then install all dependencies:
 
 ```bash
-npx vite
+npm install
 ```
 
-### Build for Production
+### Available Commands
 
 ```bash
-npx vite build
+# Start development server
+npm run dev
+
+# Run tests (watch mode)
+npm test
+
+# Run tests (single run)
+npm test -- --run
+
+# Run tests with UI
+npm run test:ui
+
+# Run tests with coverage report
+npm run test:coverage
+
+# Type-check TypeScript
+npm run type-check
+
+# Build for production (runs type-check + tests + build)
+npm run build
+
+# Build for production (skip checks)
+npm run build:skip-checks
+
+# Preview production build
+npm run preview
 ```
+
+### Project Structure
+
+```
+src/
+├── components/     # UI components (Canvas, Buttons, Heading)
+├── config/         # Configuration values for effects and UI
+├── lib/            # Core libraries (effects, browser support)
+├── state/          # State management (FSM, PubSub, Store)
+├── strings/        # UI message strings
+├── types/          # TypeScript type definitions and custom errors
+├── utils/          # Utility functions (DOM, validation)
+└── main.ts         # Application entry point
+```
+
+## Features
+
+- **Drag & Drop Upload**: Drop any image file (JPEG, PNG, WebP, GIF) onto the canvas
+- **File Validation**: Checks file type, size (max 10MB), and format before processing
+- **Black & White Filter**: Grayscale conversion with weighted RGB values for natural monochrome
+- **Blur Effect**: Soft focus simulation mimicking toy camera lens imperfections
+- **Vignette Effect**: Radial darkening at edges with center glow for authentic Holga look
+- **Image Export**: Save processed images as PNG files
+- **Error Recovery**: Graceful error handling with retry/reset options
+- **Browser Support Detection**: Checks for required HTML5 APIs before initialization
+- **Type-Safe**: Full TypeScript coverage with strict mode enabled
+- **Comprehensive Tests**: 181 tests ensuring code quality and reliability
 
 ## To Do
 
-- Add progress bar for file uploads.
-- Add offline support.
-- Color filter option.
+- Add progress bar for file uploads
+- Add offline support with Service Worker
+- Re-enable color filter option (currently commented out in UI)
+- Add image preview before applying effects
+- Support for multiple image formats in export (JPEG, WebP)
 
 ## Resources
 
