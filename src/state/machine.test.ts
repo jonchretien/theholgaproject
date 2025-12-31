@@ -112,9 +112,9 @@ describe('State Machine', () => {
     });
 
     describe('from cleared state', () => {
-      it('should transition to idle on IMAGE_UPLOAD', () => {
+      it('should transition to upload on IMAGE_UPLOAD', () => {
         const nextState = machine.cleared?.[constant.IMAGE_UPLOAD];
-        expect(nextState).toBe('idle');
+        expect(nextState).toBe('upload');
       });
     });
 
@@ -200,11 +200,12 @@ describe('State Machine', () => {
       expect(errorActions).toHaveLength(2);
     });
 
-    it('should return both filter options for photo state', () => {
+    it('should return filter and clear options for photo state', () => {
       const photoActions = getValidActions('photo');
       expect(photoActions).toContain(constant.APPLY_BW_FILTER);
       expect(photoActions).toContain(constant.APPLY_COLOR_FILTER);
-      expect(photoActions).toHaveLength(2);
+      expect(photoActions).toContain(constant.CLEAR_CANVAS);
+      expect(photoActions).toHaveLength(3);
     });
   });
 
@@ -236,9 +237,9 @@ describe('State Machine', () => {
       state = getNextState(state, constant.CLEAR_CANVAS)!;
       expect(state).toBe('cleared');
 
-      // Upload another image
+      // Upload another image (goes directly to upload state)
       state = getNextState(state, constant.IMAGE_UPLOAD)!;
-      expect(state).toBe('idle');
+      expect(state).toBe('upload');
     });
 
     it('should handle upload failure with recovery', () => {

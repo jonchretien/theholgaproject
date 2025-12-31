@@ -69,6 +69,7 @@ export const machine: StateMachine = {
   photo: {
     [constant.APPLY_BW_FILTER]: 'filtered',
     [constant.APPLY_COLOR_FILTER]: 'filtered',
+    [constant.CLEAR_CANVAS]: 'cleared',
   },
 
   // Image has been filtered
@@ -85,7 +86,7 @@ export const machine: StateMachine = {
 
   // Image has been cleared from the canvas
   cleared: {
-    [constant.IMAGE_UPLOAD]: 'idle',
+    [constant.IMAGE_UPLOAD]: 'upload',
   },
 
   // Error state - now has recovery options!

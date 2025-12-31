@@ -253,10 +253,14 @@ export default function PhotoCanvas(
   function applyBlackWhiteFX(): void {
     if (!canvasElement || !contextObject) return;
 
+    const currentState = store.getState();
     try {
       FX.applyGrayscaleFilter(canvasElement, contextObject);
       FX.applyBlur(canvasElement, contextObject);
       FX.applyVignette(canvasElement, contextObject);
+
+      // Update state machine: photo → filtered
+      store.setState(currentState, APPLY_BW_FILTER);
     } catch (error) {
       logError(error, "PhotoCanvas:applyBlackWhiteFX");
     }
@@ -268,10 +272,14 @@ export default function PhotoCanvas(
   function applyColorFX(): void {
     if (!canvasElement || !contextObject) return;
 
+    const currentState = store.getState();
     try {
       FX.applyColorFilter(canvasElement, contextObject);
       FX.applyBlur(canvasElement, contextObject);
       FX.applyVignette(canvasElement, contextObject);
+
+      // Update state machine: photo → filtered
+      store.setState(currentState, APPLY_COLOR_FILTER);
     } catch (error) {
       logError(error, "PhotoCanvas:applyColorFX");
     }
@@ -283,6 +291,7 @@ export default function PhotoCanvas(
   function saveImage(): void {
     if (!canvasElement) return;
 
+    const currentState = store.getState();
     try {
       const imageData = canvasElement.toDataURL(DOWNLOAD_CONFIG.mimeType);
       const link = document.createElement("a");
@@ -291,6 +300,9 @@ export default function PhotoCanvas(
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+
+      // Update state machine: filtered/saved → saved
+      store.setState(currentState, SAVE_IMAGE);
     } catch (error) {
       logError(error, "PhotoCanvas:saveImage");
     }
@@ -302,8 +314,12 @@ export default function PhotoCanvas(
   function clearCanvas(): void {
     if (!canvasElement || !contextObject) return;
 
+    const currentState = store.getState();
     contextObject.clearRect(0, 0, canvasElement.width, canvasElement.height);
     pubsub.publish(REMOVE_BUTTON_EVENTS);
+
+    // Update state machine: filtered/saved → cleared
+    store.setState(currentState, CLEAR_CANVAS);
   }
 
   /**
