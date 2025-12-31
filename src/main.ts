@@ -7,7 +7,7 @@
 
 import PubSub from "./state/pubsub";
 import { initialState } from "./state/machine";
-import { StateStore } from "./state/store";
+import type { StateStore } from "./state/store";
 import {
   BROWSER_SUPPORT_SUCCESS,
   BROWSER_SUPPORT_FAILURE,
@@ -18,12 +18,9 @@ import {
   hasFileReaderSupport,
   isTouchDevice,
 } from "./lib/support";
-import Buttons from "./components/buttons";
-import Heading from "./components/heading";
-import PhotoCanvas from "./components/canvas";
-import type { ButtonsComponent } from "./components/buttons";
-import type { HeadingComponent } from "./components/heading";
-import type { PhotoCanvasComponent } from "./components/canvas";
+import Buttons, { type ButtonsComponent } from "./components/buttons";
+import Heading, { type HeadingComponent } from "./components/heading";
+import PhotoCanvas, { type PhotoCanvasComponent } from "./components/canvas";
 
 /**
  * Browser support check result

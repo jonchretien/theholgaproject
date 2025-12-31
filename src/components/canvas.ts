@@ -3,8 +3,7 @@
  */
 
 import { $ } from "@/utils/dom";
-import type { StateStore } from "@/state/store";
-import { STATE_CHANGED, type StateChangeEvent } from "@/state/store";
+import { STATE_CHANGED, type StateChangeEvent, type StateStore } from "@/state/store";
 import {
   ADD_BUTTON_EVENTS,
   APPLY_BW_FILTER,

@@ -11,7 +11,7 @@ import {
   initialState as defaultInitialState,
 } from "./machine";
 import type { Action } from "./constants";
-import PubSub from "./pubsub";
+import type PubSub from "./pubsub";
 
 /**
  * State change event payload
