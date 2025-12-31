@@ -2,7 +2,7 @@
  * Unit tests for PubSub class
  */
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import PubSub from './pubsub.js';
+import PubSub from './pubsub';
 
 describe('PubSub', () => {
   let pubsub: InstanceType<typeof PubSub>;
@@ -112,6 +112,95 @@ describe('PubSub', () => {
       expect(() => {
         pubsub.unsubscribe('test-topic', callback2);
       }).not.toThrow();
+    });
+  });
+
+  describe('Helper methods', () => {
+    describe('getSubscriberCount', () => {
+      it('should return 0 for non-existent topic', () => {
+        expect(pubsub.getSubscriberCount('non-existent')).toBe(0);
+      });
+
+      it('should return correct count for topic with subscribers', () => {
+        const callback1 = vi.fn();
+        const callback2 = vi.fn();
+
+        pubsub.subscribe('test-topic', callback1);
+        pubsub.subscribe('test-topic', callback2);
+
+        expect(pubsub.getSubscriberCount('test-topic')).toBe(2);
+      });
+
+      it('should return 1 when same callback subscribed twice (Set behavior)', () => {
+        const callback = vi.fn();
+
+        pubsub.subscribe('test-topic', callback);
+        pubsub.subscribe('test-topic', callback);
+
+        expect(pubsub.getSubscriberCount('test-topic')).toBe(1);
+      });
+    });
+
+    describe('clearTopic', () => {
+      it('should remove all subscribers from a topic', () => {
+        const callback1 = vi.fn();
+        const callback2 = vi.fn();
+
+        pubsub.subscribe('test-topic', callback1);
+        pubsub.subscribe('test-topic', callback2);
+
+        pubsub.clearTopic('test-topic');
+
+        pubsub.publish('test-topic', 'data');
+
+        expect(callback1).not.toHaveBeenCalled();
+        expect(callback2).not.toHaveBeenCalled();
+        expect(pubsub.getSubscriberCount('test-topic')).toBe(0);
+      });
+
+      it('should not throw for non-existent topic', () => {
+        expect(() => {
+          pubsub.clearTopic('non-existent');
+        }).not.toThrow();
+      });
+    });
+
+    describe('clearAll', () => {
+      it('should remove all subscribers from all topics', () => {
+        const callback1 = vi.fn();
+        const callback2 = vi.fn();
+
+        pubsub.subscribe('topic-1', callback1);
+        pubsub.subscribe('topic-2', callback2);
+
+        pubsub.clearAll();
+
+        pubsub.publish('topic-1', 'data');
+        pubsub.publish('topic-2', 'data');
+
+        expect(callback1).not.toHaveBeenCalled();
+        expect(callback2).not.toHaveBeenCalled();
+        expect(pubsub.getTopics()).toHaveLength(0);
+      });
+    });
+
+    describe('getTopics', () => {
+      it('should return empty array when no topics', () => {
+        expect(pubsub.getTopics()).toEqual([]);
+      });
+
+      it('should return array of topic names', () => {
+        pubsub.subscribe('topic-1', vi.fn());
+        pubsub.subscribe('topic-2', vi.fn());
+        pubsub.subscribe('topic-3', vi.fn());
+
+        const topics = pubsub.getTopics();
+
+        expect(topics).toHaveLength(3);
+        expect(topics).toContain('topic-1');
+        expect(topics).toContain('topic-2');
+        expect(topics).toContain('topic-3');
+      });
     });
   });
 });
