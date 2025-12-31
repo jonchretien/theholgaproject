@@ -74,9 +74,9 @@ function applyColorFilter(canvas: Canvas, context: CanvasContext): void {
   // Process each pixel (RGBA = 4 values per pixel)
   const len = data.length;
   for (let i = 0; i < len; i += 4) {
-    const r = data[i];
-    const g = data[i + 1];
-    const b = data[i + 2];
+    const r = data[i]!;
+    const g = data[i + 1]!;
+    const b = data[i + 2]!;
     // Alpha (data[i + 3]) is not modified
 
     // Apply brightness then contrast
@@ -117,9 +117,9 @@ function applyGrayscaleFilter(canvas: Canvas, context: CanvasContext): void {
   // Process each pixel
   const len = data.length;
   for (let i = 0; i < len; i += 4) {
-    const r = data[i];
-    const g = data[i + 1];
-    const b = data[i + 2];
+    const r = data[i]!;
+    const g = data[i + 1]!;
+    const b = data[i + 2]!;
 
     // Calculate weighted brightness (slightly > 1.0 for Holga overexposure)
     const brightness = redWeight * r + greenWeight * g + blueWeight * b;

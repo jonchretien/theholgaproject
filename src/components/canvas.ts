@@ -203,7 +203,7 @@ export default function PhotoCanvas(
       };
 
       imageObject.onerror = () => {
-        handleImageLoadError(file!);
+        handleImageLoadError();
       };
 
       imageObject.src = result;
@@ -229,7 +229,7 @@ export default function PhotoCanvas(
   /**
    * Handles image loading errors
    */
-  function handleImageLoadError(file: File): void {
+  function handleImageLoadError(): void {
     const currentState = store.getState();
     heading.update("error");
     store.setState(currentState, IMAGE_UPLOAD_FAILURE);

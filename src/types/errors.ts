@@ -34,7 +34,9 @@ export class AppError extends Error {
     this.name = this.constructor.name;
     this.code = code;
     this.userMessage = userMessage;
-    this.cause = cause;
+    if (cause !== undefined) {
+      this.cause = cause;
+    }
 
     // Maintains proper stack trace for where error was thrown (V8 only)
     if (Error.captureStackTrace) {
@@ -70,7 +72,9 @@ export class FileUploadError extends AppError {
     cause?: Error
   ) {
     super(message, "FILE_UPLOAD_ERROR", userMessage, cause);
-    this.file = file;
+    if (file !== undefined) {
+      this.file = file;
+    }
   }
 
   /**

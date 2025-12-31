@@ -66,7 +66,9 @@ export class StateStore {
   constructor(config: StateStoreConfig) {
     this.currentState = config.initialState ?? defaultInitialState;
     this.stateMachine = config.stateMachine;
-    this.pubsub = config.pubsub;
+    if (config.pubsub !== undefined) {
+      this.pubsub = config.pubsub;
+    }
   }
 
   /**
