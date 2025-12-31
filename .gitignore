@@ -10,6 +10,8 @@ Thumbs.db
 
 dist/
 node_modules/
+js/
+coverage/
 
 # Misc. #
 ######################
@@ -19,3 +21,14 @@ favicon.ico
 robots.txt
 *.ico
 .rsync
+
+# TypeScript #
+######################
+
+*.tsbuildinfo
+
+# Testing #
+######################
+
+coverage.data
+.vitest

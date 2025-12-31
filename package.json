@@ -2,17 +2,29 @@
   "name": "theholgaproject",
   "version": "4.0.0",
   "description": "Drag & drop an image into your browser and apply a Holga-like filter.",
-  "main": "js/main.js",
+  "main": "src/main.ts",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "test:coverage": "vitest --coverage",
+    "type-check": "tsc --noEmit"
   },
   "repository": "https://github.com/jonchretien/theholgaproject",
   "author": "Jon Chretien",
   "license": "",
   "devDependencies": {
-    "vite": "^6.4.1"
+    "@testing-library/dom": "^10.4.1",
+    "@types/node": "^25.0.3",
+    "@vitest/coverage-v8": "^4.0.16",
+    "@vitest/ui": "^4.0.16",
+    "happy-dom": "^20.0.11",
+    "jsdom": "^27.0.1",
+    "typescript": "^5.9.3",
+    "vite": "^6.4.1",
+    "vitest": "^4.0.16"
   }
 }
