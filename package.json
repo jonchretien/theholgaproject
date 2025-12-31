@@ -2,7 +2,7 @@
   "name": "theholgaproject",
   "version": "4.0.0",
   "description": "Drag & drop an image into your browser and apply a Holga-like filter.",
-  "main": "src/main.ts",
+  "main": "src/bootstrap.ts",
   "type": "module",
   "scripts": {
     "dev": "vite",
