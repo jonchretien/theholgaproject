@@ -116,7 +116,9 @@ export default function PhotoCanvas(
   function addEvents(): void {
     if (!canvasElement) return;
 
+    canvasElement.addEventListener("dragenter", addHoverClass);
     canvasElement.addEventListener("dragover", addHoverClass);
+    canvasElement.addEventListener("dragleave", removeHoverClass);
     canvasElement.addEventListener("dragend", removeHoverClass);
     document.documentElement.addEventListener("drop", dropElement, true);
   }
@@ -127,7 +129,9 @@ export default function PhotoCanvas(
   function removeEvents(): void {
     if (!canvasElement) return;
 
+    canvasElement.removeEventListener("dragenter", addHoverClass);
     canvasElement.removeEventListener("dragover", addHoverClass);
+    canvasElement.removeEventListener("dragleave", removeHoverClass);
     canvasElement.removeEventListener("dragend", removeHoverClass);
     document.documentElement.removeEventListener("drop", dropElement, true);
   }
@@ -156,7 +160,6 @@ export default function PhotoCanvas(
 
     if (!canvasElement || !contextObject) return;
 
-    const currentState = store.getState();
     canvasElement.classList.remove(CANVAS_CLASSES.hover);
 
     // Get the dropped file
@@ -166,7 +169,7 @@ export default function PhotoCanvas(
     const validationResult = validateImageFile(file);
     if (!validationResult.valid) {
       heading.update("error");
-      store.setState(currentState, IMAGE_UPLOAD_FAILURE);
+      store.setState(store.getState(), IMAGE_UPLOAD_FAILURE);
       logError(
         FileUploadError.validation(validationResult.error!),
         "PhotoCanvas"
@@ -175,7 +178,7 @@ export default function PhotoCanvas(
     }
 
     // File is valid, proceed with upload
-    store.setState(currentState, IMAGE_UPLOAD);
+    store.setState(store.getState(), IMAGE_UPLOAD);
     removeErrorMessage();
 
     const reader = new FileReader();
@@ -196,8 +199,7 @@ export default function PhotoCanvas(
         contextObject.drawImage(imageObject, 0, 0, CANVAS_SIZE, CANVAS_SIZE);
 
         // Update state and enable buttons
-        const uploadState = store.getState();
-        store.setState(uploadState, IMAGE_UPLOAD_SUCCESS);
+        store.setState(store.getState(), IMAGE_UPLOAD_SUCCESS);
         pubsub.publish(ADD_BUTTON_EVENTS);
       };
 
@@ -219,9 +221,8 @@ export default function PhotoCanvas(
    * Handles file reading errors
    */
   function handleFileReadError(file: File): void {
-    const currentState = store.getState();
     heading.update("error");
-    store.setState(currentState, IMAGE_UPLOAD_FAILURE);
+    store.setState(store.getState(), IMAGE_UPLOAD_FAILURE);
     logError(FileUploadError.reading(file), "PhotoCanvas");
   }
 
@@ -229,9 +230,8 @@ export default function PhotoCanvas(
    * Handles image loading errors
    */
   function handleImageLoadError(): void {
-    const currentState = store.getState();
     heading.update("error");
-    store.setState(currentState, IMAGE_UPLOAD_FAILURE);
+    store.setState(store.getState(), IMAGE_UPLOAD_FAILURE);
     logError(CanvasError.imageLoading(), "PhotoCanvas");
   }
 
@@ -253,14 +253,13 @@ export default function PhotoCanvas(
   function applyBlackWhiteFX(): void {
     if (!canvasElement || !contextObject) return;
 
-    const currentState = store.getState();
     try {
       FX.applyGrayscaleFilter(canvasElement, contextObject);
       FX.applyBlur(canvasElement, contextObject);
       FX.applyVignette(canvasElement, contextObject);
 
       // Update state machine: photo → filtered
-      store.setState(currentState, APPLY_BW_FILTER);
+      store.setState(store.getState(), APPLY_BW_FILTER);
     } catch (error) {
       logError(error, "PhotoCanvas:applyBlackWhiteFX");
     }
@@ -272,14 +271,13 @@ export default function PhotoCanvas(
   function applyColorFX(): void {
     if (!canvasElement || !contextObject) return;
 
-    const currentState = store.getState();
     try {
       FX.applyColorFilter(canvasElement, contextObject);
       FX.applyBlur(canvasElement, contextObject);
       FX.applyVignette(canvasElement, contextObject);
 
       // Update state machine: photo → filtered
-      store.setState(currentState, APPLY_COLOR_FILTER);
+      store.setState(store.getState(), APPLY_COLOR_FILTER);
     } catch (error) {
       logError(error, "PhotoCanvas:applyColorFX");
     }
@@ -291,7 +289,6 @@ export default function PhotoCanvas(
   function saveImage(): void {
     if (!canvasElement) return;
 
-    const currentState = store.getState();
     try {
       const imageData = canvasElement.toDataURL(DOWNLOAD_CONFIG.mimeType);
       const link = document.createElement("a");
@@ -302,7 +299,7 @@ export default function PhotoCanvas(
       document.body.removeChild(link);
 
       // Update state machine: filtered/saved → saved
-      store.setState(currentState, SAVE_IMAGE);
+      store.setState(store.getState(), SAVE_IMAGE);
     } catch (error) {
       logError(error, "PhotoCanvas:saveImage");
     }
@@ -312,9 +309,12 @@ export default function PhotoCanvas(
    * Clears the canvas
    */
   function clearCanvas(): void {
-    if (!canvasElement || !contextObject) return;
+    if (!canvasElement || !contextObject) {
+      return;
+    }
 
     const currentState = store.getState();
+
     contextObject.clearRect(0, 0, canvasElement.width, canvasElement.height);
     pubsub.publish(REMOVE_BUTTON_EVENTS);
 

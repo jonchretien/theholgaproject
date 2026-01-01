@@ -5,7 +5,7 @@
   "main": "src/bootstrap.ts",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 5000",
     "build": "npm run type-check && npm test -- --run && vite build",
     "build:skip-checks": "vite build",
     "preview": "vite preview",
