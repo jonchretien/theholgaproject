@@ -74,6 +74,8 @@ export const machine: StateMachine = {
 
   // Image has been filtered
   filtered: {
+    [constant.APPLY_BW_FILTER]: 'filtered', // Allow reapplying or switching filters
+    [constant.APPLY_COLOR_FILTER]: 'filtered',
     [constant.SAVE_IMAGE]: 'saved',
     [constant.CLEAR_CANVAS]: 'cleared',
   },
