@@ -156,10 +156,12 @@ function initializeComponents(
  *
  * @example
  * ```typescript
- * import storeManager from './state/transition';
  * import { createApplication } from './main';
+ * import { StateStore } from './state/store';
+ * import { machine } from './state/machine';
  *
- * const app = createApplication(storeManager);
+ * const store = new StateStore({ stateMachine: machine });
+ * const app = createApplication(store);
  * app.initialize();
  *
  * // Later, cleanup:
@@ -242,9 +244,11 @@ export function createApplication(
  * @example
  * ```typescript
  * import { createApplication, bootstrap } from './main';
- * import storeManager from './state/transition';
+ * import { StateStore } from './state/store';
+ * import { machine } from './state/machine';
  *
- * const app = createApplication(storeManager);
+ * const store = new StateStore({ stateMachine: machine });
+ * const app = createApplication(store);
  * bootstrap(app);
  * ```
  */

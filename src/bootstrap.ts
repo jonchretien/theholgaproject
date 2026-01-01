@@ -6,10 +6,14 @@
  */
 
 import { createApplication, bootstrap } from './main';
-import storeManager from './state/transition';
+import { StateStore } from './state/store';
+import { machine } from './state/machine';
+
+// Create state store instance
+const store = new StateStore({ stateMachine: machine });
 
 // Create application instance
-const app = createApplication(storeManager);
+const app = createApplication(store);
 
 // Initialize when DOM is ready
 bootstrap(app);
