@@ -84,7 +84,6 @@ src/
 
 - Add progress bar for file uploads
 - Add offline support with Service Worker
-- Re-enable color filter option (currently commented out in UI)
 - Add image preview before applying effects
 - Support for multiple image formats in export (JPEG, WebP)
 
