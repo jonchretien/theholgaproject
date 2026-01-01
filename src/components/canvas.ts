@@ -53,6 +53,7 @@ export default function PhotoCanvas(
 
   let canvasElement: HTMLCanvasElement | null = null;
   let contextObject: CanvasRenderingContext2D | null = null;
+  let eventController: AbortController | null = null;
 
   /**
    * Initializes canvas elements and subscriptions
@@ -111,29 +112,30 @@ export default function PhotoCanvas(
   }
 
   /**
-   * Adds event listeners for drag and drop
+   * Adds event listeners for drag and drop using AbortController
+   * Can be called multiple times - automatically cleans up previous listeners
    */
   function addEvents(): void {
     if (!canvasElement) return;
 
-    canvasElement.addEventListener("dragenter", addHoverClass);
-    canvasElement.addEventListener("dragover", addHoverClass);
-    canvasElement.addEventListener("dragleave", removeHoverClass);
-    canvasElement.addEventListener("dragend", removeHoverClass);
-    document.documentElement.addEventListener("drop", dropElement, true);
-  }
+    // Abort existing listeners if called multiple times
+    if (eventController) {
+      eventController.abort();
+    }
 
-  /**
-   * Removes event listeners (cleanup)
-   */
-  function removeEvents(): void {
-    if (!canvasElement) return;
+    // Create new controller
+    eventController = new AbortController();
+    const { signal } = eventController;
 
-    canvasElement.removeEventListener("dragenter", addHoverClass);
-    canvasElement.removeEventListener("dragover", addHoverClass);
-    canvasElement.removeEventListener("dragleave", removeHoverClass);
-    canvasElement.removeEventListener("dragend", removeHoverClass);
-    document.documentElement.removeEventListener("drop", dropElement, true);
+    // Add listeners with signal
+    canvasElement.addEventListener("dragenter", addHoverClass, { signal });
+    canvasElement.addEventListener("dragover", addHoverClass, { signal });
+    canvasElement.addEventListener("dragleave", removeHoverClass, { signal });
+    canvasElement.addEventListener("dragend", removeHoverClass, { signal });
+    document.documentElement.addEventListener("drop", dropElement, {
+      capture: true,
+      signal,
+    });
   }
 
   /**
@@ -324,10 +326,14 @@ export default function PhotoCanvas(
 
   /**
    * Cleanup function to remove event listeners and subscriptions
+   * Uses AbortController to efficiently remove all DOM event listeners
    */
   function cleanup(): void {
-    // Remove DOM event listeners
-    removeEvents();
+    // Abort all event listeners
+    if (eventController) {
+      eventController.abort();
+      eventController = null;
+    }
 
     // Unsubscribe from PubSub
     pubsub.unsubscribe(APPLY_BW_FILTER, applyBlackWhiteFX);

@@ -188,9 +188,11 @@ describe('State Machine', () => {
 
     it('should return multiple actions when state has multiple transitions', () => {
       const filteredActions = getValidActions('filtered');
+      expect(filteredActions).toContain(constant.APPLY_BW_FILTER);
+      expect(filteredActions).toContain(constant.APPLY_COLOR_FILTER);
       expect(filteredActions).toContain(constant.SAVE_IMAGE);
       expect(filteredActions).toContain(constant.CLEAR_CANVAS);
-      expect(filteredActions).toHaveLength(2);
+      expect(filteredActions).toHaveLength(4);
     });
 
     it('should return recovery actions for error state', () => {

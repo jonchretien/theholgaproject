@@ -38,6 +38,7 @@ export interface ButtonsComponent {
  */
 export default function Buttons(pubsub: PubSub): ButtonsComponent {
   const buttons = $$<HTMLButtonElement>("button");
+  let eventController: AbortController | null = null;
 
   /**
    * Initializes the button event subscriptions
@@ -49,10 +50,20 @@ export default function Buttons(pubsub: PubSub): ButtonsComponent {
 
   /**
    * Adds event listeners and enables buttons
+   * Can be called multiple times - automatically cleans up previous listeners
    */
   function addEvents(): void {
+    // Abort existing listeners if called again
+    if (eventController) {
+      eventController.abort();
+    }
+
+    // Create new controller for this batch
+    eventController = new AbortController();
+    const { signal } = eventController;
+
     buttons.forEach((button) => {
-      button.addEventListener("click", onClick);
+      button.addEventListener("click", onClick, { signal });
       button.removeAttribute("disabled");
     });
   }
@@ -61,8 +72,14 @@ export default function Buttons(pubsub: PubSub): ButtonsComponent {
    * Removes event listeners and disables buttons
    */
   function removeEvents(): void {
+    // Abort all listeners
+    if (eventController) {
+      eventController.abort();
+      eventController = null;
+    }
+
+    // Disable buttons (UI state management)
     buttons.forEach((button) => {
-      button.removeEventListener("click", onClick);
       button.setAttribute("disabled", "true");
     });
   }
@@ -89,8 +106,11 @@ export default function Buttons(pubsub: PubSub): ButtonsComponent {
    * Prevents memory leaks when component is destroyed
    */
   function cleanup(): void {
-    // Remove DOM event listeners
-    removeEvents();
+    // Abort any active listeners
+    if (eventController) {
+      eventController.abort();
+      eventController = null;
+    }
 
     // Unsubscribe from PubSub
     pubsub.unsubscribe(ADD_BUTTON_EVENTS, addEvents);
