@@ -151,7 +151,7 @@ describe('StateStore', () => {
     });
 
     it('should publish state change events', () => {
-      const callback = vi.fn<[StateChangeEvent]>();
+      const callback = vi.fn<[StateChangeEvent], void>();
       pubsub.subscribe(STATE_CHANGED, callback);
 
       storeWithPubSub.setState('start', constant.BROWSER_SUPPORT_SUCCESS);
@@ -174,7 +174,7 @@ describe('StateStore', () => {
     });
 
     it('should publish event for each transition', () => {
-      const callback = vi.fn<[StateChangeEvent]>();
+      const callback = vi.fn<[StateChangeEvent], void>();
       pubsub.subscribe(STATE_CHANGED, callback);
 
       storeWithPubSub.setState('start', constant.BROWSER_SUPPORT_SUCCESS);
@@ -227,8 +227,8 @@ describe('StateStore', () => {
     });
 
     it('should be testable with mock state machine', () => {
-      const mockMachine = {
-        start: { TEST_ACTION: 'end' as State },
+      const mockMachine: Record<string, Partial<Record<constant.Action, State>>> = {
+        start: { TEST_ACTION: 'end' as State } as Partial<Record<constant.Action, State>>,
         end: {},
       };
 
