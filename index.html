@@ -18,30 +18,87 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:creator" content="@jonchretien">
   <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
+  <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Oswald:wght@400;600;700&family=Special+Elite&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/main.css" media="all">
 </head>
 
 <body>
 
+  <!-- Film strip decoration -->
+  <div class="film-strip-top"></div>
+
   <div id="container" class="container">
 
-    <header class="banner">
-      <h1 class="banner__title">The Holga Project</h1>
-      <h2 id="instructions" class="banner__instructions"></h2>
+    <!-- Header -->
+    <header class="header">
+      <div class="camera-badge">120 GCFN</div>
+      <h1 class="header__title">The Holga Project</h1>
+      <p class="lens-marking">F/8 • 60mm • Optical Lens</p>
     </header>
 
-    <div id="canvas-container" class="canvas-container"></div>
+    <!-- Two-Column Layout -->
+    <div class="content-wrapper">
 
-    <div class="btn-container">
-      <button class="btn" data-action="APPLY_BW_FILTER" disabled>B&amp;W Filter</button>
-      <button class="btn" data-action="APPLY_COLOR_FILTER" disabled>Color Filter</button>
-      <button class="btn" data-action="SAVE_IMAGE" disabled>Save Image</button>
-      <button class="btn" data-action="CLEAR_CANVAS" disabled>Clear Canvas</button>
+      <!-- Left: Film Canister Sidebar -->
+      <aside class="sidebar">
+        <div class="film-canister">
+          <h2 class="film-canister__heading">Loading Instructions</h2>
+          <!-- CRITICAL: Keep #instructions ID -->
+          <p id="instructions" class="film-canister__text"></p>
+
+          <div class="film-specs">
+            <h3 class="film-specs__heading">Film Format</h3>
+            <ul class="film-specs__list">
+              <li>Canvas API</li>
+              <li>Drag &amp; Drop API</li>
+              <li>File Reader API</li>
+              <li>File List API</li>
+              <li>TypeScript</li>
+            </ul>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Right: Canvas Area -->
+      <div class="canvas-section">
+        <div class="viewfinder-frame">
+          <div class="format-label">120 Medium Format</div>
+          <div class="canvas-wrapper">
+            <!-- CRITICAL: Keep #canvas-container ID -->
+            <div id="canvas-container" class="canvas-container"></div>
+          </div>
+        </div>
+
+        <!-- CRITICAL: Keep btn class and data-action attributes -->
+        <div class="btn-container">
+          <button class="btn" data-action="APPLY_BW_FILTER" disabled>
+            <span>B&amp;W Filter</span>
+          </button>
+          <button class="btn" data-action="APPLY_COLOR_FILTER" disabled>
+            <span>Color Filter</span>
+          </button>
+          <button class="btn btn--save" data-action="SAVE_IMAGE" disabled>
+            <span>Save Image</span>
+          </button>
+          <button class="btn" data-action="CLEAR_CANVAS" disabled>
+            <span>Clear Canvas</span>
+          </button>
+        </div>
+      </div>
+
     </div>
+
+    <!-- Footer -->
     <footer class="footer">
-      <p>Made with canvas, drag &amp; drop api, file reader api, and file list api. Checkout the source on <a href="https://github.com/jonchretien/theholgaproject/" target="_blank" rel="noopener noreferrer">Github</a>.<br>
-      Copyright &copy; <span id="copyright"></span><script>(function(){document.getElementById("copyright").textContent=(new Date).getFullYear()})();</script> <a href="http://jonchretien.com" target="_blank" rel="noopener noreferrer">Jon Chretien</a>. All rights reserved.</p>
+      <div class="footer__info">
+        &copy; <span id="copyright"></span><script>(function(){document.getElementById("copyright").textContent=(new Date).getFullYear()})();</script>
+        <a href="http://jonchretien.com" target="_blank" rel="noopener noreferrer">Jon Chretien</a> • Developed in the darkroom
+      </div>
+      <div class="footer__links">
+        <a href="https://github.com/jonchretien/theholgaproject/" target="_blank" rel="noopener noreferrer">View Source on Github</a>
+      </div>
     </footer>
+
   </div>
 
   <script type="module" src="./src/bootstrap.ts"></script>
