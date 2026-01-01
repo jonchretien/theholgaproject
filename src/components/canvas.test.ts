@@ -47,10 +47,16 @@ describe("PhotoCanvas event cleanup", () => {
     ) as HTMLElement;
 
     // Mock canvas getContext to return a mock 2D context
+    const mockImageData = {
+      data: new Uint8ClampedArray(820 * 820 * 4),
+      width: 820,
+      height: 820,
+    } as ImageData;
+
     mockContext = {
       clearRect: vi.fn(),
       drawImage: vi.fn(),
-      getImageData: vi.fn(),
+      getImageData: vi.fn(() => mockImageData),
       putImageData: vi.fn(),
     } as unknown as CanvasRenderingContext2D;
 
@@ -192,9 +198,80 @@ describe("PhotoCanvas event cleanup", () => {
   });
 
   describe("filter visual feedback", () => {
+    /**
+     * Helper function to simulate image upload
+     * This manually triggers the image loading flow to populate originalImageData
+     */
+    function simulateImageUpload(): void {
+      // Save originals
+      const originalFileReader = global.FileReader;
+      const originalImage = global.Image;
+
+      let imageOnloadCallback: any = null;
+      let fileReaderInstance: any = null;
+
+      // Mock Image constructor
+      const MockImage = vi.fn(function(this: any) {
+        this.onload = null;
+        this.onerror = null;
+        this.src = "";
+
+        // Store the onload callback when it's set
+        Object.defineProperty(this, "onload", {
+          get() { return imageOnloadCallback; },
+          set(callback) { imageOnloadCallback = callback; },
+        });
+
+        return this;
+      });
+      global.Image = MockImage as any;
+
+      // Mock FileReader constructor
+      const MockFileReader = vi.fn(function(this: any) {
+        this.onload = null;
+        this.onerror = null;
+        this.readAsDataURL = (file: File) => {
+          // Immediately trigger onload with fake data
+          if (this.onload) {
+            this.onload({
+              target: { result: "data:image/jpeg;base64,fakeImageData" },
+            });
+
+            // Then immediately trigger Image onload
+            if (imageOnloadCallback) {
+              imageOnloadCallback({} as Event);
+            }
+          }
+        };
+
+        fileReaderInstance = this;
+        return this;
+      });
+      global.FileReader = MockFileReader as any;
+
+      // Create and dispatch drop event
+      const mockFile = new File(["fake image data"], "test.jpg", { type: "image/jpeg" });
+      const dropEvent = new Event("drop", { bubbles: true, cancelable: true }) as DragEvent;
+      Object.defineProperty(dropEvent, "dataTransfer", {
+        value: { files: [mockFile] },
+      });
+      Object.defineProperty(dropEvent, "preventDefault", {
+        value: vi.fn(),
+      });
+
+      document.documentElement.dispatchEvent(dropEvent);
+
+      // Restore originals
+      global.FileReader = originalFileReader;
+      global.Image = originalImage;
+    }
+
     it("should update heading when B&W filter is applied", () => {
       const canvas = PhotoCanvas(mockPubSub, mockHeading, mockStore);
       canvas.init();
+
+      // Simulate image upload to populate originalImageData
+      simulateImageUpload();
 
       // Simulate B&W filter being applied
       const applyBWCallback = (mockPubSub.subscribe as any).mock.calls
@@ -210,6 +287,9 @@ describe("PhotoCanvas event cleanup", () => {
       const canvas = PhotoCanvas(mockPubSub, mockHeading, mockStore);
       canvas.init();
 
+      // Simulate image upload to populate originalImageData
+      simulateImageUpload();
+
       // Simulate color filter being applied
       const applyColorCallback = (mockPubSub.subscribe as any).mock.calls
         .find((call: any[]) => call[0] === APPLY_COLOR_FILTER)?.[1];
@@ -223,6 +303,9 @@ describe("PhotoCanvas event cleanup", () => {
     it("should reset heading when canvas is cleared", () => {
       const canvas = PhotoCanvas(mockPubSub, mockHeading, mockStore);
       canvas.init();
+
+      // Simulate image upload to populate originalImageData
+      simulateImageUpload();
 
       // First apply a filter
       const applyBWCallback = (mockPubSub.subscribe as any).mock.calls

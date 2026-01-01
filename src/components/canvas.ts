@@ -55,6 +55,7 @@ export default function PhotoCanvas(
   let contextObject: CanvasRenderingContext2D | null = null;
   let eventController: AbortController | null = null;
   let activeFilterButton: HTMLButtonElement | null = null;
+  let originalImageData: ImageData | null = null;
 
   /**
    * Initializes canvas elements and subscriptions
@@ -198,8 +199,11 @@ export default function PhotoCanvas(
       contextObject.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
 
       imageObject.onload = () => {
-        if (!contextObject) return;
+        if (!contextObject || !canvasElement) return;
         contextObject.drawImage(imageObject, 0, 0, CANVAS_SIZE, CANVAS_SIZE);
+
+        // Store the original image data for filter switching
+        originalImageData = contextObject.getImageData(0, 0, CANVAS_SIZE, CANVAS_SIZE);
 
         // Update state and enable buttons
         store.setState(store.getState(), IMAGE_UPLOAD_SUCCESS);
@@ -277,9 +281,12 @@ export default function PhotoCanvas(
    * Applies black and white photo effects
    */
   function applyBlackWhiteFX(): void {
-    if (!canvasElement || !contextObject) return;
+    if (!canvasElement || !contextObject || !originalImageData) return;
 
     try {
+      // Restore original image before applying new filter
+      contextObject.putImageData(originalImageData, 0, 0);
+
       FX.applyGrayscaleFilter(canvasElement, contextObject);
       FX.applyBlur(canvasElement, contextObject);
       FX.applyVignette(canvasElement, contextObject);
@@ -299,9 +306,12 @@ export default function PhotoCanvas(
    * Applies color photo effects
    */
   function applyColorFX(): void {
-    if (!canvasElement || !contextObject) return;
+    if (!canvasElement || !contextObject || !originalImageData) return;
 
     try {
+      // Restore original image before applying new filter
+      contextObject.putImageData(originalImageData, 0, 0);
+
       FX.applyColorFilter(canvasElement, contextObject);
       FX.applyBlur(canvasElement, contextObject);
       FX.applyVignette(canvasElement, contextObject);
@@ -351,6 +361,9 @@ export default function PhotoCanvas(
 
     contextObject.clearRect(0, 0, canvasElement.width, canvasElement.height);
     pubsub.publish(REMOVE_BUTTON_EVENTS);
+
+    // Clear original image data
+    originalImageData = null;
 
     // Remove active button styling
     if (activeFilterButton) {
