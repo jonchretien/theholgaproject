@@ -54,6 +54,7 @@ export default function PhotoCanvas(
   let canvasElement: HTMLCanvasElement | null = null;
   let contextObject: CanvasRenderingContext2D | null = null;
   let eventController: AbortController | null = null;
+  let activeFilterButton: HTMLButtonElement | null = null;
 
   /**
    * Initializes canvas elements and subscriptions
@@ -250,6 +251,29 @@ export default function PhotoCanvas(
   }
 
   /**
+   * Updates the active filter button visual state
+   * @param filterType - The filter button to mark as active
+   */
+  function updateActiveFilterButton(filterType: 'bw' | 'color'): void {
+    // Remove active class from all filter buttons
+    const buttons = document.querySelectorAll<HTMLButtonElement>(
+      'button[data-action="APPLY_BW_FILTER"], button[data-action="APPLY_COLOR_FILTER"]'
+    );
+    buttons.forEach((btn) => btn.classList.remove('btn--active'));
+
+    // Add active class to current filter button
+    const selector = filterType === 'bw'
+      ? 'button[data-action="APPLY_BW_FILTER"]'
+      : 'button[data-action="APPLY_COLOR_FILTER"]';
+
+    const activeButton = document.querySelector<HTMLButtonElement>(selector);
+    if (activeButton) {
+      activeButton.classList.add('btn--active');
+      activeFilterButton = activeButton;
+    }
+  }
+
+  /**
    * Applies black and white photo effects
    */
   function applyBlackWhiteFX(): void {
@@ -262,6 +286,10 @@ export default function PhotoCanvas(
 
       // Update state machine: photo → filtered
       store.setState(store.getState(), APPLY_BW_FILTER);
+
+      // Update UI feedback
+      updateActiveFilterButton('bw');
+      heading.update('bwFilterApplied');
     } catch (error) {
       logError(error, "PhotoCanvas:applyBlackWhiteFX");
     }
@@ -280,6 +308,10 @@ export default function PhotoCanvas(
 
       // Update state machine: photo → filtered
       store.setState(store.getState(), APPLY_COLOR_FILTER);
+
+      // Update UI feedback
+      updateActiveFilterButton('color');
+      heading.update('colorFilterApplied');
     } catch (error) {
       logError(error, "PhotoCanvas:applyColorFX");
     }
@@ -319,6 +351,15 @@ export default function PhotoCanvas(
 
     contextObject.clearRect(0, 0, canvasElement.width, canvasElement.height);
     pubsub.publish(REMOVE_BUTTON_EVENTS);
+
+    // Remove active button styling
+    if (activeFilterButton) {
+      activeFilterButton.classList.remove('btn--active');
+      activeFilterButton = null;
+    }
+
+    // Reset heading to instructions
+    heading.update('instructions');
 
     // Update state machine: filtered/saved → cleared
     store.setState(currentState, CLEAR_CANVAS);

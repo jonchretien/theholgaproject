@@ -17,6 +17,16 @@ import {
   REMOVE_BUTTON_EVENTS,
 } from "@/state/constants";
 
+// Mock the FX module to avoid canvas image data processing
+vi.mock("@/lib/effects", () => ({
+  default: {
+    applyGrayscaleFilter: vi.fn(),
+    applyColorFilter: vi.fn(),
+    applyBlur: vi.fn(),
+    applyVignette: vi.fn(),
+  },
+}));
+
 describe("PhotoCanvas event cleanup", () => {
   let mockPubSub: PubSub;
   let mockHeading: HeadingComponent;
@@ -179,5 +189,56 @@ describe("PhotoCanvas event cleanup", () => {
 
     // Note: Testing the actual hover class behavior would require
     // more complex setup. This test verifies the event listener is attached.
+  });
+
+  describe("filter visual feedback", () => {
+    it("should update heading when B&W filter is applied", () => {
+      const canvas = PhotoCanvas(mockPubSub, mockHeading, mockStore);
+      canvas.init();
+
+      // Simulate B&W filter being applied
+      const applyBWCallback = (mockPubSub.subscribe as any).mock.calls
+        .find((call: any[]) => call[0] === APPLY_BW_FILTER)?.[1];
+
+      if (applyBWCallback) {
+        applyBWCallback();
+        expect(mockHeading.update).toHaveBeenCalledWith("bwFilterApplied");
+      }
+    });
+
+    it("should update heading when color filter is applied", () => {
+      const canvas = PhotoCanvas(mockPubSub, mockHeading, mockStore);
+      canvas.init();
+
+      // Simulate color filter being applied
+      const applyColorCallback = (mockPubSub.subscribe as any).mock.calls
+        .find((call: any[]) => call[0] === APPLY_COLOR_FILTER)?.[1];
+
+      if (applyColorCallback) {
+        applyColorCallback();
+        expect(mockHeading.update).toHaveBeenCalledWith("colorFilterApplied");
+      }
+    });
+
+    it("should reset heading when canvas is cleared", () => {
+      const canvas = PhotoCanvas(mockPubSub, mockHeading, mockStore);
+      canvas.init();
+
+      // First apply a filter
+      const applyBWCallback = (mockPubSub.subscribe as any).mock.calls
+        .find((call: any[]) => call[0] === APPLY_BW_FILTER)?.[1];
+      if (applyBWCallback) {
+        applyBWCallback();
+      }
+
+      // Then clear the canvas
+      const clearCallback = (mockPubSub.subscribe as any).mock.calls
+        .find((call: any[]) => call[0] === CLEAR_CANVAS)?.[1];
+
+      if (clearCallback) {
+        clearCallback();
+        expect(mockHeading.update).toHaveBeenCalledWith("instructions");
+      }
+    });
   });
 });

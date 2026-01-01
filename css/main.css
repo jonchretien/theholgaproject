@@ -203,6 +203,15 @@ canvas {
   color: #aaa;
 }
 
+.btn--active {
+  background: #4a90e2;
+  color: #fff;
+}
+
+.btn--active:hover {
+  background: #357abd;
+}
+
 /*
  * — Footer —
 */
