@@ -85,6 +85,11 @@ describe('State Machine', () => {
         const nextState = machine.photo?.[constant.APPLY_COLOR_FILTER];
         expect(nextState).toBe('filtered');
       });
+
+      it('should stay in photo on REMOVE_FILTER', () => {
+        const nextState = machine.photo?.[constant.REMOVE_FILTER];
+        expect(nextState).toBe('photo');
+      });
     });
 
     describe('from filtered state', () => {
@@ -97,6 +102,11 @@ describe('State Machine', () => {
         const nextState = machine.filtered?.[constant.CLEAR_CANVAS];
         expect(nextState).toBe('cleared');
       });
+
+      it('should transition to photo on REMOVE_FILTER', () => {
+        const nextState = machine.filtered?.[constant.REMOVE_FILTER];
+        expect(nextState).toBe('photo');
+      });
     });
 
     describe('from saved state', () => {
@@ -108,6 +118,11 @@ describe('State Machine', () => {
       it('should transition to cleared on CLEAR_CANVAS', () => {
         const nextState = machine.saved?.[constant.CLEAR_CANVAS];
         expect(nextState).toBe('cleared');
+      });
+
+      it('should transition to photo on REMOVE_FILTER', () => {
+        const nextState = machine.saved?.[constant.REMOVE_FILTER];
+        expect(nextState).toBe('photo');
       });
     });
 
@@ -190,9 +205,10 @@ describe('State Machine', () => {
       const filteredActions = getValidActions('filtered');
       expect(filteredActions).toContain(constant.APPLY_BW_FILTER);
       expect(filteredActions).toContain(constant.APPLY_COLOR_FILTER);
+      expect(filteredActions).toContain(constant.REMOVE_FILTER);
       expect(filteredActions).toContain(constant.SAVE_IMAGE);
       expect(filteredActions).toContain(constant.CLEAR_CANVAS);
-      expect(filteredActions).toHaveLength(4);
+      expect(filteredActions).toHaveLength(5);
     });
 
     it('should return recovery actions for error state', () => {
@@ -206,8 +222,9 @@ describe('State Machine', () => {
       const photoActions = getValidActions('photo');
       expect(photoActions).toContain(constant.APPLY_BW_FILTER);
       expect(photoActions).toContain(constant.APPLY_COLOR_FILTER);
+      expect(photoActions).toContain(constant.REMOVE_FILTER);
       expect(photoActions).toContain(constant.CLEAR_CANVAS);
-      expect(photoActions).toHaveLength(3);
+      expect(photoActions).toHaveLength(4);
     });
   });
 

@@ -13,6 +13,7 @@ import {
   IMAGE_UPLOAD_SUCCESS,
   IMAGE_UPLOAD_FAILURE,
   REMOVE_BUTTON_EVENTS,
+  REMOVE_FILTER,
   SAVE_IMAGE,
 } from "@/state/constants";
 import FX from "@/lib/effects";
@@ -67,6 +68,7 @@ export default function PhotoCanvas(
     // Subscribe to effect actions
     pubsub.subscribe(APPLY_BW_FILTER, applyBlackWhiteFX);
     pubsub.subscribe(APPLY_COLOR_FILTER, applyColorFX);
+    pubsub.subscribe(REMOVE_FILTER, removeFilter);
     pubsub.subscribe(CLEAR_CANVAS, clearCanvas);
     pubsub.subscribe(SAVE_IMAGE, saveImage);
 
@@ -258,17 +260,22 @@ export default function PhotoCanvas(
    * Updates the active filter button visual state
    * @param filterType - The filter button to mark as active
    */
-  function updateActiveFilterButton(filterType: 'bw' | 'color'): void {
+  function updateActiveFilterButton(filterType: 'bw' | 'color' | 'remove'): void {
     // Remove active class from all filter buttons
     const buttons = document.querySelectorAll<HTMLButtonElement>(
-      'button[data-action="APPLY_BW_FILTER"], button[data-action="APPLY_COLOR_FILTER"]'
+      'button[data-action="APPLY_BW_FILTER"], button[data-action="APPLY_COLOR_FILTER"], button[data-action="REMOVE_FILTER"]'
     );
     buttons.forEach((btn) => btn.classList.remove('btn--active'));
 
     // Add active class to current filter button
-    const selector = filterType === 'bw'
-      ? 'button[data-action="APPLY_BW_FILTER"]'
-      : 'button[data-action="APPLY_COLOR_FILTER"]';
+    let selector: string;
+    if (filterType === 'bw') {
+      selector = 'button[data-action="APPLY_BW_FILTER"]';
+    } else if (filterType === 'color') {
+      selector = 'button[data-action="APPLY_COLOR_FILTER"]';
+    } else {
+      selector = 'button[data-action="REMOVE_FILTER"]';
+    }
 
     const activeButton = document.querySelector<HTMLButtonElement>(selector);
     if (activeButton) {
@@ -324,6 +331,27 @@ export default function PhotoCanvas(
       heading.update('colorFilterApplied');
     } catch (error) {
       logError(error, "PhotoCanvas:applyColorFX");
+    }
+  }
+
+  /**
+   * Removes all filters and restores the original image
+   */
+  function removeFilter(): void {
+    if (!canvasElement || !contextObject || !originalImageData) return;
+
+    try {
+      // Restore original image WITHOUT applying any effects
+      contextObject.putImageData(originalImageData, 0, 0);
+
+      // Update state machine: filtered/photo → photo
+      store.setState(store.getState(), REMOVE_FILTER);
+
+      // Update UI feedback
+      updateActiveFilterButton('remove');
+      heading.update('removeFilterApplied');
+    } catch (error) {
+      logError(error, "PhotoCanvas:removeFilter");
     }
   }
 
@@ -392,6 +420,7 @@ export default function PhotoCanvas(
     // Unsubscribe from PubSub
     pubsub.unsubscribe(APPLY_BW_FILTER, applyBlackWhiteFX);
     pubsub.unsubscribe(APPLY_COLOR_FILTER, applyColorFX);
+    pubsub.unsubscribe(REMOVE_FILTER, removeFilter);
     pubsub.unsubscribe(CLEAR_CANVAS, clearCanvas);
     pubsub.unsubscribe(SAVE_IMAGE, saveImage);
     pubsub.unsubscribe<StateChangeEvent>(STATE_CHANGED, handleStateChange);

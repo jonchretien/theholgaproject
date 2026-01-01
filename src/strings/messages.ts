@@ -14,7 +14,8 @@ export type MessageKey =
   | 'instructions'
   | 'upgradeBrowser'
   | 'bwFilterApplied'
-  | 'colorFilterApplied';
+  | 'colorFilterApplied'
+  | 'removeFilterApplied';
 
 /**
  * Message strings mapped by key
@@ -29,6 +30,7 @@ const messages: Record<MessageKey, string> = {
     'It looks like your browser doesn&rsquo;t support the features this site needs to work. Please consider upgrading to the latest version of <a href="https://www.google.com/chrome" target="_blank" rel="noopener noreferrer">Google Chrome</a>, <a href="http://www.mozilla.org/firefox/" target="_blank" rel="noopener noreferrer">Mozilla Firefox</a>, or <a href="https://www.microsoft.com/en-us/windows/microsoft-edge" target="_blank" rel="noopener noreferrer">Microsoft Edge</a> in order to view it.',
   bwFilterApplied: 'B&amp;W filter applied',
   colorFilterApplied: 'Color filter applied',
+  removeFilterApplied: 'Filter removed',
 };
 
 /**

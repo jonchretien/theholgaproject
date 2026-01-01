@@ -429,8 +429,32 @@ canvas {
 .btn-container {
   display: grid;
   gap: 15px;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   margin-block-start: 30px;
+}
+
+/* Row 1: Each filter button spans 2 columns */
+.btn:nth-child(1) {  /* B&W Filter */
+  grid-column: 1 / span 2;
+}
+
+.btn:nth-child(2) {  /* Color Filter */
+  grid-column: 3 / span 2;
+}
+
+.btn:nth-child(3) {  /* Remove Filter */
+  grid-column: 5 / span 2;
+}
+
+/* Row 2: Each button spans 3 columns for equal width */
+.btn--save {
+  grid-column: 1 / span 3;
+  grid-row: 2;
+}
+
+.btn:nth-child(5) {  /* Clear Canvas */
+  grid-column: 4 / span 3;
+  grid-row: 2;
 }
 
 /* CRITICAL: .btn class used by Buttons component */
@@ -497,11 +521,11 @@ canvas {
 }
 
 /* CRITICAL: .btn--active applied by PhotoCanvas */
+/* Active state for filter buttons uses border highlight, not yellow background */
 .btn--active {
-  background: var(--kodak-yellow);
   border-color: var(--kodak-yellow);
-  box-shadow: 0 6px 20px rgba(253, 185, 36, 0.4);
-  color: var(--film-black);
+  border-width: 4px;
+  box-shadow: 0 0 0 2px var(--kodak-yellow), 0 6px 20px rgba(253, 185, 36, 0.3);
 }
 
 .btn--active:hover:not([disabled]) {

@@ -11,6 +11,7 @@ import { STATE_CHANGED } from "@/state/store";
 import {
   APPLY_BW_FILTER,
   APPLY_COLOR_FILTER,
+  REMOVE_FILTER,
   CLEAR_CANVAS,
   SAVE_IMAGE,
   ADD_BUTTON_EVENTS,
@@ -104,8 +105,8 @@ describe("PhotoCanvas event cleanup", () => {
     const canvas = PhotoCanvas(mockPubSub, mockHeading, mockStore);
     canvas.init();
 
-    // Verify all 5 subscriptions were made
-    expect(mockPubSub.subscribe).toHaveBeenCalledTimes(5);
+    // Verify all 6 subscriptions were made
+    expect(mockPubSub.subscribe).toHaveBeenCalledTimes(6);
 
     // Check that subscribe was called with the correct event names
     const calls = (mockPubSub.subscribe as any).mock.calls;
@@ -113,6 +114,7 @@ describe("PhotoCanvas event cleanup", () => {
 
     expect(topics).toContain(APPLY_BW_FILTER);
     expect(topics).toContain(APPLY_COLOR_FILTER);
+    expect(topics).toContain(REMOVE_FILTER);
     expect(topics).toContain(CLEAR_CANVAS);
     expect(topics).toContain(SAVE_IMAGE);
     expect(topics).toContain(STATE_CHANGED);
@@ -123,8 +125,8 @@ describe("PhotoCanvas event cleanup", () => {
     canvas.init();
     canvas.cleanup();
 
-    // Verify all 5 unsubscriptions were made
-    expect(mockPubSub.unsubscribe).toHaveBeenCalledTimes(5);
+    // Verify all 6 unsubscriptions were made
+    expect(mockPubSub.unsubscribe).toHaveBeenCalledTimes(6);
 
     // Check that unsubscribe was called with the correct event names
     const calls = (mockPubSub.unsubscribe as any).mock.calls;
@@ -132,6 +134,7 @@ describe("PhotoCanvas event cleanup", () => {
 
     expect(topics).toContain(APPLY_BW_FILTER);
     expect(topics).toContain(APPLY_COLOR_FILTER);
+    expect(topics).toContain(REMOVE_FILTER);
     expect(topics).toContain(CLEAR_CANVAS);
     expect(topics).toContain(SAVE_IMAGE);
     expect(topics).toContain(STATE_CHANGED);
@@ -297,6 +300,68 @@ describe("PhotoCanvas event cleanup", () => {
       if (applyColorCallback) {
         applyColorCallback();
         expect(mockHeading.update).toHaveBeenCalledWith("colorFilterApplied");
+      }
+    });
+
+    it("should update heading when remove filter is applied", () => {
+      const canvas = PhotoCanvas(mockPubSub, mockHeading, mockStore);
+      canvas.init();
+
+      // Simulate image upload to populate originalImageData
+      simulateImageUpload();
+
+      // Simulate remove filter being applied
+      const removeFilterCallback = (mockPubSub.subscribe as any).mock.calls
+        .find((call: any[]) => call[0] === REMOVE_FILTER)?.[1];
+
+      if (removeFilterCallback) {
+        removeFilterCallback();
+        expect(mockHeading.update).toHaveBeenCalledWith("removeFilterApplied");
+      }
+    });
+
+    it("should restore original image data when remove filter is applied", () => {
+      const canvas = PhotoCanvas(mockPubSub, mockHeading, mockStore);
+      canvas.init();
+
+      // Simulate image upload to populate originalImageData
+      simulateImageUpload();
+
+      // Simulate remove filter being applied
+      const removeFilterCallback = (mockPubSub.subscribe as any).mock.calls
+        .find((call: any[]) => call[0] === REMOVE_FILTER)?.[1];
+
+      if (removeFilterCallback) {
+        removeFilterCallback();
+        // Verify that putImageData was called to restore the original image
+        expect(mockContext.putImageData).toHaveBeenCalled();
+      }
+    });
+
+    it("should update active button state when remove filter is applied", () => {
+      const canvas = PhotoCanvas(mockPubSub, mockHeading, mockStore);
+      canvas.init();
+
+      // Create mock buttons in the DOM
+      document.body.innerHTML += `
+        <button data-action="APPLY_BW_FILTER"></button>
+        <button data-action="APPLY_COLOR_FILTER"></button>
+        <button data-action="REMOVE_FILTER"></button>
+      `;
+
+      // Simulate image upload to populate originalImageData
+      simulateImageUpload();
+
+      // Simulate remove filter being applied
+      const removeFilterCallback = (mockPubSub.subscribe as any).mock.calls
+        .find((call: any[]) => call[0] === REMOVE_FILTER)?.[1];
+
+      if (removeFilterCallback) {
+        removeFilterCallback();
+
+        // Verify the remove filter button gets the active class
+        const removeButton = document.querySelector('[data-action="REMOVE_FILTER"]');
+        expect(removeButton?.classList.contains('btn--active')).toBe(true);
       }
     });
 

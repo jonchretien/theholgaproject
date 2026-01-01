@@ -69,6 +69,7 @@ export const machine: StateMachine = {
   photo: {
     [constant.APPLY_BW_FILTER]: 'filtered',
     [constant.APPLY_COLOR_FILTER]: 'filtered',
+    [constant.REMOVE_FILTER]: 'photo',
     [constant.CLEAR_CANVAS]: 'cleared',
   },
 
@@ -76,12 +77,16 @@ export const machine: StateMachine = {
   filtered: {
     [constant.APPLY_BW_FILTER]: 'filtered', // Allow reapplying or switching filters
     [constant.APPLY_COLOR_FILTER]: 'filtered',
+    [constant.REMOVE_FILTER]: 'photo',
     [constant.SAVE_IMAGE]: 'saved',
     [constant.CLEAR_CANVAS]: 'cleared',
   },
 
   // Image has been saved
   saved: {
+    [constant.APPLY_BW_FILTER]: 'filtered',
+    [constant.APPLY_COLOR_FILTER]: 'filtered',
+    [constant.REMOVE_FILTER]: 'photo',
     [constant.SAVE_IMAGE]: 'saved', // Allow saving multiple times
     [constant.CLEAR_CANVAS]: 'cleared',
   },

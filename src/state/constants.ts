@@ -23,6 +23,7 @@ export const IMAGE_UPLOAD_FAILURE = 'IMAGE_UPLOAD_FAILURE' as const;
  */
 export const APPLY_BW_FILTER = 'APPLY_BW_FILTER' as const;
 export const APPLY_COLOR_FILTER = 'APPLY_COLOR_FILTER' as const;
+export const REMOVE_FILTER = 'REMOVE_FILTER' as const;
 
 /**
  * Canvas and image actions
@@ -55,6 +56,7 @@ export type Action =
   | typeof IMAGE_UPLOAD_FAILURE
   | typeof APPLY_BW_FILTER
   | typeof APPLY_COLOR_FILTER
+  | typeof REMOVE_FILTER
   | typeof CLEAR_CANVAS
   | typeof DOWNLOAD_IMAGE
   | typeof SAVE_IMAGE
@@ -74,6 +76,7 @@ export const ACTIONS = {
   IMAGE_UPLOAD_FAILURE,
   APPLY_BW_FILTER,
   APPLY_COLOR_FILTER,
+  REMOVE_FILTER,
   CLEAR_CANVAS,
   DOWNLOAD_IMAGE,
   SAVE_IMAGE,
