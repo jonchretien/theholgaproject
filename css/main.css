@@ -363,6 +363,15 @@ a:hover {
     0 20px 60px rgba(0, 0, 0, 0.6);
   padding: 20px;
   position: relative;
+  transition: box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.viewfinder-frame:has(.canvas--hover) {
+  box-shadow:
+    0 0 0 8px var(--kodak-yellow),
+    0 0 0 12px var(--kodak-yellow),
+    0 20px 60px rgba(253, 185, 36, 0.4),
+    0 0 40px rgba(253, 185, 36, 0.6);
 }
 
 .format-label {
