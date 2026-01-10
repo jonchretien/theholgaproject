@@ -332,24 +332,6 @@ a:hover {
   position: relative;
 }
 
-.viewfinder-frame::before {
-  animation: flashBulb 3s ease-in-out infinite;
-  background: radial-gradient(circle, var(--kodak-yellow) 0%, var(--kodak-yellow) 40%, transparent 40%);
-  block-size: 80px;
-  border-radius: 50%;
-  content: '';
-  inline-size: 80px;
-  inset-block-start: -30px;
-  inset-inline-end: -30px;
-  opacity: 0.3;
-  position: absolute;
-}
-
-@keyframes flashBulb {
-  0%, 100% { opacity: 0.1; }
-  50% { opacity: 0.4; }
-}
-
 .format-label {
   background: var(--film-black);
   border: 2px solid var(--kodak-yellow);
