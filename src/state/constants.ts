@@ -14,6 +14,7 @@ export const BROWSER_SUPPORT_FAILURE = 'BROWSER_SUPPORT_FAILURE' as const;
 /**
  * Image upload actions
  */
+export const FILE_INPUT_SELECTED = 'FILE_INPUT_SELECTED' as const;
 export const IMAGE_UPLOAD = 'IMAGE_UPLOAD' as const;
 export const IMAGE_UPLOAD_SUCCESS = 'IMAGE_UPLOAD_SUCCESS' as const;
 export const IMAGE_UPLOAD_FAILURE = 'IMAGE_UPLOAD_FAILURE' as const;
@@ -51,6 +52,7 @@ export const RESET_APP = 'RESET_APP' as const;
 export type Action =
   | typeof BROWSER_SUPPORT_SUCCESS
   | typeof BROWSER_SUPPORT_FAILURE
+  | typeof FILE_INPUT_SELECTED
   | typeof IMAGE_UPLOAD
   | typeof IMAGE_UPLOAD_SUCCESS
   | typeof IMAGE_UPLOAD_FAILURE
@@ -71,6 +73,7 @@ export type Action =
 export const ACTIONS = {
   BROWSER_SUPPORT_SUCCESS,
   BROWSER_SUPPORT_FAILURE,
+  FILE_INPUT_SELECTED,
   IMAGE_UPLOAD,
   IMAGE_UPLOAD_SUCCESS,
   IMAGE_UPLOAD_FAILURE,

@@ -21,6 +21,9 @@ import {
 import Buttons, { type ButtonsComponent } from "./components/buttons";
 import Heading, { type HeadingComponent } from "./components/heading";
 import PhotoCanvas, { type PhotoCanvasComponent } from "./components/canvas";
+import UploadButton, {
+  type UploadButtonComponent,
+} from "./components/upload-button";
 
 /**
  * Browser support check result
@@ -46,6 +49,7 @@ export interface ComponentFactories {
   createPubSub: () => PubSub;
   createHeading: () => HeadingComponent;
   createButtons: (pubsub: PubSub) => ButtonsComponent;
+  createUploadButton: (pubsub: PubSub, store: StateStore) => UploadButtonComponent;
   createCanvas: (
     pubsub: PubSub,
     heading: HeadingComponent,
@@ -60,6 +64,7 @@ const defaultFactories: ComponentFactories = {
   createPubSub: () => new PubSub(),
   createHeading: () => Heading(),
   createButtons: (pubsub) => Buttons(pubsub),
+  createUploadButton: (pubsub, store) => UploadButton(pubsub, store),
   createCanvas: (pubsub, heading, store) => PhotoCanvas(pubsub, heading, store),
 };
 
@@ -133,15 +138,18 @@ function initializeComponents(
   // Create and initialize components
   const pubsub = factories.createPubSub();
   const buttons = factories.createButtons(pubsub);
+  const uploadButton = factories.createUploadButton(pubsub, store);
   const canvas = factories.createCanvas(pubsub, heading, store);
 
   buttons.init();
+  uploadButton.init();
   canvas.init();
 
   // Return cleanup function that tears down all components
   return {
     cleanup: () => {
       canvas.cleanup();
+      uploadButton.cleanup();
       buttons.cleanup();
     },
   };

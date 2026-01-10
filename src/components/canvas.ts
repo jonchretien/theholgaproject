@@ -9,6 +9,7 @@ import {
   APPLY_BW_FILTER,
   APPLY_COLOR_FILTER,
   CLEAR_CANVAS,
+  FILE_INPUT_SELECTED,
   IMAGE_UPLOAD,
   IMAGE_UPLOAD_SUCCESS,
   IMAGE_UPLOAD_FAILURE,
@@ -34,6 +35,13 @@ import { FileUploadError, CanvasError, logError } from "@/types/errors";
 export interface PhotoCanvasComponent {
   init: () => void;
   cleanup: () => void;
+}
+
+/**
+ * File upload event payload
+ */
+interface FileUploadEvent {
+  file: File;
 }
 
 /**
@@ -64,6 +72,9 @@ export default function PhotoCanvas(
   function init(): void {
     createCanvasElement();
     addEvents();
+
+    // Subscribe to file input selection
+    pubsub.subscribe<FileUploadEvent>(FILE_INPUT_SELECTED, handleFileInput);
 
     // Subscribe to effect actions
     pubsub.subscribe(APPLY_BW_FILTER, applyBlackWhiteFX);
@@ -159,17 +170,13 @@ export default function PhotoCanvas(
   }
 
   /**
-   * Handles file drop event with validation
+   * Processes an image file (from drag-drop or file input)
    */
-  function dropElement(event: DragEvent): void {
-    event.preventDefault();
-
+  function processImageFile(file: File | undefined): void {
     if (!canvasElement || !contextObject) return;
 
+    // Remove hover class if present
     canvasElement.classList.remove(CANVAS_CLASSES.hover);
-
-    // Get the dropped file
-    const file = event.dataTransfer?.files[0];
 
     // Validate the file
     const validationResult = validateImageFile(file);
@@ -224,6 +231,22 @@ export default function PhotoCanvas(
     };
 
     reader.readAsDataURL(file!);
+  }
+
+  /**
+   * Handles file drop event with validation
+   */
+  function dropElement(event: DragEvent): void {
+    event.preventDefault();
+    const file = event.dataTransfer?.files[0];
+    processImageFile(file);
+  }
+
+  /**
+   * Handles file input selection
+   */
+  function handleFileInput(event: FileUploadEvent): void {
+    processImageFile(event.file);
   }
 
   /**
@@ -418,6 +441,7 @@ export default function PhotoCanvas(
     }
 
     // Unsubscribe from PubSub
+    pubsub.unsubscribe<FileUploadEvent>(FILE_INPUT_SELECTED, handleFileInput);
     pubsub.unsubscribe(APPLY_BW_FILTER, applyBlackWhiteFX);
     pubsub.unsubscribe(APPLY_COLOR_FILTER, applyColorFX);
     pubsub.unsubscribe(REMOVE_FILTER, removeFilter);

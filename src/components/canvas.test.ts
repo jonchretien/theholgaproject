@@ -16,6 +16,7 @@ import {
   SAVE_IMAGE,
   ADD_BUTTON_EVENTS,
   REMOVE_BUTTON_EVENTS,
+  FILE_INPUT_SELECTED,
 } from "@/state/constants";
 
 // Mock the FX module to avoid canvas image data processing
@@ -105,13 +106,14 @@ describe("PhotoCanvas event cleanup", () => {
     const canvas = PhotoCanvas(mockPubSub, mockHeading, mockStore);
     canvas.init();
 
-    // Verify all 6 subscriptions were made
-    expect(mockPubSub.subscribe).toHaveBeenCalledTimes(6);
+    // Verify all 7 subscriptions were made
+    expect(mockPubSub.subscribe).toHaveBeenCalledTimes(7);
 
     // Check that subscribe was called with the correct event names
     const calls = (mockPubSub.subscribe as any).mock.calls;
     const topics = calls.map((call: any[]) => call[0]);
 
+    expect(topics).toContain(FILE_INPUT_SELECTED);
     expect(topics).toContain(APPLY_BW_FILTER);
     expect(topics).toContain(APPLY_COLOR_FILTER);
     expect(topics).toContain(REMOVE_FILTER);
@@ -125,13 +127,14 @@ describe("PhotoCanvas event cleanup", () => {
     canvas.init();
     canvas.cleanup();
 
-    // Verify all 6 unsubscriptions were made
-    expect(mockPubSub.unsubscribe).toHaveBeenCalledTimes(6);
+    // Verify all 7 unsubscriptions were made
+    expect(mockPubSub.unsubscribe).toHaveBeenCalledTimes(7);
 
     // Check that unsubscribe was called with the correct event names
     const calls = (mockPubSub.unsubscribe as any).mock.calls;
     const topics = calls.map((call: any[]) => call[0]);
 
+    expect(topics).toContain(FILE_INPUT_SELECTED);
     expect(topics).toContain(APPLY_BW_FILTER);
     expect(topics).toContain(APPLY_COLOR_FILTER);
     expect(topics).toContain(REMOVE_FILTER);

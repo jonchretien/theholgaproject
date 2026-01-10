@@ -16,6 +16,7 @@ import type PubSub from './state/pubsub';
 import type { HeadingComponent } from './components/heading';
 import type { ButtonsComponent } from './components/buttons';
 import type { PhotoCanvasComponent } from './components/canvas';
+import type { UploadButtonComponent } from './components/upload-button';
 import * as supportModule from './lib/support';
 
 describe('Application', () => {
@@ -24,6 +25,7 @@ describe('Application', () => {
   let mockPubSub: PubSub;
   let mockHeading: HeadingComponent;
   let mockButtons: ButtonsComponent;
+  let mockUploadButton: UploadButtonComponent;
   let mockCanvas: PhotoCanvasComponent;
 
   beforeEach(() => {
@@ -52,6 +54,11 @@ describe('Application', () => {
       cleanup: vi.fn(),
     };
 
+    mockUploadButton = {
+      init: vi.fn(),
+      cleanup: vi.fn(),
+    };
+
     mockCanvas = {
       init: vi.fn(),
       cleanup: vi.fn(),
@@ -62,6 +69,7 @@ describe('Application', () => {
       createPubSub: vi.fn(() => mockPubSub),
       createHeading: vi.fn(() => mockHeading),
       createButtons: vi.fn(() => mockButtons),
+      createUploadButton: vi.fn(() => mockUploadButton),
       createCanvas: vi.fn(() => mockCanvas),
     };
   });
@@ -96,6 +104,10 @@ describe('Application', () => {
       expect(mockFactories.createHeading).toHaveBeenCalled();
       expect(mockFactories.createPubSub).toHaveBeenCalled();
       expect(mockFactories.createButtons).toHaveBeenCalledWith(mockPubSub);
+      expect(mockFactories.createUploadButton).toHaveBeenCalledWith(
+        mockPubSub,
+        mockStore
+      );
       expect(mockFactories.createCanvas).toHaveBeenCalledWith(
         mockPubSub,
         mockHeading,
