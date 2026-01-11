@@ -37,7 +37,7 @@ export interface ButtonsComponent {
  * ```
  */
 export default function Buttons(pubsub: PubSub): ButtonsComponent {
-  const buttons = $$<HTMLButtonElement>("button");
+  const buttons = $$<HTMLButtonElement>("button.btn-canvas-action");
   let eventController: AbortController | null = null;
 
   /**

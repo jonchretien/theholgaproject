@@ -288,7 +288,7 @@ export default function PhotoCanvas(
     const buttons = document.querySelectorAll<HTMLButtonElement>(
       'button[data-action="APPLY_BW_FILTER"], button[data-action="APPLY_COLOR_FILTER"], button[data-action="REMOVE_FILTER"]'
     );
-    buttons.forEach((btn) => btn.classList.remove('btn--active'));
+    buttons.forEach((btn) => btn.classList.remove('btn-canvas-action--active'));
 
     // Add active class to current filter button
     let selector: string;
@@ -302,7 +302,7 @@ export default function PhotoCanvas(
 
     const activeButton = document.querySelector<HTMLButtonElement>(selector);
     if (activeButton) {
-      activeButton.classList.add('btn--active');
+      activeButton.classList.add('btn-canvas-action--active');
       activeFilterButton = activeButton;
     }
   }
@@ -418,7 +418,7 @@ export default function PhotoCanvas(
 
     // Remove active button styling
     if (activeFilterButton) {
-      activeFilterButton.classList.remove('btn--active');
+      activeFilterButton.classList.remove('btn-canvas-action--active');
       activeFilterButton = null;
     }
 

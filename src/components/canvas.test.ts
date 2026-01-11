@@ -364,7 +364,7 @@ describe("PhotoCanvas event cleanup", () => {
 
         // Verify the remove filter button gets the active class
         const removeButton = document.querySelector('[data-action="REMOVE_FILTER"]');
-        expect(removeButton?.classList.contains('btn--active')).toBe(true);
+        expect(removeButton?.classList.contains('btn-canvas-action--active')).toBe(true);
       }
     });
 

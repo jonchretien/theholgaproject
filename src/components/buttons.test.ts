@@ -21,10 +21,10 @@ describe("Buttons event cleanup", () => {
   beforeEach(() => {
     // Create DOM structure with buttons
     document.body.innerHTML = `
-      <button data-action="${APPLY_BW_FILTER}">B&W Filter</button>
-      <button data-action="${APPLY_COLOR_FILTER}">Color Filter</button>
-      <button data-action="${CLEAR_CANVAS}">Clear</button>
-      <button data-action="${SAVE_IMAGE}">Save</button>
+      <button class="btn-canvas-action" data-action="${APPLY_BW_FILTER}">B&W Filter</button>
+      <button class="btn-canvas-action" data-action="${APPLY_COLOR_FILTER}">Color Filter</button>
+      <button class="btn-canvas-action" data-action="${CLEAR_CANVAS}">Clear</button>
+      <button class="btn-canvas-action" data-action="${SAVE_IMAGE}">Save</button>
     `;
 
     // Track subscriptions
