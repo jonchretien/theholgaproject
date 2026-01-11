@@ -90,6 +90,11 @@ describe('State Machine', () => {
         const nextState = machine.photo?.[constant.REMOVE_FILTER];
         expect(nextState).toBe('photo');
       });
+
+      it('should transition to upload on IMAGE_UPLOAD (allow re-upload)', () => {
+        const nextState = machine.photo?.[constant.IMAGE_UPLOAD];
+        expect(nextState).toBe('upload');
+      });
     });
 
     describe('from filtered state', () => {
@@ -107,6 +112,11 @@ describe('State Machine', () => {
         const nextState = machine.filtered?.[constant.REMOVE_FILTER];
         expect(nextState).toBe('photo');
       });
+
+      it('should transition to upload on IMAGE_UPLOAD (allow re-upload)', () => {
+        const nextState = machine.filtered?.[constant.IMAGE_UPLOAD];
+        expect(nextState).toBe('upload');
+      });
     });
 
     describe('from saved state', () => {
@@ -123,6 +133,11 @@ describe('State Machine', () => {
       it('should transition to photo on REMOVE_FILTER', () => {
         const nextState = machine.saved?.[constant.REMOVE_FILTER];
         expect(nextState).toBe('photo');
+      });
+
+      it('should transition to upload on IMAGE_UPLOAD (allow re-upload)', () => {
+        const nextState = machine.saved?.[constant.IMAGE_UPLOAD];
+        expect(nextState).toBe('upload');
       });
     });
 
@@ -203,12 +218,13 @@ describe('State Machine', () => {
 
     it('should return multiple actions when state has multiple transitions', () => {
       const filteredActions = getValidActions('filtered');
+      expect(filteredActions).toContain(constant.IMAGE_UPLOAD);
       expect(filteredActions).toContain(constant.APPLY_BW_FILTER);
       expect(filteredActions).toContain(constant.APPLY_COLOR_FILTER);
       expect(filteredActions).toContain(constant.REMOVE_FILTER);
       expect(filteredActions).toContain(constant.SAVE_IMAGE);
       expect(filteredActions).toContain(constant.CLEAR_CANVAS);
-      expect(filteredActions).toHaveLength(5);
+      expect(filteredActions).toHaveLength(6);
     });
 
     it('should return recovery actions for error state', () => {
@@ -220,11 +236,12 @@ describe('State Machine', () => {
 
     it('should return filter and clear options for photo state', () => {
       const photoActions = getValidActions('photo');
+      expect(photoActions).toContain(constant.IMAGE_UPLOAD);
       expect(photoActions).toContain(constant.APPLY_BW_FILTER);
       expect(photoActions).toContain(constant.APPLY_COLOR_FILTER);
       expect(photoActions).toContain(constant.REMOVE_FILTER);
       expect(photoActions).toContain(constant.CLEAR_CANVAS);
-      expect(photoActions).toHaveLength(4);
+      expect(photoActions).toHaveLength(5);
     });
   });
 
@@ -304,6 +321,49 @@ describe('State Machine', () => {
       // Can save indefinitely
       state = getNextState(state, constant.SAVE_IMAGE)!;
       expect(state).toBe('saved');
+    });
+
+    it('should allow re-uploading from photo, filtered, and saved states', () => {
+      let state: State = 'idle';
+
+      // First upload
+      state = getNextState(state, constant.IMAGE_UPLOAD)!;
+      expect(state).toBe('upload');
+
+      state = getNextState(state, constant.IMAGE_UPLOAD_SUCCESS)!;
+      expect(state).toBe('photo');
+
+      // Re-upload from photo state
+      state = getNextState(state, constant.IMAGE_UPLOAD)!;
+      expect(state).toBe('upload');
+
+      state = getNextState(state, constant.IMAGE_UPLOAD_SUCCESS)!;
+      expect(state).toBe('photo');
+
+      // Apply filter
+      state = getNextState(state, constant.APPLY_BW_FILTER)!;
+      expect(state).toBe('filtered');
+
+      // Re-upload from filtered state
+      state = getNextState(state, constant.IMAGE_UPLOAD)!;
+      expect(state).toBe('upload');
+
+      state = getNextState(state, constant.IMAGE_UPLOAD_SUCCESS)!;
+      expect(state).toBe('photo');
+
+      // Filter and save
+      state = getNextState(state, constant.APPLY_COLOR_FILTER)!;
+      expect(state).toBe('filtered');
+
+      state = getNextState(state, constant.SAVE_IMAGE)!;
+      expect(state).toBe('saved');
+
+      // Re-upload from saved state
+      state = getNextState(state, constant.IMAGE_UPLOAD)!;
+      expect(state).toBe('upload');
+
+      state = getNextState(state, constant.IMAGE_UPLOAD_SUCCESS)!;
+      expect(state).toBe('photo');
     });
   });
 });

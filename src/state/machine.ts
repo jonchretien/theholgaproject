@@ -67,6 +67,7 @@ export const machine: StateMachine = {
 
   // Raw image has been added to the canvas
   photo: {
+    [constant.IMAGE_UPLOAD]: 'upload',
     [constant.APPLY_BW_FILTER]: 'filtered',
     [constant.APPLY_COLOR_FILTER]: 'filtered',
     [constant.REMOVE_FILTER]: 'photo',
@@ -75,6 +76,7 @@ export const machine: StateMachine = {
 
   // Image has been filtered
   filtered: {
+    [constant.IMAGE_UPLOAD]: 'upload',
     [constant.APPLY_BW_FILTER]: 'filtered', // Allow reapplying or switching filters
     [constant.APPLY_COLOR_FILTER]: 'filtered',
     [constant.REMOVE_FILTER]: 'photo',
@@ -84,6 +86,7 @@ export const machine: StateMachine = {
 
   // Image has been saved
   saved: {
+    [constant.IMAGE_UPLOAD]: 'upload',
     [constant.APPLY_BW_FILTER]: 'filtered',
     [constant.APPLY_COLOR_FILTER]: 'filtered',
     [constant.REMOVE_FILTER]: 'photo',
