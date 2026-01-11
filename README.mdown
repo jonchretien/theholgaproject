@@ -8,7 +8,7 @@ A browser-based photo editor that applies Holga camera-style filters to images u
 
 - **TypeScript** 5.9+ with strict mode enabled
 - **Vite** for development and production builds
-- **Vitest** testing framework with 181 tests
+- **Vitest** testing framework with 243 tests
 - **HTML5 APIs**: Canvas, Drag & Drop, FileReader
 - **Architecture**: Finite State Machine, Pub/Sub pattern, Dependency Injection
 
@@ -78,7 +78,7 @@ src/
 - **Error Recovery**: Graceful error handling with retry/reset options
 - **Browser Support Detection**: Checks for required HTML5 APIs before initialization
 - **Type-Safe**: Full TypeScript coverage with strict mode enabled
-- **Comprehensive Tests**: 181 tests ensuring code quality and reliability
+- **Comprehensive Tests**: 243 tests ensuring code quality and reliability
 
 ## To Do
 
