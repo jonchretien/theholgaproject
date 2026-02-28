@@ -2,11 +2,6 @@
 
 Browser-based Holga-like photo filter app (Vite + TypeScript).
 
-## Build
-
-- `npm run build` — type-check + test + vite build
-- `npm run type-check` — `tsc --noEmit`
-
 ## Key Conventions
 
 - **Factory functions only** — never classes for components
