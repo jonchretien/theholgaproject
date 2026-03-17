@@ -17,6 +17,7 @@ import {
   ADD_BUTTON_EVENTS,
   REMOVE_BUTTON_EVENTS,
   FILE_INPUT_SELECTED,
+  CONFIRM_CROP,
 } from "@/state/constants";
 
 // Mock the FX module to avoid canvas image data processing
@@ -106,8 +107,8 @@ describe("PhotoCanvas event cleanup", () => {
     const canvas = PhotoCanvas(mockPubSub, mockHeading, mockStore);
     canvas.init();
 
-    // Verify all 7 subscriptions were made
-    expect(mockPubSub.subscribe).toHaveBeenCalledTimes(7);
+    // Verify all 8 subscriptions were made
+    expect(mockPubSub.subscribe).toHaveBeenCalledTimes(8);
 
     // Check that subscribe was called with the correct event names
     const calls = (mockPubSub.subscribe as any).mock.calls;
@@ -120,6 +121,7 @@ describe("PhotoCanvas event cleanup", () => {
     expect(topics).toContain(CLEAR_CANVAS);
     expect(topics).toContain(SAVE_IMAGE);
     expect(topics).toContain(STATE_CHANGED);
+    expect(topics).toContain(CONFIRM_CROP);
   });
 
   it("should unsubscribe from PubSub events on cleanup", () => {
@@ -127,8 +129,8 @@ describe("PhotoCanvas event cleanup", () => {
     canvas.init();
     canvas.cleanup();
 
-    // Verify all 7 unsubscriptions were made
-    expect(mockPubSub.unsubscribe).toHaveBeenCalledTimes(7);
+    // Verify all 8 unsubscriptions were made
+    expect(mockPubSub.unsubscribe).toHaveBeenCalledTimes(8);
 
     // Check that unsubscribe was called with the correct event names
     const calls = (mockPubSub.unsubscribe as any).mock.calls;
@@ -141,6 +143,7 @@ describe("PhotoCanvas event cleanup", () => {
     expect(topics).toContain(CLEAR_CANVAS);
     expect(topics).toContain(SAVE_IMAGE);
     expect(topics).toContain(STATE_CHANGED);
+    expect(topics).toContain(CONFIRM_CROP);
   });
 
   it("should handle multiple init calls without error", () => {
@@ -272,12 +275,21 @@ describe("PhotoCanvas event cleanup", () => {
       global.Image = originalImage;
     }
 
+    function simulateCropConfirm(): void {
+      const confirmCropCallback = (mockPubSub.subscribe as any).mock.calls
+        .find((call: any[]) => call[0] === CONFIRM_CROP)?.[1];
+      if (confirmCropCallback) {
+        confirmCropCallback();
+      }
+    }
+
     it("should update heading when B&W filter is applied", () => {
       const canvas = PhotoCanvas(mockPubSub, mockHeading, mockStore);
       canvas.init();
 
       // Simulate image upload to populate originalImageData
       simulateImageUpload();
+      simulateCropConfirm();
 
       // Simulate B&W filter being applied
       const applyBWCallback = (mockPubSub.subscribe as any).mock.calls
@@ -295,6 +307,7 @@ describe("PhotoCanvas event cleanup", () => {
 
       // Simulate image upload to populate originalImageData
       simulateImageUpload();
+      simulateCropConfirm();
 
       // Simulate color filter being applied
       const applyColorCallback = (mockPubSub.subscribe as any).mock.calls
@@ -312,6 +325,7 @@ describe("PhotoCanvas event cleanup", () => {
 
       // Simulate image upload to populate originalImageData
       simulateImageUpload();
+      simulateCropConfirm();
 
       // Simulate remove filter being applied
       const removeFilterCallback = (mockPubSub.subscribe as any).mock.calls
@@ -329,6 +343,7 @@ describe("PhotoCanvas event cleanup", () => {
 
       // Simulate image upload to populate originalImageData
       simulateImageUpload();
+      simulateCropConfirm();
 
       // Simulate remove filter being applied
       const removeFilterCallback = (mockPubSub.subscribe as any).mock.calls
@@ -354,6 +369,7 @@ describe("PhotoCanvas event cleanup", () => {
 
       // Simulate image upload to populate originalImageData
       simulateImageUpload();
+      simulateCropConfirm();
 
       // Simulate remove filter being applied
       const removeFilterCallback = (mockPubSub.subscribe as any).mock.calls
@@ -374,6 +390,7 @@ describe("PhotoCanvas event cleanup", () => {
 
       // Simulate image upload to populate originalImageData
       simulateImageUpload();
+      simulateCropConfirm();
 
       // First apply a filter
       const applyBWCallback = (mockPubSub.subscribe as any).mock.calls

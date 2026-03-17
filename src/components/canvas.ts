@@ -9,6 +9,7 @@ import {
   APPLY_BW_FILTER,
   APPLY_COLOR_FILTER,
   CLEAR_CANVAS,
+  CONFIRM_CROP,
   FILE_INPUT_SELECTED,
   IMAGE_UPLOAD,
   IMAGE_UPLOAD_SUCCESS,
@@ -80,6 +81,7 @@ export default function PhotoCanvas(
     pubsub.subscribe(APPLY_BW_FILTER, applyBlackWhiteFX);
     pubsub.subscribe(APPLY_COLOR_FILTER, applyColorFX);
     pubsub.subscribe(REMOVE_FILTER, removeFilter);
+    pubsub.subscribe(CONFIRM_CROP, handleCropConfirm);
     pubsub.subscribe(CLEAR_CANVAS, clearCanvas);
     pubsub.subscribe(SAVE_IMAGE, saveImage);
 
@@ -209,14 +211,10 @@ export default function PhotoCanvas(
 
       imageObject.onload = () => {
         if (!contextObject || !canvasElement) return;
-        contextObject.drawImage(imageObject, 0, 0, CANVAS_SIZE, CANVAS_SIZE);
 
-        // Store the original image data for filter switching
-        originalImageData = contextObject.getImageData(0, 0, CANVAS_SIZE, CANVAS_SIZE);
-
-        // Update state and enable buttons
+        // Publish image for crop-overlay to handle drawing
         store.setState(store.getState(), IMAGE_UPLOAD_SUCCESS);
-        pubsub.publish(ADD_BUTTON_EVENTS);
+        pubsub.publish(IMAGE_UPLOAD_SUCCESS, { image: imageObject });
       };
 
       imageObject.onerror = () => {
@@ -305,6 +303,17 @@ export default function PhotoCanvas(
       activeButton.classList.add('btn-canvas-action--active');
       activeFilterButton = activeButton;
     }
+  }
+
+  /**
+   * Handles crop confirmation — captures originalImageData and enables buttons
+   */
+  function handleCropConfirm(): void {
+    if (!contextObject || !canvasElement) return;
+
+    store.setState(store.getState(), CONFIRM_CROP);
+    originalImageData = contextObject.getImageData(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+    pubsub.publish(ADD_BUTTON_EVENTS);
   }
 
   /**
@@ -445,6 +454,7 @@ export default function PhotoCanvas(
     pubsub.unsubscribe(APPLY_BW_FILTER, applyBlackWhiteFX);
     pubsub.unsubscribe(APPLY_COLOR_FILTER, applyColorFX);
     pubsub.unsubscribe(REMOVE_FILTER, removeFilter);
+    pubsub.unsubscribe(CONFIRM_CROP, handleCropConfirm);
     pubsub.unsubscribe(CLEAR_CANVAS, clearCanvas);
     pubsub.unsubscribe(SAVE_IMAGE, saveImage);
     pubsub.unsubscribe<StateChangeEvent>(STATE_CHANGED, handleStateChange);

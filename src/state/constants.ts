@@ -27,6 +27,11 @@ export const APPLY_COLOR_FILTER = 'APPLY_COLOR_FILTER' as const;
 export const REMOVE_FILTER = 'REMOVE_FILTER' as const;
 
 /**
+ * Crop actions
+ */
+export const CONFIRM_CROP = 'CONFIRM_CROP' as const;
+
+/**
  * Canvas and image actions
  */
 export const CLEAR_CANVAS = 'CLEAR_CANVAS' as const;
@@ -59,6 +64,7 @@ export type Action =
   | typeof APPLY_BW_FILTER
   | typeof APPLY_COLOR_FILTER
   | typeof REMOVE_FILTER
+  | typeof CONFIRM_CROP
   | typeof CLEAR_CANVAS
   | typeof DOWNLOAD_IMAGE
   | typeof SAVE_IMAGE
@@ -80,6 +86,7 @@ export const ACTIONS = {
   APPLY_BW_FILTER,
   APPLY_COLOR_FILTER,
   REMOVE_FILTER,
+  CONFIRM_CROP,
   CLEAR_CANVAS,
   DOWNLOAD_IMAGE,
   SAVE_IMAGE,

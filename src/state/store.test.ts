@@ -74,6 +74,9 @@ describe('StateStore', () => {
       expect(store.getState()).toBe('upload');
 
       store.setState('upload', constant.IMAGE_UPLOAD_SUCCESS);
+      expect(store.getState()).toBe('cropping');
+
+      store.setState('cropping', constant.CONFIRM_CROP);
       expect(store.getState()).toBe('photo');
     });
   });

@@ -17,6 +17,7 @@ import type { HeadingComponent } from './components/heading';
 import type { ButtonsComponent } from './components/buttons';
 import type { PhotoCanvasComponent } from './components/canvas';
 import type { UploadButtonComponent } from './components/upload-button';
+import type { CropOverlayComponent } from './components/crop-overlay';
 import * as supportModule from './lib/support';
 
 describe('Application', () => {
@@ -27,6 +28,7 @@ describe('Application', () => {
   let mockButtons: ButtonsComponent;
   let mockUploadButton: UploadButtonComponent;
   let mockCanvas: PhotoCanvasComponent;
+  let mockCropOverlay: CropOverlayComponent;
 
   beforeEach(() => {
     // Mock browser support functions to always return true
@@ -64,6 +66,11 @@ describe('Application', () => {
       cleanup: vi.fn(),
     };
 
+    mockCropOverlay = {
+      init: vi.fn(),
+      cleanup: vi.fn(),
+    };
+
     // Create mock factories
     mockFactories = {
       createPubSub: vi.fn(() => mockPubSub),
@@ -71,6 +78,7 @@ describe('Application', () => {
       createButtons: vi.fn(() => mockButtons),
       createUploadButton: vi.fn(() => mockUploadButton),
       createCanvas: vi.fn(() => mockCanvas),
+      createCropOverlay: vi.fn(() => mockCropOverlay),
     };
   });
 
@@ -113,8 +121,10 @@ describe('Application', () => {
         mockHeading,
         mockStore
       );
+      expect(mockFactories.createCropOverlay).toHaveBeenCalledWith(mockPubSub);
       expect(mockButtons.init).toHaveBeenCalled();
       expect(mockCanvas.init).toHaveBeenCalled();
+      expect(mockCropOverlay.init).toHaveBeenCalled();
     });
 
     it('should update heading with instructions on successful initialization', () => {
@@ -142,6 +152,7 @@ describe('Application', () => {
 
       expect(mockButtons.cleanup).toHaveBeenCalled();
       expect(mockCanvas.cleanup).toHaveBeenCalled();
+      expect(mockCropOverlay.cleanup).toHaveBeenCalled();
       expect(app.isInitialized()).toBe(false);
     });
 

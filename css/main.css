@@ -446,6 +446,27 @@ canvas {
 }
 
 /*
+ * === CONFIRM CROP ===
+ */
+
+.confirm-crop-container {
+  margin-block-start: 20px;
+  text-align: center;
+}
+
+.btn-confirm-crop {
+  inline-size: 100%;
+  background: linear-gradient(135deg, var(--green-film) 0%, #3A7A2E 100%) !important;
+  border-color: var(--green-film) !important;
+  color: var(--film-white) !important;
+}
+
+.btn-confirm-crop:hover:not([disabled]) {
+  border-color: var(--kodak-yellow) !important;
+  box-shadow: 0 0 20px rgba(74, 139, 60, 0.4);
+}
+
+/*
  * === BUTTONS ===
  */
 

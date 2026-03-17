@@ -4,14 +4,15 @@ import * as constant from './constants';
  * Application state names
  */
 export type State =
-  | 'start'   // Initial page load
-  | 'idle'    // Waiting for user to upload image
-  | 'upload'  // Image is being uploaded
-  | 'photo'   // Raw image loaded on canvas
-  | 'filtered'// Effects have been applied
-  | 'saved'   // Image has been saved
-  | 'cleared' // Canvas has been cleared
-  | 'error';  // An error occurred
+  | 'start'    // Initial page load
+  | 'idle'     // Waiting for user to upload image
+  | 'upload'   // Image is being uploaded
+  | 'cropping' // User is positioning crop
+  | 'photo'    // Raw image loaded on canvas
+  | 'filtered' // Effects have been applied
+  | 'saved'    // Image has been saved
+  | 'cleared'  // Canvas has been cleared
+  | 'error';   // An error occurred
 
 /**
  * State transition map type
@@ -29,9 +30,9 @@ export type StateMachine = {
  *
  * Flow diagram:
  * ```
- * start → idle → upload → photo → filtered → saved
- *   ↓      ↑        ↓        ↓                    ↓
- * error ←──┴────────┘     cleared ←───────────────┘
+ * start → idle → upload → cropping → photo → filtered → saved
+ *   ↓      ↑        ↓                   ↓                    ↓
+ * error ←──┴────────┘                cleared ←───────────────┘
  *   ↓
  * idle (via RETRY_UPLOAD or RESET_APP)
  * ```
@@ -61,8 +62,14 @@ export const machine: StateMachine = {
 
   // Image is being uploaded to the canvas
   upload: {
-    [constant.IMAGE_UPLOAD_SUCCESS]: 'photo',
+    [constant.IMAGE_UPLOAD_SUCCESS]: 'cropping',
     [constant.IMAGE_UPLOAD_FAILURE]: 'error',
+  },
+
+  // User is positioning crop area
+  cropping: {
+    [constant.CONFIRM_CROP]: 'photo',
+    [constant.IMAGE_UPLOAD]: 'upload',
   },
 
   // Raw image has been added to the canvas

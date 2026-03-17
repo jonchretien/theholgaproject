@@ -27,6 +27,11 @@ robots.txt
 
 *.tsbuildinfo
 
+# Superpowers #
+######################
+
+.superpowers/
+
 # Testing #
 ######################
 

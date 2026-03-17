@@ -24,6 +24,9 @@ import PhotoCanvas, { type PhotoCanvasComponent } from "./components/canvas";
 import UploadButton, {
   type UploadButtonComponent,
 } from "./components/upload-button";
+import CropOverlay, {
+  type CropOverlayComponent,
+} from "./components/crop-overlay";
 
 /**
  * Browser support check result
@@ -55,6 +58,7 @@ export interface ComponentFactories {
     heading: HeadingComponent,
     store: StateStore
   ) => PhotoCanvasComponent;
+  createCropOverlay: (pubsub: PubSub) => CropOverlayComponent;
 }
 
 /**
@@ -66,6 +70,7 @@ const defaultFactories: ComponentFactories = {
   createButtons: (pubsub) => Buttons(pubsub),
   createUploadButton: (pubsub, store) => UploadButton(pubsub, store),
   createCanvas: (pubsub, heading, store) => PhotoCanvas(pubsub, heading, store),
+  createCropOverlay: (pubsub) => CropOverlay(pubsub),
 };
 
 /**
@@ -140,14 +145,17 @@ function initializeComponents(
   const buttons = factories.createButtons(pubsub);
   const uploadButton = factories.createUploadButton(pubsub, store);
   const canvas = factories.createCanvas(pubsub, heading, store);
+  const cropOverlay = factories.createCropOverlay(pubsub);
 
   buttons.init();
   uploadButton.init();
   canvas.init();
+  cropOverlay.init();
 
   // Return cleanup function that tears down all components
   return {
     cleanup: () => {
+      cropOverlay.cleanup();
       canvas.cleanup();
       uploadButton.cleanup();
       buttons.cleanup();

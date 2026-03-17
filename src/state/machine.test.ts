@@ -11,6 +11,7 @@ import {
   type State,
 } from './machine';
 import * as constant from './constants';
+import { CONFIRM_CROP } from './constants';
 
 describe('State Machine', () => {
   describe('initialState', () => {
@@ -25,6 +26,7 @@ describe('State Machine', () => {
         'start',
         'idle',
         'upload',
+        'cropping',
         'photo',
         'filtered',
         'saved',
@@ -64,14 +66,31 @@ describe('State Machine', () => {
     });
 
     describe('from upload state', () => {
-      it('should transition to photo on IMAGE_UPLOAD_SUCCESS', () => {
+      it('should transition to cropping on IMAGE_UPLOAD_SUCCESS', () => {
         const nextState = machine.upload?.[constant.IMAGE_UPLOAD_SUCCESS];
-        expect(nextState).toBe('photo');
+        expect(nextState).toBe('cropping');
       });
 
       it('should transition to error on IMAGE_UPLOAD_FAILURE', () => {
         const nextState = machine.upload?.[constant.IMAGE_UPLOAD_FAILURE];
         expect(nextState).toBe('error');
+      });
+    });
+
+    describe('from cropping state', () => {
+      it('should transition to photo on CONFIRM_CROP', () => {
+        const nextState = machine.cropping?.[CONFIRM_CROP];
+        expect(nextState).toBe('photo');
+      });
+
+      it('should transition to upload on IMAGE_UPLOAD', () => {
+        const nextState = machine.cropping?.[constant.IMAGE_UPLOAD];
+        expect(nextState).toBe('upload');
+      });
+
+      it('should not have transitions for invalid actions', () => {
+        const nextState = machine.cropping?.[constant.APPLY_BW_FILTER];
+        expect(nextState).toBeUndefined();
       });
     });
 
@@ -170,7 +189,7 @@ describe('State Machine', () => {
     it('should return correct next state for valid transition', () => {
       expect(getNextState('idle', constant.IMAGE_UPLOAD)).toBe('upload');
       expect(getNextState('upload', constant.IMAGE_UPLOAD_SUCCESS)).toBe(
-        'photo'
+        'cropping'
       );
       expect(getNextState('photo', constant.APPLY_BW_FILTER)).toBe('filtered');
     });
@@ -259,6 +278,10 @@ describe('State Machine', () => {
 
       // Upload succeeds
       state = getNextState(state, constant.IMAGE_UPLOAD_SUCCESS)!;
+      expect(state).toBe('cropping');
+
+      // Confirm crop
+      state = getNextState(state, constant.CONFIRM_CROP)!;
       expect(state).toBe('photo');
 
       // Apply filter
@@ -331,6 +354,9 @@ describe('State Machine', () => {
       expect(state).toBe('upload');
 
       state = getNextState(state, constant.IMAGE_UPLOAD_SUCCESS)!;
+      expect(state).toBe('cropping');
+
+      state = getNextState(state, constant.CONFIRM_CROP)!;
       expect(state).toBe('photo');
 
       // Re-upload from photo state
@@ -338,6 +364,9 @@ describe('State Machine', () => {
       expect(state).toBe('upload');
 
       state = getNextState(state, constant.IMAGE_UPLOAD_SUCCESS)!;
+      expect(state).toBe('cropping');
+
+      state = getNextState(state, constant.CONFIRM_CROP)!;
       expect(state).toBe('photo');
 
       // Apply filter
@@ -349,6 +378,9 @@ describe('State Machine', () => {
       expect(state).toBe('upload');
 
       state = getNextState(state, constant.IMAGE_UPLOAD_SUCCESS)!;
+      expect(state).toBe('cropping');
+
+      state = getNextState(state, constant.CONFIRM_CROP)!;
       expect(state).toBe('photo');
 
       // Filter and save
@@ -363,6 +395,9 @@ describe('State Machine', () => {
       expect(state).toBe('upload');
 
       state = getNextState(state, constant.IMAGE_UPLOAD_SUCCESS)!;
+      expect(state).toBe('cropping');
+
+      state = getNextState(state, constant.CONFIRM_CROP)!;
       expect(state).toBe('photo');
     });
   });
