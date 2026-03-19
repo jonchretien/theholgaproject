@@ -192,6 +192,7 @@ export default function CropOverlay(
   }
 
   function onConfirmClick(): void {
+    confirmButton.disabled = true;
     pubsub.publish(CONFIRM_CROP, { crop: currentCrop });
   }
 

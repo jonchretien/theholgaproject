@@ -147,6 +147,28 @@ describe("CropOverlay", () => {
     expect(canvas.style.touchAction).toBe("none");
   });
 
+  it("should disable confirm button immediately on click to prevent double-confirm", () => {
+    const overlay = CropOverlay(mockPubSub);
+    overlay.init();
+
+    const imageReadyCallback = (mockPubSub.subscribe as any).mock.calls
+      .find((c: any[]) => c[0] === IMAGE_UPLOAD_SUCCESS)?.[1];
+
+    const mockImage = {
+      naturalWidth: 1920,
+      naturalHeight: 1080,
+    } as HTMLImageElement;
+
+    imageReadyCallback({ image: mockImage });
+
+    const confirmBtn = document.getElementById("confirm-crop") as HTMLButtonElement;
+    expect(confirmBtn.disabled).toBe(false);
+
+    confirmBtn.click();
+
+    expect(confirmBtn.disabled).toBe(true);
+  });
+
   it("should update crop offset on arrow key press", () => {
     const overlay = CropOverlay(mockPubSub);
     overlay.init();
