@@ -57,7 +57,7 @@ export default function CropOverlay(
     canvasElement = $<HTMLCanvasElement>("canvas");
     if (!canvasElement) return;
 
-    contextObject = canvasElement.getContext("2d");
+    contextObject = canvasElement.getContext("2d", { willReadFrequently: true });
     if (!contextObject) return;
 
     const imgW = currentImage.naturalWidth;
