@@ -194,6 +194,7 @@ export default function PhotoCanvas(
 
     // File is valid, proceed with upload
     store.setState(store.getState(), IMAGE_UPLOAD);
+    pubsub.publish(REMOVE_BUTTON_EVENTS);
     removeErrorMessage();
 
     const reader = new FileReader();

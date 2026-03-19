@@ -384,6 +384,32 @@ describe("PhotoCanvas event cleanup", () => {
       }
     });
 
+    it("should publish REMOVE_BUTTON_EVENTS when new image is uploaded", () => {
+      const canvas = PhotoCanvas(mockPubSub, mockHeading, mockStore);
+      canvas.init();
+
+      // Simulate first image upload + crop + filter
+      simulateImageUpload();
+      simulateCropConfirm();
+
+      const applyBWCallback = (mockPubSub.subscribe as any).mock.calls
+        .find((call: any[]) => call[0] === APPLY_BW_FILTER)?.[1];
+      if (applyBWCallback) {
+        applyBWCallback();
+      }
+
+      // Clear publish mock to isolate the re-upload call
+      (mockPubSub.publish as any).mockClear();
+
+      // Upload a second image
+      simulateImageUpload();
+
+      const publishCalls = (mockPubSub.publish as any).mock.calls.map(
+        (call: any[]) => call[0]
+      );
+      expect(publishCalls).toContain(REMOVE_BUTTON_EVENTS);
+    });
+
     it("should reset heading when canvas is cleared", () => {
       const canvas = PhotoCanvas(mockPubSub, mockHeading, mockStore);
       canvas.init();
