@@ -32,15 +32,14 @@
     "skipLibCheck": true,
 
     /* Path Mapping */
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@/components/*": ["src/components/*"],
-      "@/state/*": ["src/state/*"],
-      "@/lib/*": ["src/lib/*"],
-      "@/utils/*": ["src/utils/*"],
-      "@/config/*": ["src/config/*"],
-      "@/types/*": ["src/types/*"]
+      "@/*": ["./src/*"],
+      "@/components/*": ["./src/components/*"],
+      "@/state/*": ["./src/state/*"],
+      "@/lib/*": ["./src/lib/*"],
+      "@/utils/*": ["./src/utils/*"],
+      "@/config/*": ["./src/config/*"],
+      "@/types/*": ["./src/types/*"]
     }
   },
   "include": ["src/**/*"],
