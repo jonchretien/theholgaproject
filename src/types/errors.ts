@@ -39,8 +39,8 @@ export class AppError extends Error {
     }
 
     // Maintains proper stack trace for where error was thrown (V8 only)
-    if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, this.constructor);
+    if ('captureStackTrace' in Error) {
+      (Error as { captureStackTrace: (target: object, constructor: Function) => void }).captureStackTrace(this, this.constructor);
     }
   }
 }
