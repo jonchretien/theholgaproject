@@ -19,7 +19,7 @@
   "license": "",
   "devDependencies": {
     "@testing-library/dom": "^10.4.1",
-    "@types/node": "^25.6.1",
+    "@types/node": "^25.6.2",
     "@vitest/coverage-v8": "^4.1.2",
     "@vitest/ui": "^4.1.0",
     "happy-dom": "^20.9.0",
