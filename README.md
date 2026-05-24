@@ -16,41 +16,41 @@ A browser-based photo editor that applies Holga camera-style filters to images u
 
 ### First-Time Setup
 
-Install [node.js](https://nodejs.org/en/) through [nvm](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating), and then install all dependencies:
+Install [node.js](https://nodejs.org/en/) through [nvm](https://github.com/nvm-sh/nvm?tab=readme-ov-file#installing-and-updating) and [pnpm](https://pnpm.io/installation), then install all dependencies:
 
 ```bash
-npm install
+pnpm install
 ```
 
 ### Available Commands
 
 ```bash
 # Start development server
-npm run dev
+pnpm dev
 
 # Run tests (watch mode)
-npm test
+pnpm test
 
 # Run tests (single run)
-npm test -- --run
+pnpm test -- --run
 
 # Run tests with UI
-npm run test:ui
+pnpm test:ui
 
 # Run tests with coverage report
-npm run test:coverage
+pnpm test:coverage
 
 # Type-check TypeScript
-npm run type-check
+pnpm type-check
 
 # Build for production (runs type-check + tests + build)
-npm run build
+pnpm build
 
 # Build for production (skip checks)
-npm run build:skip-checks
+pnpm build:skip-checks
 
 # Preview production build
-npm run preview
+pnpm preview
 ```
 
 ### Project Structure

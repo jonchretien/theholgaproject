@@ -22,6 +22,12 @@ robots.txt
 *.ico
 .rsync
 
+# Package managers #
+######################
+
+package-lock.json
+yarn.lock
+
 # TypeScript #
 ######################
 
