@@ -1,0 +1,4 @@
+# Supply chain security
+minimumReleaseAge: '1440 minutes'
+blockExoticSubdeps: true
+trustPolicy: no-downgrade
